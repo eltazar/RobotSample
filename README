@@ -1,0 +1,8 @@
+Progetto per il corso di Interazione sul Web a.a. 2011/2012
+
+Progettazione e sviluppo di un'app Android per la gestione di un robot.
+
+TODO:
+- implementare metodi per la connessione automatica al robot
+- "disegno" dell'activity per la visualizzazione della progress bar
+- "disegno" dell'activity per la visualizzazione della schermata di "impostazioni" per la connessione manuale
