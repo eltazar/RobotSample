@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.view.Menu;
+import netInterface.NetworkScanner;
 
 public class RobotSampleActivity extends Activity implements OnClickListener{
 	
@@ -24,6 +25,7 @@ public class RobotSampleActivity extends Activity implements OnClickListener{
 	private Button disconnectBtn;
 	private ProtocolAdapter pAdapt;
 	private TextView connectionStatus; 
+	private Button scanBtn;
 	
     /** Called when the activity is first created. */
     @Override
@@ -36,6 +38,10 @@ public class RobotSampleActivity extends Activity implements OnClickListener{
         disconnectBtn = (Button) findViewById(R.id.disconnect_button);
         disconnectBtn.setOnClickListener(this);
         disconnectBtn.setClickable(false);
+        
+        scanBtn = (Button) findViewById(R.id.scan_button);
+        scanBtn.setOnClickListener(this);
+        
         System.out.println("Connection pannel avviato");
         
         EditText ipAddressEditText = (EditText)findViewById(R.id.edit_ipAddress); 
@@ -104,6 +110,14 @@ public class RobotSampleActivity extends Activity implements OnClickListener{
             break;
             case R.id.disconnect_button:
             	disconnectFromServer();
+            break;
+            case R.id.scan_button:
+            	//MessageIOStream.checkHosts("192.168.0");
+            	System.out.println("STO PER AVVIARE IP SCAN");
+            	//MessageIOStream.checkReachable();
+            	NetworkScanner netScan = new NetworkScanner(this);
+            	//netScan.getInfoWifiConnection();
+            	netScan.doScan();
             break;
         }
     }
