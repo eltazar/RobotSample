@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.view.Menu;
 import netInterface.NetworkScanner;
 
-public class RobotSampleActivity extends Activity implements OnClickListener{
+public class RobotSampleActivity extends BaseActivity implements OnClickListener{
 	
 	private netInterface.MessageIOStream socketAndStream;
 	private Button connectBtn;
@@ -82,31 +82,8 @@ public class RobotSampleActivity extends Activity implements OnClickListener{
     	outState.putString("connStatus",connectionStatus.getText().toString());
     }
     
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-
-        inflater.inflate(R.menu.option_menu, menu);
-
-        return true;
-
-    }
   
-    public boolean onOptionsItemSelected(MenuItem item) {
-    	 
-        //respond to menu item selection
-    	switch (item.getItemId()) {
-    		case R.id.standardcontroller:
-    			startActivity(new Intent(this, StandardRobotController.class));
-    			return true;
-    		case R.id.bho:
-    			//startActivity(new Intent(this, Help.class));
-    			return true;
-    		default:
-    			return super.onOptionsItemSelected(item);
-    	}
-
-    }
+    
 
     
     @Override
