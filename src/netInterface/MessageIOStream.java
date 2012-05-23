@@ -2,7 +2,9 @@ package netInterface;
 
 import java.io.*;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketAddress;
 import java.nio.charset.Charset;
 /**Crea un socket ed una connessione verso un altro host; ad esso sono associati un MessageInputStream ed un MessageOutputStream
 per la ricezione e l'invio di messaggi sul canale di trasmissione.
@@ -31,6 +33,14 @@ public class MessageIOStream extends Socket {
 
         inStr = new MessageInputStream(super.getInputStream());
         outStr = new MessageOutputStream(super.getOutputStream());
+    }
+    
+    public MessageIOStream(InetAddress address,int port,int timeout)
+            throws java.net.UnknownHostException, java.io.IOException {
+
+    	super();
+    	SocketAddress sockaddr = new InetSocketAddress(address, port);
+    	this.connect(sockaddr, timeout);
     }
 
     /**Istanzia un MessageIoStream
