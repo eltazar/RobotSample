@@ -26,7 +26,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StandardRobotController"></activity>
+        <activity 
+            android:name=".StandardRobotController">
+        </activity>
+        <activity 
+            android:name=".RobotSampleActivity">
+        </activity>
     </application>
 
 </manifest>
