@@ -59,7 +59,7 @@ public class ProtocolAdapter {
     	return messageStream;
     }
     
-    public Boolean isValidInstance(){
+    public Boolean IsThereAvaiableStrem(){
     	
     	if(messageStream == null)
     		return false;
