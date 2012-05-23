@@ -3,6 +3,7 @@ package netInterface;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.nio.charset.Charset;
 /**Crea un socket ed una connessione verso un altro host; ad esso sono associati un MessageInputStream ed un MessageOutputStream
 per la ricezione e l'invio di messaggi sul canale di trasmissione.
  */
@@ -54,11 +55,20 @@ public class MessageIOStream extends Socket {
     @throws IOException*/
     public void sendMessage(String mex) throws IOException {
 
-        outStr.writeChars(mex); //scrive stringa sul messageOutputStream, in particolare nel suo buffer interno
+    	//scrive stringa sul messageOutputStream, in particolare nel suo buffer interno, in utf-16
+        outStr.writeChars(mex); 
         outStr.send(); //lo invia sullo output stream vero
 
     } 
+    
+    public void sendMessageAsUTF8(String mex) throws IOException {
 
+    	System.out.println("send message as utf8");
+    	//scrive un flusso di byte codificati utf-8 sull'outputStream associato al socket
+        outStr.write(mex.getBytes(Charset.forName("UTF-8")));
+        outStr.send(); //lo invia sullo output stream vero
+
+    } 
 
     //get
     public MessageInputStream getMis(){
