@@ -31,7 +31,7 @@ public class ProtocolAdapter {
     	System.out.println("Protocol adapter.sendMessage");
     	String answer = "";
     	try{
-    		messageStream.sendMessage(message);
+    		messageStream.sendMessageAsUTF8(message);
     		answer = messageStream.receiveMessage();
            
     		System.out.println("Protocol adapter answer = "+answer);
