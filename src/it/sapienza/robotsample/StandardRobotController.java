@@ -59,7 +59,6 @@ public class StandardRobotController extends Activity implements OnClickListener
     
     //invia il messaggio al server (robot)
     private void sendMessage(String message){
-    	System.out.println("DENTRO SEND MESSAGE");
     	
     	String answer = "";
     	
@@ -70,6 +69,7 @@ public class StandardRobotController extends Activity implements OnClickListener
             System.out.println("Eccezione in sendMessage: "+ex.getLocalizedMessage());
         }
     	
+    	//aggiorno textView
     	messageFromServer.setText(answer);
     }
     

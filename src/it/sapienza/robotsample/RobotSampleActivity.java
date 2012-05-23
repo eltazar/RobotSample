@@ -31,6 +31,9 @@ public class RobotSampleActivity extends Activity implements OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        System.out.println("ON CREATE");
+        
         setContentView(R.layout.main);
         connectBtn = (Button) findViewById(R.id.connect_button);
         connectBtn.setOnClickListener(this);
@@ -52,9 +55,10 @@ public class RobotSampleActivity extends Activity implements OnClickListener{
         connectionStatus = (TextView)findViewById(R.id.connection_status); 
         
         pAdapt = ProtocolAdapter.getInstance();
-        
+        System.out.println("PADATP = "+pAdapt);
+
         //se ho salvato uno stato precedente, in cui la connessione era stata stabilita setto i tasti
-        if( savedInstanceState != null ) {
+        if( savedInstanceState != null) {
         	System.out.println("Recupero stato salvato");
         	if(savedInstanceState .getString("connStatus").equals("Connesso")){
         		connectBtn.setClickable(false);
@@ -63,6 +67,12 @@ public class RobotSampleActivity extends Activity implements OnClickListener{
         	//setto la label con lo status giusto
         	connectionStatus.setText(savedInstanceState .getString("connStatus"));
         }
+    }
+    
+    @Override
+    public void onPause(){
+    	super.onPause();
+    	System.out.println("ON PAUSE");
     }
     
     @Override
