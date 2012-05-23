@@ -41,6 +41,8 @@ public class MessageIOStream extends Socket {
     	super();
     	SocketAddress sockaddr = new InetSocketAddress(address, port);
     	this.connect(sockaddr, timeout);
+    	inStr = new MessageInputStream(super.getInputStream());
+        outStr = new MessageOutputStream(super.getOutputStream());
     }
 
     /**Istanzia un MessageIoStream
