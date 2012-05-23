@@ -46,12 +46,12 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 		bar.setProgress(0);
 		
 		//faccio partire la ricerca su un nuovo thread
-		/*new Thread(new Runnable(){
+		new Thread(new Runnable(){
 			public void run(){
 				netScan.doScan();
 			};
 		}).start();
-		*/ss
+		
 //		 new Thread(new Runnable() {
 //             public void run() {
 //                 for(int i = 1;i< 255;i++){
