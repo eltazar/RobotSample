@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.view.View.OnClickListener;
 
-public class StandardRobotController extends Activity implements OnClickListener {
+public class StandardRobotController extends BaseActivity implements OnClickListener {
 
 	private ProtocolAdapter pAdapt;
 	private Button aheadBtn;
