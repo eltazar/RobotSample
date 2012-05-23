@@ -42,7 +42,7 @@ public class MessageInputStream {
         }
 
         //ritorna il messaggio contenuto nel buffer e convertito in string
-        return new String(buffer, "UTF-16");
+        return new String(buffer, "UTF-8");
 
     }
 
