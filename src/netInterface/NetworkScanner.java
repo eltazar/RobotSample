@@ -15,6 +15,7 @@ import android.content.Context;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Handler;
 
 public class NetworkScanner{
 
@@ -23,6 +24,7 @@ public class NetworkScanner{
 	private String gatewayAddress;
 	private Context mContext;
 	private ArrayList<String> ipScanned;
+	private Handler handler;
 
 	public NetworkScanner(String gatewayAddress){
 		this.gatewayAddress = gatewayAddress;
@@ -36,6 +38,13 @@ public class NetworkScanner{
 		 mContext = act;
 		 ipScanned = new ArrayList<String>();
 	}
+	
+	//costruttore al quale passo un handler per la progress bar
+	public NetworkScanner(Handler handler) {
+		// TODO Auto-generated constructor stub
+		 this.handler = handler;
+		 ipScanned = new ArrayList<String>();
+	}
 
 	/*
 	 * Effettua una scansione multithread della subnet al quale siamo connessi
@@ -43,6 +52,7 @@ public class NetworkScanner{
 	public void doScan() {
 	    Log.i(LOG_TAG, "Start scanning");
 
+	    //creo pool di n thread
 	    ExecutorService executor = Executors.newFixedThreadPool(NB_THREADS);
 	    for(int dest=1; dest<255; dest++) {
 	        String host = "192.168.0." + dest;
@@ -51,7 +61,10 @@ public class NetworkScanner{
 
 	    Log.i(LOG_TAG, "Waiting for executor to terminate...");
 	    executor.shutdown();
-	    try { executor.awaitTermination(60*1000, TimeUnit.MILLISECONDS); } catch (InterruptedException ignored) { }
+	    try { 
+	    	executor.awaitTermination(60*1000, TimeUnit.MILLISECONDS); 
+	    }
+	    catch (InterruptedException ignored) { }
 
 	    Log.i(LOG_TAG, "Scan finished");
 	    System.out.println("Ip raggiungibili \n = "+ipScanned);
@@ -68,7 +81,12 @@ public class NetworkScanner{
 	                Log.i(LOG_TAG, "=> Result: " + (reachable ? "reachable" : "not reachable"));
 	                if(reachable){
 	                	ipScanned.add(host);
+	                }	                	
+	                if(handler != null){
+	                	//se handler esiste invio messaggio di incremento di 1 perch un host  stato scansionato
+	                	handler.sendEmptyMessage(1);
 	                }
+	                
 	            } catch (UnknownHostException e) {
 	                Log.e(LOG_TAG, "Not found", e);
 	            } catch (IOException e) {
@@ -76,6 +94,28 @@ public class NetworkScanner{
 	            }
 	        }
 	    };
+	}
+	
+	public int scannerFasullo(int count){
+		String host = "192.168.0."+Integer.toString(count);
+		Log.i(LOG_TAG, "Pinging " + host + "...");
+		try {
+            InetAddress inet = InetAddress.getByName(host);
+            boolean reachable = inet.isReachable(1000);
+            Log.i(LOG_TAG, "=> Result: " + (reachable ? "reachable" : "not reachable"));
+            if(reachable){
+            	ipScanned.add(host);
+            }	                	
+            if(handler != null){
+            	handler.sendEmptyMessage(1);
+            }
+            
+        } catch (UnknownHostException e) {
+            Log.e(LOG_TAG, "Not found", e);
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "IO Error", e);
+        }  
+		return count;
 	}
 	
 	/*
