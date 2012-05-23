@@ -14,20 +14,21 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int ahead=0x7f060007;
-        public static final int back=0x7f060008;
-        public static final int bho=0x7f06000d;
+        public static final int ahead=0x7f060008;
+        public static final int back=0x7f060009;
+        public static final int bho=0x7f06000e;
+        public static final int config_btn=0x7f060007;
         public static final int connect_button=0x7f060002;
         public static final int connection_status=0x7f060005;
         public static final int disconnect_button=0x7f060003;
         public static final int edit_ipAddress=0x7f060000;
         public static final int edit_port=0x7f060001;
-        public static final int left=0x7f06000a;
-        public static final int message_server=0x7f06000b;
+        public static final int left=0x7f06000b;
+        public static final int message_server=0x7f06000c;
         public static final int progress=0x7f060006;
-        public static final int right=0x7f060009;
+        public static final int right=0x7f06000a;
         public static final int scan_button=0x7f060004;
-        public static final int standardcontroller=0x7f06000c;
+        public static final int standardcontroller=0x7f06000d;
     }
     public static final class layout {
         public static final int main=0x7f030000;
