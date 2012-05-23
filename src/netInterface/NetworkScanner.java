@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.lang.Runnable;
 import android.util.Log;
 import android.app.Activity;
@@ -21,14 +22,9 @@ public class NetworkScanner{
 
 	private static final int NB_THREADS = 10;
 	private static final String LOG_TAG = "NetworkScanner";
-	private String gatewayAddress;
 	private Context mContext;
 	private ArrayList<String> ipScanned;
 	private Handler handler;
-
-	public NetworkScanner(String gatewayAddress){
-		this.gatewayAddress = gatewayAddress;
-	}
 	
 	/*
 	 * 
@@ -52,10 +48,14 @@ public class NetworkScanner{
 	public void doScan() {
 	    Log.i(LOG_TAG, "Start scanning");
 
+	    //trovo indirizzo gateway
+	    String gtw = getPreGatewayString();
+	    
 	    //creo pool di n thread
 	    ExecutorService executor = Executors.newFixedThreadPool(NB_THREADS);
 	    for(int dest=1; dest<255; dest++) {
-	        String host = "192.168.0." + dest;
+	    	//costruisco host ip
+	        String host = gtw+"."+dest;
 	        executor.execute(pingRunnable(host));
 	    }
 
@@ -128,11 +128,15 @@ public class NetworkScanner{
 		// Get WiFi status
 		WifiInfo info = wifi.getConnectionInfo();
 		DhcpInfo dhcpInfo = wifi.getDhcpInfo();
+				
+		System.out.println("STRINGA FORMATTATA GATEWAY = "+intToIpAddress(dhcpInfo.gateway));
+		
 		System.out.println("DHCP gateway = "+intToIpAddress(dhcpInfo.gateway));
 		int ip = info.getIpAddress();
 		
 		
 		System.out.println("WIFI ADDRESS = "+ intToIpAddress(ip)+"bssid "+info.getMacAddress()+"ssid"+info.getSSID());
+		System.out.println(info);
 	}
 	
 	/*
@@ -145,4 +149,20 @@ public class NetworkScanner{
 		return ipString;
 	}
 
+	//ipotizzando che la maschera sia 255.255.255.0 ritorna la stringa rappresentante
+	//i primi 3 byte dell'indirizzo ip del gateway
+	private String getPreGatewayString(){
+		
+		WifiManager wifi = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
+		DhcpInfo dhcpInfo = wifi.getDhcpInfo();
+		
+		StringTokenizer strTok = new StringTokenizer(intToIpAddress(dhcpInfo.gateway),".");
+		ArrayList<String> gtwTok = new ArrayList<String>();
+		while (strTok.hasMoreTokens()) {
+	         gtwTok.add(strTok.nextToken());
+	     }
+		
+		return gtwTok.get(0)+"."+gtwTok.get(1)+"."+gtwTok.get(2);
+	}
+	
 }
