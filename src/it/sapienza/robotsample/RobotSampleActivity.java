@@ -156,7 +156,7 @@ public class RobotSampleActivity extends Activity implements OnClickListener{
     		try{
     			//creo socket con stream in/out associati
     			System.out.println("Client: Richiesta connessione con: " + ipAddress+"/"+port);
-    			socketAndStream = new MessageIOStream( InetAddress.getByName(ipAddress),portNumber);
+    			socketAndStream = new MessageIOStream( InetAddress.getByName(ipAddress),portNumber,5000);
     			connectionStatus.setText("Connesso");
     			System.out.println("Client: Connessione stabilita");
     			connectBtn.setClickable(false);
