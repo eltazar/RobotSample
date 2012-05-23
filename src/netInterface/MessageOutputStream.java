@@ -1,6 +1,7 @@
 package netInterface;
 
 import java.io.*;
+import java.nio.charset.Charset;
 
 /**
  * Rappresenta la classe per la creazione e l'inivio di un pacchetto sull'OutputStream (al quale è agganciato un DataOutputStream).
@@ -18,7 +19,8 @@ public class MessageOutputStream extends DataOutputStream {
     public MessageOutputStream(OutputStream out) {
         //passo al costruttore un buffer, i dati verranno scritti in tale buffer
         super(new ByteArrayOutputStream());
-	this.out = out;
+        //salvo outputStream associato a un certo socket
+        this.out = out;
         //ottengo la reference del ByteArrayOutputSream instanziato sopra, essa è salvata nella variabile out della classe madre
         buffer = (ByteArrayOutputStream) super.out;
         //attacco all'output stream out, un DataOutputStream
@@ -31,6 +33,11 @@ public class MessageOutputStream extends DataOutputStream {
      * @throws IOException
      */
     public void send() throws IOException {
+    	
+    	//System.out.println("dentro message output stream");
+    	//System.out.println("buffer contiene in utf-16 = "+new String(buffer.toByteArray(),Charset.forName("UTF-16")));
+    	//System.out.println("buffer contiene in utf-8 = "+new String(buffer.toByteArray(),Charset.forName("UTF-8")));
+
         //ottiene il lock sull'output stream
         synchronized (out) {
             //scrive sull'OutputStream la dimensione del buffer, ovvero del messaggio
