@@ -30,16 +30,15 @@ public class NetworkScanner{
 	 * 
 	 * */
 	public NetworkScanner(Activity act) {
-		// TODO Auto-generated constructor stub
-		 mContext = act;
-		 ipScanned = new ArrayList<String>();
+		mContext = act;
+		ipScanned = new ArrayList<String>();
 	}
-	
+
 	//costruttore al quale passo un handler per la progress bar
-	public NetworkScanner(Handler handler) {
-		// TODO Auto-generated constructor stub
-		 this.handler = handler;
-		 ipScanned = new ArrayList<String>();
+	public NetworkScanner(Handler handler, Activity act) {
+		mContext = act;
+		this.handler = handler;
+		ipScanned = new ArrayList<String>();
 	}
 
 	/*
