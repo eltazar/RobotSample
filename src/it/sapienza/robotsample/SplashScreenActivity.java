@@ -38,7 +38,7 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
         
 		bar = (ProgressBar) findViewById(R.id.progress);
 		//associo al networkScanner l'handler
-		netScan = new NetworkScanner(handler);
+		netScan = new NetworkScanner(handler,this);
 	}
  
 	public void onStart() {
