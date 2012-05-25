@@ -1,7 +1,6 @@
 package netInterface;
 
 import java.io.*;
-import java.nio.charset.Charset;
 
 /**
  * Rappresenta la classe per la creazione e l'inivio di un pacchetto sull'OutputStream (al quale è agganciato un DataOutputStream).

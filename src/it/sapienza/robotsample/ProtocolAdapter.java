@@ -2,8 +2,6 @@ package it.sapienza.robotsample;
 
 
 import java.io.IOException;
-import java.util.List;
-import java.util.ArrayList;
 
 
 /**Classe singleton.

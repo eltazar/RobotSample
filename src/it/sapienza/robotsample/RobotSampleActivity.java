@@ -4,18 +4,13 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import netInterface.*;
-import android.app.Activity;
 import android.os.Bundle;
-import android.content.Intent;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.view.Menu;
 import netInterface.NetworkScanner;
 
 public class RobotSampleActivity extends BaseActivity implements OnClickListener{
