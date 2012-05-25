@@ -52,7 +52,7 @@ public class NetworkScanner{
 	    
 	    //creo pool di n thread
 	    ExecutorService executor = Executors.newFixedThreadPool(NB_THREADS);
-	    for(int dest=1; dest<255; dest++) {
+	    for(int dest=2; dest<255; dest++) {
 	    	//costruisco host ip
 	        String host = gtw+"."+dest;
 	        executor.execute(pingRunnable(host));
