@@ -33,4 +33,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dip" />
+
+    <SeekBar
+        android:id="@+id/seekBar1"
+        android:layout_width="296dp"
+        android:progress="128"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:max="256" />
+
+    <TextView android:text="progress displayed here" android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/textViewProgress" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_alignParentTop="true" android:layout_alignParentLeft="true"></TextView>
 </LinearLayout>
