@@ -32,7 +32,7 @@ public class ProtocolAdapter {
     	String answer = "";
     	try{
     		messageStream.sendMessageAsUTF8(message);
-    		answer = messageStream.receiveMessage();
+    		//answer = messageStream.receiveMessage();
            
     		System.out.println("Protocol adapter answer = "+answer);
     	}
