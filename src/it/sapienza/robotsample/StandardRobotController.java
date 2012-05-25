@@ -1,11 +1,8 @@
 package it.sapienza.robotsample;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -91,7 +88,7 @@ public class StandardRobotController extends BaseActivity implements OnClickList
             System.out.println("Eccezione in sendMessage: "+ex.getLocalizedMessage());
         }
     	
-    	//aggiorno textView
+    	//s textView
     	messageFromServer.setText(answer);
     }
 
