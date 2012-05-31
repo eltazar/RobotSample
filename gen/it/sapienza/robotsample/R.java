@@ -16,7 +16,7 @@ public final class R {
     public static final class id {
         public static final int ahead=0x7f060008;
         public static final int back=0x7f060009;
-        public static final int bho=0x7f06000e;
+        public static final int bho=0x7f060010;
         public static final int config_btn=0x7f060007;
         public static final int connect_button=0x7f060002;
         public static final int connection_status=0x7f060005;
