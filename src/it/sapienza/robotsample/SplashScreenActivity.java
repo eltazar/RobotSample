@@ -1,5 +1,10 @@
 package it.sapienza.robotsample;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,11 +14,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import netInterface.NetworkUtility;;
+import netInterface.NetworkUtility;
+import it.sapienza.robotsample.ProtocolAdapter;
+import netInterface.MessageIOStream;
 
 public class SplashScreenActivity extends Activity implements OnClickListener{
 
 	private ProgressBar bar;
+	private ArrayList<String> scannedIp;
 	//private int mProgressStatus = 0;
 	
 	//gestore per i messaggi relativi alla progress bar
@@ -47,7 +55,8 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 		//faccio partire la ricerca su un nuovo thread
 		new Thread(new Runnable(){
 			public void run(){
-				netScan.doScan();
+				scannedIp = netScan.doScan();
+				autoConnect();				
 			};
 		}).start();
 		
@@ -67,7 +76,49 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 //         }).start();
 	}
  
-	
+	private void autoConnect(){
+		System.out.println("#### PARTITA AUTOCONNESSIONE");
+		ProtocolAdapter pAdapt = ProtocolAdapter.getInstance();
+		String ack = "";
+				
+		for( String ip : scannedIp){
+			System.out.println("Indirizzo ip prova di connessione = "+ip);
+			MessageIOStream socket;
+			try {
+				socket = new MessageIOStream(InetAddress.getByName(ip),80,5000);
+				pAdapt.setProtocolAdapter(socket);
+				try {
+					ack = pAdapt.sendMessage("#CONN");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("Ack ricevuto = "+ack);
+				//se ricevo ack corretto fermo ciclo
+				if(ack.equals("#ROB")){
+					System.out.println("AUTOCONNESSIONE RIUSCITA");
+					break;
+				}
+				//altrimenti chiudo socket e risorse associate
+	             socket.getMis().closeInput();
+	             socket.getMos().closeOutput();
+	             socket.close();
+	             pAdapt.setProtocolAdapter(null);
+				
+				
+			} catch (UnknownHostException e) {
+				System.out.println(" Eccezione = "+e.getLocalizedMessage());
+				e.printStackTrace();
+			} catch (IOException e) {
+				System.out.println(" Eccezione = "+e.getLocalizedMessage());
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			
+		}
+	}
 
 	@Override
     public void onClick(View v) {
