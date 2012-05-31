@@ -74,7 +74,7 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
         // TODO Auto-generated method stub
         switch ( v.getId() ) {
             case R.id.config_btn:
-            	Intent configActivity = new Intent(this, RobotSampleActivity.class);
+            	Intent configActivity = new Intent(this, ConfigurationActivity.class);
             	startActivity(configActivity);
             break;
         }

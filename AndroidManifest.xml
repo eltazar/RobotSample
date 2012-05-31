@@ -31,7 +31,7 @@
             android:name=".StandardRobotController">
         </activity>
         <activity 
-            android:name=".RobotSampleActivity">
+            android:name=".ConfigurationActivity">
         </activity>
     </application>
 

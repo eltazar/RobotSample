@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import netInterface.NetworkUtility;
 
-public class RobotSampleActivity extends BaseActivity implements OnClickListener{
+public class ConfigurationActivity extends BaseActivity implements OnClickListener{
 	
 	private netInterface.MessageIOStream socketAndStream;
 	private Button connectBtn;
