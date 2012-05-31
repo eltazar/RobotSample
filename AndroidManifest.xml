@@ -13,14 +13,16 @@
     <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="10" />
  	
     <application
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
         android:debuggable="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name" 
+        >
         <activity
+            android:screenOrientation="landscape" 
             android:name=".SplashScreenActivity"
             android:label="@string/app_name"
             android:noHistory="true" 
-            android:screenOrientation="landscape" >
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,9 +30,11 @@
             </intent-filter>
         </activity>
         <activity 
+            android:screenOrientation="landscape" 
             android:name=".StandardRobotController">
         </activity>
         <activity 
+            android:screenOrientation="landscape" 
             android:name=".ConfigurationActivity">
         </activity>
     </application>
