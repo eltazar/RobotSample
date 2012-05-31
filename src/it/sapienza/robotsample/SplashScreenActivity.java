@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import netInterface.NetworkScanner;;
+import netInterface.NetworkUtility;;
 
 public class SplashScreenActivity extends Activity implements OnClickListener{
 
@@ -26,7 +26,7 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 		}
 	};
 	//private Handler mHandler = new Handler();
-	private NetworkScanner netScan;
+	private NetworkUtility netScan;
  
 	@Override
 	public void onCreate(Bundle icicle) {
@@ -37,7 +37,7 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
         
 		bar = (ProgressBar) findViewById(R.id.progress);
 		//associo al networkScanner l'handler
-		netScan = new NetworkScanner(handler,this);
+		netScan = new NetworkUtility(handler,this);
 	}
  
 	public void onStart() {

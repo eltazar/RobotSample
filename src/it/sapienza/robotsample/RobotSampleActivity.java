@@ -11,7 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import netInterface.NetworkScanner;
+import netInterface.NetworkUtility;
 
 public class RobotSampleActivity extends BaseActivity implements OnClickListener{
 	
@@ -97,7 +97,7 @@ public class RobotSampleActivity extends BaseActivity implements OnClickListener
             	//MessageIOStream.checkHosts("192.168.0");
             	System.out.println("STO PER AVVIARE IP SCAN");
             	//MessageIOStream.checkReachable();
-            	NetworkScanner netScan = new NetworkScanner(this);
+            	NetworkUtility netScan = new NetworkUtility(this);
             	//netScan.getInfoWifiConnection();
             	netScan.doScan();
             break;

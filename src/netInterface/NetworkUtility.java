@@ -18,7 +18,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
 
-public class NetworkScanner{
+public class NetworkUtility{
 
 	private static final int NB_THREADS = 10;
 	private static final String LOG_TAG = "NetworkScanner";
@@ -29,13 +29,13 @@ public class NetworkScanner{
 	/*
 	 * 
 	 * */
-	public NetworkScanner(Activity act) {
+	public NetworkUtility(Activity act) {
 		mContext = act;
 		ipScanned = new ArrayList<String>();
 	}
 
 	//costruttore al quale passo un handler per la progress bar
-	public NetworkScanner(Handler handler, Activity act) {
+	public NetworkUtility(Handler handler, Activity act) {
 		mContext = act;
 		this.handler = handler;
 		ipScanned = new ArrayList<String>();
@@ -95,7 +95,7 @@ public class NetworkScanner{
 	    };
 	}
 	
-	public int scannerFasullo(int count){
+/*	public int scannerFasullo(int count){
 		String host = "192.168.0."+Integer.toString(count);
 		Log.i(LOG_TAG, "Pinging " + host + "...");
 		try {
@@ -116,7 +116,7 @@ public class NetworkScanner{
         }  
 		return count;
 	}
-	
+*/	
 	/*
 	 * Ritorna le informazioni relative all'hotspot al quale il device è connesso
 	 * */
