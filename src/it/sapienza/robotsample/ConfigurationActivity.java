@@ -11,7 +11,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import netInterface.NetworkUtility;
 
 public class ConfigurationActivity extends BaseActivity implements OnClickListener{
 	
@@ -37,8 +36,8 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
         disconnectBtn.setOnClickListener(this);
         disconnectBtn.setClickable(false);
         
-        scanBtn = (Button) findViewById(R.id.scan_button);
-        scanBtn.setOnClickListener(this);
+        //scanBtn = (Button) findViewById(R.id.scan_button);
+        //scanBtn.setOnClickListener(this);
         
         System.out.println("Connection pannel avviato");
         
@@ -76,11 +75,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
     	System.out.println("SALVO STATO");
     	outState.putString("connStatus",connectionStatus.getText().toString());
     }
-    
-  
-    
 
-    
     @Override
     public void onClick(View v) {
         // TODO Auto-generated method stub
@@ -93,7 +88,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
             case R.id.disconnect_button:
             	disconnectFromServer();
             break;
-            case R.id.scan_button:
+            /*case R.id.scan_button:
             	//MessageIOStream.checkHosts("192.168.0");
             	System.out.println("STO PER AVVIARE IP SCAN");
             	//MessageIOStream.checkReachable();
@@ -101,6 +96,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
             	//netScan.getInfoWifiConnection();
             	netScan.doScan();
             break;
+            */
         }
     }
     
