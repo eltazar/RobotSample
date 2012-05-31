@@ -44,7 +44,7 @@ public class NetworkUtility{
 	/*
 	 * Effettua una scansione multithread della subnet al quale siamo connessi
 	 * */
-	public void doScan() {
+	public ArrayList<String> doScan() {
 	    Log.i(LOG_TAG, "Start scanning");
 
 	    //trovo indirizzo gateway
@@ -67,6 +67,7 @@ public class NetworkUtility{
 
 	    Log.i(LOG_TAG, "Scan finished");
 	    System.out.println("Ip raggiungibili \n = "+ipScanned);
+	    return ipScanned;
 	}
 
 	private Runnable pingRunnable(final String host) {
