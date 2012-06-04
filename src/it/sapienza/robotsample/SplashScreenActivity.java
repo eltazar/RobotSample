@@ -76,10 +76,15 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 //         }).start();
 	}
  
+	/*
+	 * Prova a connettersi in automatico con gli indirizzi ritornati dagli scanner alla ricerca 
+	 * di quello appartenente al robot
+	 * */
 	private void autoConnect(){
 		System.out.println("#### PARTITA AUTOCONNESSIONE");
 		ProtocolAdapter pAdapt = ProtocolAdapter.getInstance();
 		String ack = "";
+		boolean isAutoconnected = false;
 				
 		for( String ip : scannedIp){
 			System.out.println("Indirizzo ip prova di connessione = "+ip);
@@ -97,6 +102,7 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 				//se ricevo ack corretto fermo ciclo
 				if(ack.equals("#ROB")){
 					System.out.println("AUTOCONNESSIONE RIUSCITA");
+					isAutoconnected = true;
 					break;
 				}
 				//altrimenti chiudo socket e risorse associate
@@ -104,6 +110,13 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 	             socket.getMos().closeOutput();
 	             socket.close();
 	             pAdapt.setProtocolAdapter(null);
+	             
+	             if(isAutoconnected){
+	            	 //se autoconnessione avvenuta mostrare interfaccia con joystick
+	             }
+	             else{
+	            	 //mostrare interfaccia configurazione
+	             }
 				
 				
 			} catch (UnknownHostException e) {
