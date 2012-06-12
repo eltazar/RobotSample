@@ -44,15 +44,19 @@ public class DragController extends MyAbsoluteLayout {
 
 	/** The window token used as the parent for the DragView. */
 	private IBinder mWindowToken;
+	
+	static ProtocolAdapter protocolAdapter;
 
-	private int view_center_x, view_center_y;
+	private float view_center_x, view_center_y;
 
 	public DragController(Context context) {
 		super(context);
 		mContext = context;
+		
+		protocolAdapter = ProtocolAdapter.getInstance();
 	}
 
-	public void startDrag(View v, int dragAction, int center_x, int center_y) {
+	public void startDrag(View v, int dragAction, float center_x, float center_y) {
 
 		//salvo le coordinate del centro della ImageView
 		view_center_x = center_x;
@@ -170,7 +174,7 @@ public class DragController extends MyAbsoluteLayout {
 			return false;
 		}
 
-		final int action = ev.getAction();
+		int action = ev.getAction();
 
 		//calcolo range movimento e max coordinate possibili
 		float origin_x = view_center_x;
@@ -180,11 +184,15 @@ public class DragController extends MyAbsoluteLayout {
 		float rel_x = touch_x - origin_x;
 		float rel_y = touch_y - origin_y;
 		float sin, cos;
+		final float outBoundDist = 300;
 		int screenX, screenY;
 		final float max_dist = 75;
 
 		float dist = (float) Math.sqrt((rel_x*rel_x) + (rel_y*rel_y));
 
+		if(dist > outBoundDist)
+			action = MotionEvent.ACTION_UP;
+		
 		if(dist <= max_dist) {
 
 			screenX = (int)ev.getRawX();
@@ -207,10 +215,17 @@ public class DragController extends MyAbsoluteLayout {
 		}
 
 		//Valori da inviare al robot
-		float x_to_send = ((screenX - view_center_x)/max_dist)*128;
-		float y_to_send = ((screenY - view_center_y)/max_dist)*128;
+		float pitch = (screenX - view_center_x)/max_dist;
+		float roll = (screenY - view_center_y)/max_dist;
 
-		System.out.println("X: " + x_to_send + "Y: " + y_to_send);
+		try{
+			protocolAdapter.sendMessage(pitch, roll);
+    	}
+    	catch (java.io.IOException ex) {
+            System.out.println("Eccezione in sendMessage: "+ex.getLocalizedMessage());
+        }
+		
+		System.out.println("X: " + pitch + "Y: " + roll);
 
 		switch (action) {
 
