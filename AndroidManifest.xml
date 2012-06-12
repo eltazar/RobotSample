@@ -37,6 +37,11 @@
             android:screenOrientation="landscape" 
             android:name=".ConfigurationActivity">
         </activity>
+        <activity 
+            android:screenOrientation="landscape" 
+            android:name=".InterfacciaRobotActivity"
+            android:theme="@android:style/Theme.NoTitleBar">
+        </activity>
     </application>
 
 </manifest>

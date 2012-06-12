@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <WebView
+        android:id="@+id/baseWV"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <it.sapienza.robotsample.DragLayer
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:launcher="http://schemas.android.com/apk/res/com.android.launcher"
+        android:id="@+id/drag_layer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_margin="20dp"
+                android:layout_marginBottom="17dp"
+                android:layout_marginRight="14dp"
+                android:scaleType="fitEnd"
+                android:src="@drawable/onscreen_control_base" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="67dp"
+                android:layout_height="67dp"
+                android:layout_alignBottom="@+id/imageView1"
+                android:layout_alignRight="@+id/imageView1"
+                android:layout_marginBottom="26dp"
+                android:layout_marginRight="26dp"
+                android:src="@drawable/onscreen_control_knob" />
+
+        </RelativeLayout>
+    </it.sapienza.robotsample.DragLayer>
+
+</merge>
