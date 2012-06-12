@@ -207,8 +207,8 @@ public class DragController extends MyAbsoluteLayout {
 		}
 
 		//Valori da inviare al robot
-		float x_to_send = (screenX - view_center_x)/max_dist;
-		float y_to_send = (screenY - view_center_y)/max_dist;
+		float x_to_send = ((screenX - view_center_x)/max_dist)*128;
+		float y_to_send = ((screenY - view_center_y)/max_dist)*128;
 
 		System.out.println("X: " + x_to_send + "Y: " + y_to_send);
 
