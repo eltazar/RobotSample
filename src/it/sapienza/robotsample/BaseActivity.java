@@ -28,8 +28,11 @@ public class BaseActivity extends Activity{
     		case R.id.standardcontroller:
     			startActivity(new Intent(this, StandardRobotController.class));
     			return true;
-    		case R.id.bho:
-    			//startActivity(new Intent(this, Help.class));
+    		case R.id.config:
+    			startActivity(new Intent(this, ConfigurationActivity.class));
+    			return true;
+    		case R.id.JoyPad:
+    			startActivity(new Intent(this, InterfacciaRobotActivity.class));
     			return true;
     		default:
     			return super.onOptionsItemSelected(item);
