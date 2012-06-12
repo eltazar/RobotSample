@@ -77,7 +77,7 @@ public class NetworkUtility{
 	            Log.i(LOG_TAG, "Pinging " + host + "...");
 	            try {
 	                InetAddress inet = InetAddress.getByName(host);
-	                boolean reachable = inet.isReachable(1000);
+	                boolean reachable = inet.isReachable(1200);
 	                Log.i(LOG_TAG, "=> Result: " + (reachable ? "reachable" : "not reachable"));
 	                if(reachable){
 	                	ipScanned.add(host);
