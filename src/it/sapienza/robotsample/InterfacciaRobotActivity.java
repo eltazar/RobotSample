@@ -16,8 +16,9 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 	private DragLayer mDragLayer;
 	private WebView baseWV;
 
-	private int mCenter_x;
-	private int mCenter_y;
+	private float mCenter_x;
+	private float mCenter_y;
+	private float increment = 0.5f;
 	
 	private final int activity_index = 2;
 
@@ -57,8 +58,8 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 		final int image_width = findViewById(R.id.imageView2).getWidth();
 		final int image_height = findViewById(R.id.imageView2).getHeight();
 
-		mCenter_x = start_x + (image_width/2);
-		mCenter_y = start_y + (image_height/2) + status_bar_height;
+		mCenter_x = start_x + (image_width/2) + increment;
+		mCenter_y = start_y + (image_height/2) + status_bar_height + increment;
 
 		//simply start on the down event
 		mDragController.startDrag(v, DragController.DRAG_ACTION_MOVE, mCenter_x, mCenter_y);
