@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/configbackground3" >
+
+    <TextView
+        android:id="@+id/ipAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:background="#000000"
+        android:text="Indirizzo ip"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edit_ipAddress"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ipAddress"
+        android:layout_marginLeft="30dp"
+        android:background="@android:drawable/editbox_background" />
+
+    <TextView
+        android:id="@+id/port"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_ipAddress"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:background="#000000"
+        android:text="Porta"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edit_port"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/port"
+        android:layout_marginLeft="30dp"
+        android:layout_toLeftOf="@+id/connect_button"
+        android:background="@android:drawable/editbox_background" />
+
+    <Button
+        android:id="@+id/connect_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/edit_port"
+        android:layout_alignRight="@+id/edit_ipAddress"
+        android:text="Connetti" />
+
+    <Button
+        android:id="@+id/disconnect_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/connect_button"
+        android:layout_alignBottom="@+id/connect_button"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="74dp"
+        android:text="  Disconnetti " />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/edit_ipAddress"
+        android:layout_alignBottom="@+id/edit_ipAddress"
+        android:layout_alignLeft="@+id/disconnect_button"
+        android:text="Autoconnetti" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:src="@drawable/tagmetal" />
+
+    <TextView
+        android:id="@+id/connection_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:text="Status"
+        android:textColor="#000000"
+        android:textSize="20dp" />
+
+</RelativeLayout>

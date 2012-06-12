@@ -28,7 +28,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
         
         System.out.println("ON CREATE");
         
-        setContentView(R.layout.main);
+        setContentView(R.layout.configactivity);
         connectBtn = (Button) findViewById(R.id.connect_button);
         connectBtn.setOnClickListener(this);
         
