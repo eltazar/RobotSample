@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 
 import netInterface.*;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
@@ -19,7 +20,6 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	private Button disconnectBtn;
 	private ProtocolAdapter pAdapt;
 	private TextView connectionStatus; 
-	private Button scanBtn;
 	
     /** Called when the activity is first created. */
     @Override
@@ -51,8 +51,23 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
         pAdapt = ProtocolAdapter.getInstance();
         System.out.println("PADATP = "+pAdapt);
 
+        if(pAdapt.isThereAvaiableStream() == true){
+        	//c'era giˆ una connessione attiva
+        	connectBtn.setClickable(false);
+    		disconnectBtn.setClickable(true);
+    		connectionStatus.setText("Connesso");
+        }
+        else{
+        	//non c'erano connessioni attive
+        	connectBtn.setClickable(true);
+    		disconnectBtn.setClickable(false);
+    		connectionStatus.setText("Nessuna connessione");
+        }
+        
+        
+        //NON NECESSARIO SE CONTROLLO STATO CONNESSIONE COME SOPRA
         //se ho salvato uno stato precedente, in cui la connessione era stata stabilita setto i tasti
-        if( savedInstanceState != null) {
+       /* if( savedInstanceState != null ) {
         	System.out.println("Recupero stato salvato");
         	if(savedInstanceState .getString("connStatus").equals("Connesso")){
         		connectBtn.setClickable(false);
@@ -61,6 +76,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
         	//setto la label con lo status giusto
         	connectionStatus.setText(savedInstanceState .getString("connStatus"));
         }
+        */
     }
     
     @Override
@@ -69,12 +85,13 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
     	System.out.println("ON PAUSE");
     }
     
+    /*
     @Override
     protected void onSaveInstanceState (Bundle outState){
     	super.onSaveInstanceState(outState);
     	System.out.println("SALVO STATO");
     	outState.putString("connStatus",connectionStatus.getText().toString());
-    }
+    }*/
 
     @Override
     public void onClick(View v) {
@@ -157,5 +174,12 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
         	 connectionStatus.setText("Numero porta formalmente non valido");
         }
         
+    }
+    
+    @Override
+    public boolean onPrepareOptionsMenu (Menu menu) {
+    	//disabilita il relativo tasto del menu option
+        menu.getItem(0).setEnabled(false);
+        return true;
     }
 }
