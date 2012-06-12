@@ -109,15 +109,7 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 	             socket.getMis().closeInput();
 	             socket.getMos().closeOutput();
 	             socket.close();
-	             pAdapt.setProtocolAdapter(null);
-	             
-	             if(isAutoconnected){
-	            	 //se autoconnessione avvenuta mostrare interfaccia con joystick
-	             }
-	             else{
-	            	 //mostrare interfaccia configurazione
-	             }
-				
+	             pAdapt.setProtocolAdapter(null);				
 				
 			} catch (UnknownHostException e) {
 				System.out.println(" Eccezione = "+e.getLocalizedMessage());
@@ -127,10 +119,16 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			
-			
 		}
+		
+		 if(isAutoconnected == true){
+        	 //se autoconnessione avvenuta mostrare interfaccia con joystick
+        	 startActivity(new Intent(this, StandardRobotController.class));
+         }
+         else{
+        	 //mostrare interfaccia configurazione
+        	 startActivity(new Intent(this, ConfigurationActivity.class));
+         }
 	}
 
 	@Override
