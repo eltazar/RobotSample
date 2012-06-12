@@ -10,60 +10,75 @@ import java.io.IOException;
  */
 public class ProtocolAdapter {
 
-    private netInterface.MessageIOStream messageStream = null;
-    private static ProtocolAdapter pAdpt = null;
-    
-    /**Istanzia un Protocol Adapter dato un MessageIOStream
-     @param messageStream
-    */
-    private ProtocolAdapter(netInterface.MessageIOStream messageStream) {
-        this.messageStream = messageStream;
-    }
+	private netInterface.MessageIOStream messageStream = null;
+	private static ProtocolAdapter pAdpt = null;
 
-    private ProtocolAdapter(){
-    	
-    }
-    
-    public String sendMessage(String message) throws IOException{
-    	
-    	System.out.println("Protocol adapter.sendMessage");
-    	String answer = "";
-    	try{
-    		messageStream.sendMessageAsUTF8(message);
-    		
-    		if(message.equals("#CONN")){
-    			answer = messageStream.receiveMessage();
-    		}
-    		
-    		System.out.println("Protocol adapter answer = "+answer);
-    	}
-    	catch (NullPointerException ex){
-    		System.out.println("Protocol adapter eccezione = "+ex.getLocalizedMessage());
-    		answer = "Devi connetterti!";
-    	}
-        return answer;
-    }
-    
-    public static ProtocolAdapter getInstance(){
-    	if(pAdpt == null){
-    		pAdpt = new ProtocolAdapter();
-    	}
-    	return pAdpt;
-    }
-    
-    //associa al singleton un socket con stream
-    public void setProtocolAdapter(netInterface.MessageIOStream mIos){
-    	this.messageStream = mIos;
-    }
-   
-    public netInterface.MessageIOStream  getAssociatedStream(){
-    	return messageStream;
-    }
-    
-    public Boolean IsThereAvaiableStrem(){
-    	
-    	if(messageStream == null)
-    		return false;
-    	else return true;
-    }
+	/**Istanzia un Protocol Adapter dato un MessageIOStream
+     @param messageStream
+	 */
+	private ProtocolAdapter(netInterface.MessageIOStream messageStream) {
+		this.messageStream = messageStream;
+	}
+
+	private ProtocolAdapter(){
+
+	}
+
+	public String sendMessage(String message) throws IOException{
+
+		System.out.println("Protocol adapter.sendMessage");
+		String answer = "";
+		try{
+			messageStream.sendMessageAsUTF8(message);
+
+			//se il messaggio è di connessione aspetto risposta
+			if(message.equals("#CONN")){
+				answer = messageStream.receiveMessage();
+			}
+
+			System.out.println("Protocol adapter answer = "+answer);
+		}
+		catch (NullPointerException ex){
+			System.out.println("Protocol adapter eccezione = "+ex.getLocalizedMessage());
+			answer = "Devi connetterti!";
+		}
+		return answer;
+	}
+
+	public void sendMessage(float pitch, float roll) throws IOException{
+
+		System.out.println("Protocol adapter.sendMessage");
+		try{
+			messageStream.sendMessageAsUTF8("#SPD0" + (int)(pitch*128) +"\r");
+			messageStream.sendMessageAsUTF8("#TRN0" + (int)(roll*128) + "\r");
+
+		}
+		catch (NullPointerException ex){
+			System.out.println("Protocol adapter eccezione = "+ex.getLocalizedMessage());
+		}
+		return;
+	}
+
+	public static ProtocolAdapter getInstance(){
+		if(pAdpt == null){
+			pAdpt = new ProtocolAdapter();
+		}
+		return pAdpt;
+	}
+
+	//associa al singleton un socket con stream
+	public void setProtocolAdapter(netInterface.MessageIOStream mIos){
+		this.messageStream = mIos;
+	}
+
+	public netInterface.MessageIOStream  getAssociatedStream(){
+		return messageStream;
+	}
+
+	public Boolean isThereAvaiableStream(){
+
+		if(messageStream == null)
+			return false;
+		else return true;
+	}
 }
