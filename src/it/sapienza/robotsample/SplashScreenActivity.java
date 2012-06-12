@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import netInterface.NetworkUtility;
 import it.sapienza.robotsample.ProtocolAdapter;
@@ -40,8 +39,6 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
 		setContentView(R.layout.splashscreen);
-		Button configBtn = (Button) findViewById(R.id.config_btn);
-        configBtn.setOnClickListener(this);
         
 		bar = (ProgressBar) findViewById(R.id.progress);
 		//associo al networkScanner l'handler
@@ -135,9 +132,7 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
     public void onClick(View v) {
         // TODO Auto-generated method stub
         switch ( v.getId() ) {
-            case R.id.config_btn:
-            	Intent configActivity = new Intent(this, ConfigurationActivity.class);
-            	startActivity(configActivity);
+        	default:
             break;
         }
     }
