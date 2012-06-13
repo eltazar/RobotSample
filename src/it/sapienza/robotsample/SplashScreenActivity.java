@@ -90,14 +90,17 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 				socket = new MessageIOStream(InetAddress.getByName(ip),80,5000);
 				pAdapt.setProtocolAdapter(socket);
 				try {
-					ack = pAdapt.sendMessage("#CONN");
+					ack = pAdapt.sendMessage("#CNT0\r");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println("Ack ricevuto = "+ack);
+				System.out.println("Ack ricevutooo = "+ack);
+				System.out.println(ack.length());
 				//se ricevo ack corretto fermo ciclo
-				if(ack.equals("#ROB")){
+				System.out.println(ack.substring(1, ack.length()));
+				byte b = (byte)ack.charAt(0);
+				if(b==6){
 					System.out.println("AUTOCONNESSIONE RIUSCITA");
 					isAutoconnected = true;
 					break;
