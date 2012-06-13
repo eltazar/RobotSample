@@ -15,11 +15,18 @@ import android.widget.TextView;
 
 public class ConfigurationActivity extends BaseActivity implements OnClickListener{
 	
+	private static final int INVISIBLE = 1;
+	private static final int VISIBLE = 0;
 	private netInterface.MessageIOStream socketAndStream;
 	private Button connectBtn;
 	private Button disconnectBtn;
 	private ProtocolAdapter pAdapt;
 	private TextView connectionStatus; 
+	private Button autoconnectBtn;
+	private TextView ipAddress;
+	private TextView portNumber;
+	private EditText ipAddressEditText;
+	private EditText portEditText;
 	
     /** Called when the activity is first created. */
     @Override
@@ -34,16 +41,19 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
         
         disconnectBtn = (Button) findViewById(R.id.disconnect_button);
         disconnectBtn.setOnClickListener(this);
-        disconnectBtn.setClickable(false);
+        //disconnectBtn.setClickable(false);
         
+        autoconnectBtn = (Button) findViewById(R.id.autoconnect_button);
         //scanBtn = (Button) findViewById(R.id.scan_button);
         //scanBtn.setOnClickListener(this);
         
         System.out.println("Connection pannel avviato");
         
-        EditText ipAddressEditText = (EditText)findViewById(R.id.edit_ipAddress); 
+        ipAddress = (TextView) findViewById(R.id.ipAddress);
+        portNumber = (TextView) findViewById(R.id.port);
+        ipAddressEditText = (EditText)findViewById(R.id.edit_ipAddress); 
         ipAddressEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        EditText portEditText = (EditText)findViewById(R.id.edit_port); 
+        portEditText = (EditText)findViewById(R.id.edit_port); 
         portEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         
         connectionStatus = (TextView)findViewById(R.id.connection_status); 
@@ -52,15 +62,34 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
         System.out.println("PADATP = "+pAdapt);
 
         if(pAdapt.isThereAvaiableStream() == true){
-        	//c'era giˆ una connessione attiva
-        	connectBtn.setClickable(false);
-    		disconnectBtn.setClickable(true);
+        	//connessione attiva
+        	
+        	//connectBtn.setClickable(false);
+    		//disconnectBtn.setClickable(true);
+        	connectBtn.setVisibility(View.INVISIBLE);
+        	disconnectBtn.setVisibility(View.VISIBLE);
+        	autoconnectBtn.setVisibility(View.INVISIBLE);
+        	
+        	ipAddressEditText.setVisibility(View.INVISIBLE);
+        	portEditText.setVisibility(View.INVISIBLE);
+        	ipAddress.setVisibility(View.INVISIBLE);
+        	portNumber.setVisibility(View.INVISIBLE);
+        	
     		connectionStatus.setText("Connesso");
         }
         else{
-        	//non c'erano connessioni attive
-        	connectBtn.setClickable(true);
-    		disconnectBtn.setClickable(false);
+        	//non ci sono connessioni attive
+        	//connectBtn.setClickable(true);
+    		//disconnectBtn.setClickable(false);
+        	connectBtn.setVisibility(View.VISIBLE);
+        	disconnectBtn.setVisibility(View.INVISIBLE);
+        	autoconnectBtn.setVisibility(View.INVISIBLE); 
+        	
+        	ipAddressEditText.setVisibility(View.VISIBLE);
+        	portEditText.setVisibility(View.VISIBLE);
+        	ipAddress.setVisibility(View.VISIBLE);
+        	portNumber.setVisibility(View.VISIBLE);
+        	
     		connectionStatus.setText("Nessuna connessione");
         }
         
