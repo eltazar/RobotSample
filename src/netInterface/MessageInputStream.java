@@ -29,15 +29,23 @@ public class MessageInputStream {
         int readDim = 0; //byte letti fino ad ora
         byte[] buffer; //buffer dello stream di input per poter contenere il messaggio da leggere
 
+        //System.out.println("DIMENSIONE RICEVUTA = "+dataIn.readInt());
+        
         //sincronizzazione sull'input stream per acquisirne il lock
         synchronized (in) {
-            dim = dataIn.readInt(); //legge la dimensione del messaggio dallo stream
-            if (dim == -1) {
-                return null;
-            }
-            buffer = new byte[dim];	//crea buffer
-            while (readDim < dim) {    //finchè non ha letto tutti i bytes dallo stream continua a leggere
-                readDim += dataIn.read(buffer, readDim, dim - readDim); //legge dallo stream dataIn e salva nel buffer.
+        	System.out.println("DENTRO SYNCRONIZED");
+            //dim = dataIn.readInt(); //legge la dimensione del messaggio dallo stream
+            //if (dim == -1) {
+            //     return null;
+            //}
+            buffer = new byte[12];	//crea buffer
+            
+            for (int i = 0; buffer[i] != -1; i++) {    //finchè non ha letto tutti i bytes dallo stream continua a leggere
+                byte b = dataIn.readByte(); //legge dallo stream dataIn e salva nel buffer.
+                buffer[i] = b;
+                System.out.println((char)b);
+                if(b=='\r'){
+                	break;}
             }
         }
 
