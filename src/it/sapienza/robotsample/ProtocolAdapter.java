@@ -27,18 +27,17 @@ public class ProtocolAdapter {
 	public String sendMessage(String message) throws IOException{
 
 		//System.out.println("Protocol adapter.sendMessage");
-		String answer = "PROVA";
+		String answer = "no answer";
 		try{
 			messageStream.sendMessageAsUTF8(message);
 
 			//se il messaggio è di connessione aspetto risposta
 			if(message.equals("#CNT0\r")){
-				System.out.println("ATTENDO RISPOSTA");
+				System.out.println("In attesa di ack dal robot");
 				answer = messageStream.receiveMessage();
-				System.out.println("DENTRO IF RICEVUTO RISPOSTA");
 			}
 
-			System.out.println("Protocol adapter answer = "+answer);
+			System.out.println("Protocol adapter: answer = "+answer);
 		}
 		catch (NullPointerException ex){
 			System.out.println("Protocol adapter eccezione = "+ex.getLocalizedMessage());
@@ -49,9 +48,9 @@ public class ProtocolAdapter {
 
 	public void sendMessage(float pitch, float roll) throws IOException{
 
-		System.out.println("Protocol adapter.sendMessage");
+		//System.out.println("Protocol adapter.sendMessage");
 		try{
-			System.out.println("pitch = " + (int)(pitch*128) + " roll = " + (int)(roll*128));
+			//System.out.println("pitch = " + (int)(pitch*128) + " roll = " + (int)(roll*128));
 			messageStream.sendMessageAsUTF8("#SPD0" + (int)(pitch*128) +"\r");
 			messageStream.sendMessageAsUTF8("#TRN0" + (int)(roll*128) + "\r");
 
