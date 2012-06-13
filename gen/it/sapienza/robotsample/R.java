@@ -23,19 +23,19 @@ public final class R {
     public static final class id {
         public static final int JoyPad=0x7f060020;
         public static final int ahead=0x7f060017;
+        public static final int autoconnect_button=0x7f060010;
         public static final int back=0x7f060018;
-        public static final int baseWV=0x7f060013;
-        public static final int button1=0x7f060010;
+        public static final int baseWV=0x7f060012;
         public static final int config=0x7f06001e;
         public static final int connect_button=0x7f06000e;
-        public static final int connection_status=0x7f060012;
-        public static final int disconnect_button=0x7f06000f;
-        public static final int drag_layer=0x7f060014;
+        public static final int connection_status=0x7f06000a;
+        public static final int disconnect_button=0x7f060011;
+        public static final int drag_layer=0x7f060013;
         public static final int edit_ipAddress=0x7f06000b;
-        public static final int edit_port=0x7f06000d;
-        public static final int imageView1=0x7f060011;
+        public static final int edit_port=0x7f06000f;
+        public static final int imageView1=0x7f060014;
         public static final int imageView2=0x7f060015;
-        public static final int ipAddress=0x7f06000a;
+        public static final int ipAddress=0x7f06000d;
         public static final int left=0x7f06001a;
         public static final int message_server=0x7f06001b;
         public static final int port=0x7f06000c;
