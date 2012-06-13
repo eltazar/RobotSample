@@ -26,14 +26,16 @@ public class ProtocolAdapter {
 
 	public String sendMessage(String message) throws IOException{
 
-		System.out.println("Protocol adapter.sendMessage");
-		String answer = "";
+		//System.out.println("Protocol adapter.sendMessage");
+		String answer = "PROVA";
 		try{
 			messageStream.sendMessageAsUTF8(message);
 
 			//se il messaggio è di connessione aspetto risposta
-			if(message.equals("#CONN")){
+			if(message.equals("#CNT0\r")){
+				System.out.println("ATTENDO RISPOSTA");
 				answer = messageStream.receiveMessage();
+				System.out.println("DENTRO IF RICEVUTO RISPOSTA");
 			}
 
 			System.out.println("Protocol adapter answer = "+answer);
@@ -49,6 +51,7 @@ public class ProtocolAdapter {
 
 		System.out.println("Protocol adapter.sendMessage");
 		try{
+			System.out.println("pitch = " + (int)(pitch*128) + " roll = " + (int)(roll*128));
 			messageStream.sendMessageAsUTF8("#SPD0" + (int)(pitch*128) +"\r");
 			messageStream.sendMessageAsUTF8("#TRN0" + (int)(roll*128) + "\r");
 
