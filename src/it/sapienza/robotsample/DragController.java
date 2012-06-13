@@ -136,6 +136,12 @@ public class DragController extends MyAbsoluteLayout {
 		if (mDragging) {
 			mDragging = false;
 			if (mOriginator != null) {
+				try{
+					protocolAdapter.sendMessage(0, 0);
+		    	}
+		    	catch (java.io.IOException ex) {
+		            System.out.println("Eccezione in sendMessage: "+ex.getLocalizedMessage());
+		        }
 				mOriginator.setVisibility(View.VISIBLE);
 			}
 
@@ -208,15 +214,13 @@ public class DragController extends MyAbsoluteLayout {
 			else			
 				cos = (float) - (Math.sqrt(1-(sin*sin)));
 
-			System.out.println("cos: " + cos + "sin: " + sin);
-
 			screenX = (int)(cos*max_dist + origin_x);
 			screenY = (int)(sin*max_dist + origin_y);
 		}
 
 		//Valori da inviare al robot
-		float pitch = (screenX - view_center_x)/max_dist;
-		float roll = (screenY - view_center_y)/max_dist;
+		float roll = (screenX - view_center_x)/max_dist;
+		float pitch = -(screenY - view_center_y)/max_dist;
 
 		try{
 			protocolAdapter.sendMessage(pitch, roll);
@@ -225,8 +229,6 @@ public class DragController extends MyAbsoluteLayout {
             System.out.println("Eccezione in sendMessage: "+ex.getLocalizedMessage());
         }
 		
-		System.out.println("X: " + pitch + "Y: " + roll);
-
 		switch (action) {
 
 		case MotionEvent.ACTION_DOWN:
