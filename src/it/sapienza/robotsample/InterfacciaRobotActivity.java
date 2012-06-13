@@ -29,7 +29,9 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 
 		//Otteniamo il riferimento alla WebView
 		baseWV = (WebView)findViewById(R.id.baseWV);
-		baseWV.loadUrl("http://www.google.it");
+		baseWV.loadUrl("http://rackbot:rackbot@172.20.10.4/mobile.htm");
+		baseWV.getSettings().setJavaScriptEnabled(true);
+		baseWV.getSettings().setPluginsEnabled(true);
 
 		mDragController = new DragController(this);
 		setUpViews();
