@@ -46,24 +46,6 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 		bar = (ProgressBar) findViewById(R.id.progress);
 		//associo al networkScanner l'handler
 		netScan = new NetworkUtility(handler,this);
-		
-		final CharSequence[] items = {"Esegui connessione manuale", "Riprova autoconnessione"};
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Non è stato possibile auto-connettersi al robot");
-		builder.setItems(items, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int item) {
-				//Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
-				if(item == 0){
-					launchConfig("manual");
-				}
-				else{
-					launchConfig("auto");
-				}
-			}
-		});
-		AlertDialog alert = builder.create();
-		alert.show();
 	}
 
 	public void onStart() {
@@ -71,12 +53,12 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 		bar.setProgress(0);
 
 		//faccio partire la ricerca su un nuovo thread
-		/*new Thread(new Runnable(){
+		new Thread(new Runnable(){
 			public void run(){
 				scannedIp = netScan.doScan();
 				autoConnect();				
 			};
-		}).start();*/
+		}).start();
 
 		//		 new Thread(new Runnable() {
 		//             public void run() {
@@ -146,23 +128,23 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 			//se autoconnessione avvenuta mostrare interfaccia con joystick
 			// startActivity(new Intent(this, InterfacciaRobotActivity.class));
 
-//			final CharSequence[] items = {"Esegui connessione manuale", "Riprova autoconnessione"};
-//
-//			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//			builder.setTitle("Non è stato possibile auto-connettersi al robot");
-//			builder.setItems(items, new DialogInterface.OnClickListener() {
-//				public void onClick(DialogInterface dialog, int item) {
-//					//Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
-//					if(item == 0){
-//						launchConfig("manual");
-//					}
-//					else{
-//						launchConfig("auto");
-//					}
-//				}
-//			});
-//			AlertDialog alert = builder.create();
-//			alert.show();
+			final CharSequence[] items = {"Esegui connessione manuale", "Riprova autoconnessione"};
+
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Non ÔøΩ stato possibile auto-connettersi al robot");
+			builder.setItems(items, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int item) {
+					//Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+					if(item == 0){
+						launchConfig("manual");
+					}
+					else{
+						launchConfig("auto");
+					}
+				}
+			});
+			AlertDialog alert = builder.create();
+			alert.show();
 		}
 		else{
 			//mostrare interfaccia configurazione
