@@ -47,12 +47,13 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 		//associo al networkScanner l'handler
 		netScan = new NetworkUtility(handler,this);
 	}
-
+	
+	@Override
 	public void onStart() {
 		super.onStart();
 		bar.setProgress(0);
 
-		//faccio partire la ricerca su un nuovo thread
+		//lancio ricerca su un nuovo thread
 		new Thread(new Runnable(){
 			public void run(){
 				scannedIp = netScan.doScan();
@@ -60,48 +61,39 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 			};
 		}).start();
 
-		//		 new Thread(new Runnable() {
-		//             public void run() {
-		//                 for(int i = 1;i< 255;i++){
-		//                     mProgressStatus = netScan.scannerFasullo(i);
-		//
-		//                     // Update the progress bar
-		//                     mHandler.post(new Runnable() {
-		//                         public void run() {
-		//                             bar.setProgress(mProgressStatus);
-		//                         }
-		//                     });
-		//                 }
-		//             }
-		//         }).start();
 	}
 
 	/*
 	 * Prova a connettersi in automatico con gli indirizzi ritornati dagli scanner alla ricerca 
-	 * di quello appartenente al robot
+	 * di quello appartenente al robot. Questo metodo gira DENTRO il trhead che ha fatto partire la rirca!!
 	 * */
 	private void autoConnect(){
-		System.out.println("#### PARTITA AUTOCONNESSIONE");
+		System.out.println("#### CERCO DI AUTOCONNETTERMI...");
 		ProtocolAdapter pAdapt = ProtocolAdapter.getInstance();
 		String ack = "";
 		boolean isAutoconnected = false;
 
 		for( String ip : scannedIp){
-			System.out.println("Indirizzo ip prova di connessione = "+ip);
+			System.out.println("Sto provando a connettermi a: = "+ip);
+			
 			MessageIOStream socket;
+			
 			try {
 				socket = new MessageIOStream(InetAddress.getByName(ip),80,5000);
 				pAdapt.setProtocolAdapter(socket);
 				try {
+					//mando messaggio al server per dire che sono l'app
 					ack = pAdapt.sendMessage("#CNT0\r");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println("Ack ricevutooo = "+ack);
-				System.out.println(ack.length());
+				System.out.println("Ack ricevuto = "+ack+" Lunghezza = "+ack.length());
+
 				//se ricevo ack corretto fermo ciclo
-				System.out.println(ack.substring(1, ack.length()));
+				System.out.println("Substring ack = "+ack.substring(1, ack.length()));
+				
+				//controllo che il primo carattere sia 6 (in ascii = "ack")
 				byte b = (byte)ack.charAt(0);
 				if(b==6){
 					System.out.println("AUTOCONNESSIONE RIUSCITA");
