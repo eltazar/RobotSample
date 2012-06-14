@@ -133,7 +133,7 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 	private void showDialog(){
 
 		//configuro dialog
-		final CharSequence[] items = {"Esegui connessione manuale", "Riprova autoconnessione"};
+		final CharSequence[] items = {"Esegui connessione manuale", "Riprova ricerca robot"};
 
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Non è stato possibile auto-connettersi al robot");
