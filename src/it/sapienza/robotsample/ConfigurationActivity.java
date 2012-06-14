@@ -98,6 +98,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
     	if(ProtocolAdapter.getInstance().isThereAvaiableStream()){
     		setContentView(R.layout.disconnectconnection);
     		disconnectBtn = (Button) findViewById(R.id.disconnectionBtn);
+    		status = (TextView) findViewById(R.id.status);
             disconnectBtn.setOnClickListener(this);
     	}
     	else{
@@ -165,17 +166,18 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 //    		 socketAndStream.getMis().closeInput();
 //             socketAndStream.getMos().closeOutput();
 //             socketAndStream.close();
-             MessageIOStream tempSock = pAdapt.getAssociatedStream();
-             tempSock.getMis().closeInput();
-             tempSock.getMos().closeOutput();
-             tempSock.close();
-             
-             System.out.println("Client: Connessione terminata");
-             status.setText("Disconnesso");
-             connectBtn.setClickable(true);
-             disconnectBtn.setClickable(false);
-             //rimuovo lo stream associato durante la connessione
-             pAdapt.setProtocolAdapter(null);
+            
+    		 if(pAdapt.isThereAvaiableStream()){
+    			 MessageIOStream tempSock = pAdapt.getAssociatedStream();
+    			 tempSock.getMis().closeInput();
+    			 tempSock.getMos().closeOutput();
+    			 tempSock.close();
+
+    			 System.out.println("Client: Connessione terminata");
+    			 status.setText("Disconnesso");
+    			 //rimuovo lo stream associato durante la connessione
+    			 pAdapt.setProtocolAdapter(null);
+             }
          } catch (java.io.IOException e) {
              System.out.println("Disconnessione fallita: "+e.getLocalizedMessage());
          }
@@ -197,8 +199,6 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
     			socketAndStream = new MessageIOStream( InetAddress.getByName(ipAddress),portNumber,5000);
     			status.setText("Connesso");
     			System.out.println("Client: Connessione stabilita");
-    			connectBtn.setClickable(false);
-    			disconnectBtn.setClickable(true);
     			//associo al protocolAdapter un socket e stream
     			pAdapt.setProtocolAdapter(socketAndStream);
     		}
