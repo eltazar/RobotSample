@@ -60,7 +60,6 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 				autoConnect();				
 			};
 		}).start();
-
 	}
 
 	/*
@@ -160,9 +159,9 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 	}
 	
 	private void launchConfig(String mode){
-		if(mode.equals("manual")){
-			startActivity(new Intent(this, ConfigurationActivity.class));
-		}
+		Intent i= new Intent(this, ConfigurationActivity.class);
+		i.putExtra("mode",mode);
+		startActivity(i);
 	}
 
 	@Override
