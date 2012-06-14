@@ -117,33 +117,48 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 		}
 
 		if(isAutoconnected == true){
-			//se autoconnessione avvenuta mostrare interfaccia con joystick
-			// startActivity(new Intent(this, InterfacciaRobotActivity.class));
+			//se autoconnessione avvenuta mostro interfaccia con joystick
+			startActivity(new Intent(this, InterfacciaRobotActivity.class));
 
-			final CharSequence[] items = {"Esegui connessione manuale", "Riprova autoconnessione"};
-
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("Non � stato possibile auto-connettersi al robot");
-			builder.setItems(items, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int item) {
-					//Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
-					if(item == 0){
-						launchConfig("manual");
-					}
-					else{
-						launchConfig("auto");
-					}
-				}
-			});
-			AlertDialog alert = builder.create();
-			alert.show();
 		}
 		else{
-			//mostrare interfaccia configurazione
-			startActivity(new Intent(this, ConfigurationActivity.class));
+			//mostro dialog
+			//startActivity(new Intent(this, ConfigurationActivity.class));
+			showDialog();
 		}
 	}
 
+	/*
+	 * crea e configura un dialog, questo metodo gira sul thread che ha lanciato la ricerca
+	 * */
+	private void showDialog(){
+
+		//configuro dialog
+		final CharSequence[] items = {"Esegui connessione manuale", "Riprova autoconnessione"};
+
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Non è stato possibile auto-connettersi al robot");
+		builder.setItems(items, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int item) {
+				//Toast.makeText(getApplicationContext(), items[item], Toast.LENGTH_SHORT).show();
+				if(item == 0){
+					launchConfig("manual");
+				}
+				else{
+					launchConfig("auto");
+				}
+			}
+		});
+		
+		//The method show() must be called from UI thread --> quindi recupero il thread della ui e faccio show
+		SplashScreenActivity.this.runOnUiThread(new Runnable() {
+		    public void run() {
+		    	AlertDialog alert = builder.create();
+				alert.show();
+		    }
+		});
+	}
+	
 	private void launchConfig(String mode){
 		if(mode.equals("manual")){
 			startActivity(new Intent(this, ConfigurationActivity.class));
