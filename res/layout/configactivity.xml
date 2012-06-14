@@ -7,24 +7,28 @@
     <!-- android:background="#000000" -->
 
     <TextView
-        android:id="@+id/connection_status"
+        android:id="@+id/ipAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="36dp"
-        android:layout_marginTop="42dp"
-        android:text="Status"
+        android:layout_alignBottom="@+id/connection_status"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="60dp"
+        android:text="Indirizzo Ip"
         android:textColor="#000000"
-        android:textSize="20dp" />
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/edit_ipAddress"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/connection_status"
-        android:layout_centerHorizontal="true"
+        android:layout_alignLeft="@+id/ipAddress"
+        android:layout_below="@+id/ipAddress"
         android:background="@android:drawable/editbox_background"
-        android:ems="10" />
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
 
     <TextView
         android:id="@+id/port"
@@ -36,25 +40,6 @@
         android:textColor="#000000"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/ipAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/connection_status"
-        android:layout_alignLeft="@+id/edit_ipAddress"
-        android:text="Indirizzo Ip"
-        android:textColor="#000000"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/connect_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_port"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="Connetti" />
-
     <EditText
         android:id="@+id/edit_port"
         android:layout_width="200dp"
@@ -65,19 +50,50 @@
         android:ems="10" />
 
     <Button
-        android:id="@+id/autoconnect_button"
+        android:id="@+id/connectionBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Connessione automatica" />
+        android:layout_alignLeft="@+id/edit_port"
+        android:layout_below="@+id/edit_port"
+        android:layout_marginTop="15dp"
+        android:text="Connetti" />
 
-    <Button
-        android:id="@+id/disconnect_button"
+    <ImageView
+        android:id="@+id/test_image"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/ipAddress"
+        android:layout_marginRight="25dp"
+        android:src="@drawable/metalplate2" />
+
+    <TextView
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="  Disconnetti " />
+        android:layout_alignBottom="@+id/edit_ipAddress"
+        android:layout_alignLeft="@+id/test_image"
+        android:layout_marginLeft="15dp"
+        android:text="Robot: "
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/ipRobot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView1"
+        android:layout_alignBottom="@+id/textView1"
+        android:layout_toRightOf="@+id/textView1"
+        android:text="192.168.0.1"
+        android:textColor="#000000" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignTop="@+id/edit_port"
+        android:text="Connesso/noConnesso"
+        android:textColor="#000000" />
 
 </RelativeLayout>

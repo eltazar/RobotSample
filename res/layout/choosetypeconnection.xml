@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/configbackground4" >
+
+    <!-- android:background="#000000" -->
+
+    <Button
+        android:id="@+id/manualConnection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="76dp"
+        android:text="Connessione manuale" />
+
+    <Button
+        android:id="@+id/autoconnectBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/manualConnection"
+        android:layout_alignRight="@+id/manualConnection"
+        android:layout_below="@+id/manualConnection"
+        android:layout_marginTop="17dp"
+        android:text="Ricerca automatica" />
+
+</RelativeLayout>
