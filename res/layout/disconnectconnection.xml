@@ -23,7 +23,7 @@
         android:layout_alignTop="@+id/test_image"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="52dp"
-        android:text="Connesso/noConnesso"
+        android:text=""
         android:textColor="#000000" />
 
     <TextView
@@ -43,24 +43,16 @@
         android:layout_alignBaseline="@+id/textView1"
         android:layout_alignBottom="@+id/textView1"
         android:layout_toRightOf="@+id/textView1"
-        android:text="192.168.0.1"
-        android:textColor="#000000" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="41dp"
-        android:text="Ricerca in corso..."
+        android:text=""
         android:textColor="#000000" />
 
     <Button
         android:id="@+id/disconnectionBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="100dp"
+        android:layout_alignTop="@+id/status"
+        android:layout_marginRight="83dp"
+        android:layout_toLeftOf="@+id/test_image"
         android:text="Disconnetti robot" />
 
 </RelativeLayout>
