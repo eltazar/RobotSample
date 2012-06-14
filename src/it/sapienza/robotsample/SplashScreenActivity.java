@@ -122,8 +122,8 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 		}
 		else{
 			//mostro dialog
-			//startActivity(new Intent(this, ConfigurationActivity.class));
-			showDialog();
+			startActivity(new Intent(this, ConfigurationActivity.class));
+			//showDialog();
 		}
 	}
 
