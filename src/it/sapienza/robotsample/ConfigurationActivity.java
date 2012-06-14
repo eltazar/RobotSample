@@ -27,40 +27,86 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	private TextView portNumber;
 	private EditText ipAddressEditText;
 	private EditText portEditText;
+	private String mode;
+	private Button automaticBtn;
+	private Button manualBtn;
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       
+        mode = "no mode";
         
-        System.out.println("ON CREATE");
+        //recupero protocol adapter
+        pAdapt = ProtocolAdapter.getInstance();
+        System.out.println("PADATP = "+pAdapt);
         
+        //recupero parametri extra passati dal chiamante
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+        	mode = extras.getString("mode");
+        }
+        
+        System.out.println("ON CREATE =  "+mode);
+        
+        //decido quale xml caricare in base a pulsante del dialog premuto
+        if(mode.equals("auto")){
+        	setContentView(R.layout.automaticconnection);
+        }
+        else if(mode.equals("manual")){
+        	setContentView(R.layout.configactivity);
+        	connectBtn = (Button) findViewById(R.id.connectionBtn);
+            connectBtn.setOnClickListener(this);
+            ipAddressEditText = (EditText)findViewById(R.id.edit_ipAddress); 
+            ipAddressEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+            portEditText = (EditText)findViewById(R.id.edit_port); 
+            portEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        }
+        else{
+        	//se non dipende dal dialogo allora dipende dallo stato della connessione
+        	if(pAdapt.isThereAvaiableStream()){
+
+        		setContentView(R.layout.disconnectconnection);
+        		disconnectBtn = (Button) findViewById(R.id.disconnectionBtn);
+        		disconnectBtn.setOnClickListener(this);
+        	}
+        	else{
+        		setContentView(R.layout.choosetypeconnection);
+        		automaticBtn = (Button) findViewById(R.id.autoconnectBtn);
+        		automaticBtn.setOnClickListener(this);
+        		manualBtn = (Button) findViewById(R.id.manualConnection);
+        		manualBtn.setOnClickListener(this);
+        	}
+        }
+        
+        /*
         setContentView(R.layout.configactivity);
         connectBtn = (Button) findViewById(R.id.connect_button);
         connectBtn.setOnClickListener(this);
         
         disconnectBtn = (Button) findViewById(R.id.disconnect_button);
-        disconnectBtn.setOnClickListener(this);
+        disconnectBtn.setOnClickListener(this);*/
         //disconnectBtn.setClickable(false);
         
-        autoconnectBtn = (Button) findViewById(R.id.autoconnect_button);
+        autoconnectBtn = null;//(Button) findViewById(R.id.autoconnectBtn);
         //scanBtn = (Button) findViewById(R.id.scan_button);
         //scanBtn.setOnClickListener(this);
         
-        System.out.println("Connection pannel avviato");
+        //System.out.println("Connection pannel avviato");
         
+        /*
         ipAddress = (TextView) findViewById(R.id.ipAddress);
         portNumber = (TextView) findViewById(R.id.port);
         ipAddressEditText = (EditText)findViewById(R.id.edit_ipAddress); 
         ipAddressEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         portEditText = (EditText)findViewById(R.id.edit_port); 
         portEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        */
         
-        connectionStatus = (TextView)findViewById(R.id.connection_status); 
-        
-        pAdapt = ProtocolAdapter.getInstance();
-        System.out.println("PADATP = "+pAdapt);
+        connectionStatus = (TextView)findViewById(R.id.status); 
 
+        /*
         if(pAdapt.isThereAvaiableStream() == true){
         	//connessione attiva
         	
@@ -91,7 +137,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
         	portNumber.setVisibility(View.VISIBLE);
         	
     		connectionStatus.setText("Nessuna connessione");
-        }
+        }*/
         
         
         //NON NECESSARIO SE CONTROLLO STATO CONNESSIONE COME SOPRA
@@ -113,6 +159,26 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
     	super.onPause();
     	System.out.println("ON PAUSE");
     }
+   
+    @Override
+    public void onResume(){
+    	super.onPause();
+    	System.out.println("ON RESUME");
+    	
+    	if(ProtocolAdapter.getInstance().isThereAvaiableStream()){
+    		setContentView(R.layout.disconnectconnection);
+    		disconnectBtn = (Button) findViewById(R.id.disconnectionBtn);
+            disconnectBtn.setOnClickListener(this);
+    	}
+    	else{
+    		setContentView(R.layout.choosetypeconnection);
+        	setContentView(R.layout.choosetypeconnection);
+        	automaticBtn = (Button) findViewById(R.id.autoconnectBtn);
+        	automaticBtn.setOnClickListener(this);
+        	manualBtn = (Button) findViewById(R.id.manualConnection);
+        	manualBtn.setOnClickListener(this);
+    	}
+    }
     
     /*
     @Override
@@ -126,12 +192,18 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
     public void onClick(View v) {
         // TODO Auto-generated method stub
         switch ( v.getId() ) {
-            case R.id.connect_button:
+            case R.id.autoconnectBtn:
+            	setContentView(R.layout.automaticconnection);
+            break;
+            case R.id.manualConnection:
+            	setContentView(R.layout.configactivity);
+            break;
+            case R.id.connectionBtn:
             	final EditText ipAddress = (EditText)findViewById(R.id.edit_ipAddress);
             	final EditText port = (EditText)findViewById(R.id.edit_port);
             	connectToServer(ipAddress.getText().toString(),port.getText().toString());
             break;
-            case R.id.disconnect_button:
+            case R.id.disconnectionBtn:
             	disconnectFromServer();
             break;
             /*case R.id.scan_button:
@@ -172,6 +244,8 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
     private void connectToServer(String ipAddress,String port){
     	
     	//TextView connectionStatus = (TextView)findViewById(R.id.connection_status); 
+    	
+    	System.out.println("Cliccatto bottone connessione");
     	int portNumber;
     	
     	try{
