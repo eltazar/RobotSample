@@ -25,9 +25,6 @@ public class BaseActivity extends Activity{
    	 
         //respond to menu item selection
     	switch (item.getItemId()) {
-    		case R.id.standardcontroller:
-    			startActivity(new Intent(this, StandardRobotController.class));
-    			return true;
     		case R.id.config:
     			startActivity(new Intent(this, ConfigurationActivity.class));
     			return true;

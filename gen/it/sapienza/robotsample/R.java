@@ -20,7 +20,7 @@ public final class R {
         public static final int tagmetal=0x7f020006;
     }
     public static final class id {
-        public static final int JoyPad=0x7f06001f;
+        public static final int JoyPad=0x7f06001e;
         public static final int ahead=0x7f060016;
         public static final int autoconnectBtn=0x7f060007;
         public static final int back=0x7f060017;
@@ -46,12 +46,12 @@ public final class R {
         public static final int progressbarConnection=0x7f060004;
         public static final int right=0x7f060018;
         public static final int seekBar1=0x7f06001b;
-        public static final int standardcontroller=0x7f06001e;
         public static final int status=0x7f060001;
         public static final int test_image=0x7f060000;
         public static final int textView1=0x7f060002;
         public static final int textView2=0x7f060005;
         public static final int textViewProgress=0x7f06001c;
+        public static final int voiceControl=0x7f06001f;
     }
     public static final class layout {
         public static final int automaticconnection=0x7f030000;
