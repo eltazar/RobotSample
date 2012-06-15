@@ -31,6 +31,9 @@ public class BaseActivity extends Activity{
     		case R.id.JoyPad:
     			startActivity(new Intent(this, InterfacciaRobotActivity.class));
     			return true;
+    		case R.id.voiceControl:
+    			startActivity(new Intent(this, PocketSphinxDemo.class));
+    			return true;
     		default:
     			return super.onOptionsItemSelected(item);
     	}
