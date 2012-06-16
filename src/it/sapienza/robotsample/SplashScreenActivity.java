@@ -94,7 +94,8 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 				
 				//controllo che il primo carattere sia 6 (in ascii = "ack")
 				byte b = (byte)ack.charAt(0);
-				if(b==6){
+				//if(b==6){
+				if(ack.substring(0, 10).equals("6RoborRack")){
 					System.out.println("AUTOCONNESSIONE RIUSCITA");
 					isAutoconnected = true;
 					break;
