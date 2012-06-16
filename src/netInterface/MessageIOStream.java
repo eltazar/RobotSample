@@ -78,8 +78,10 @@ public class MessageIOStream extends Socket {
     	//System.out.println("send message as utf8 - indirizzo : "+mex);
     	//scrive un flusso di byte codificati utf-8 sull'outputStream associato al socket
     	try{
-    		outStr.write(mex.getBytes(Charset.forName("UTF-8")));
-    		//outStr.write(mex.getBytes("UTF-8"));
+    		//per android 2.3.x
+    		//utStr.write(mex.getBytes(Charset.forName("UTF-8")));
+    		//per android 2.2
+    		outStr.write(mex.getBytes("UTF-8"));
     		outStr.send(); //lo invia sullo output stream vero
     	}
     	catch(Exception e){
