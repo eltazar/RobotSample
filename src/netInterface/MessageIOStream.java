@@ -97,4 +97,8 @@ public class MessageIOStream extends Socket {
     public MessageOutputStream getMos(){
         return outStr;
     }
+    
+    public String getIpAddress(){
+    	return this.getRemoteSocketAddress().toString();
+    }
 }
