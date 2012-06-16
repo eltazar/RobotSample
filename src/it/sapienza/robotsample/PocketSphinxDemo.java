@@ -2,18 +2,19 @@ package it.sapienza.robotsample;
 
 import java.util.Date;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class PocketSphinxDemo extends Activity implements OnTouchListener, RecognitionListener {
+public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, RecognitionListener {
 	static {
 		System.loadLibrary("pocketsphinx_jni");
 	}
@@ -49,6 +50,8 @@ public class PocketSphinxDemo extends Activity implements OnTouchListener, Recog
 	 * Editable text view.
 	 */
 	EditText edit_text;
+	
+	WebView baseWV;
 	
 	/**
 	 * Respond to touch events on the Speak button.
@@ -92,7 +95,14 @@ public class PocketSphinxDemo extends Activity implements OnTouchListener, Recog
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pocketsphinx);
+		
+		baseWV = (WebView)findViewById(R.id.webView);
+		baseWV.loadUrl("http:www.google.it");
+		baseWV.getSettings().setJavaScriptEnabled(true);
+		baseWV.getSettings().setPluginsEnabled(true);
+		
 		this.rec = new RecognizerTask();
+		//rec.setUsePartials(true);
 		this.rec_thread = new Thread(this.rec);
 		this.listening = false;
 		Button b = (Button) findViewById(R.id.Button01);
@@ -107,11 +117,13 @@ public class PocketSphinxDemo extends Activity implements OnTouchListener, Recog
 	public void onPartialResults(Bundle b) {
 		final PocketSphinxDemo that = this;
 		final String hyp = b.getString("hyp");
-		that.edit_text.post(new Runnable() {
+		System.out.println("RISULTATO PARZIALE CALCOLATO = "+hyp);
+		/*that.edit_text.post(new Runnable() {
 			public void run() {
+				//System.out.println("RISULTATO PARZIALE CALCOLATO = "+hyp);
 				that.edit_text.setText(hyp);
 			}
-		});
+		});*/
 	}
 
 	/** Called with full results are generated. */
@@ -121,12 +133,10 @@ public class PocketSphinxDemo extends Activity implements OnTouchListener, Recog
 		this.edit_text.post(new Runnable() {
 			public void run() {
 				that.edit_text.setText(hyp);
-				Date end_date = new Date();
-				long nmsec = end_date.getTime() - that.start_date.getTime();
-				float rec_dur = (float)nmsec / 1000;
-				that.performance_text.setText(String.format("%.2f seconds %.2f xRT",
-															that.speech_dur,
-															rec_dur / that.speech_dur));
+				//Date end_date = new Date();
+				//long nmsec = end_date.getTime() - that.start_date.getTime();
+				//float rec_dur = (float)nmsec / 1000;
+				//that.performance_text.setText(String.format("%.2f seconds %.2f xRT", that.speech_dur,rec_dur / that.speech_dur));
 				Log.d(getClass().getName(), "Hiding Dialog");
 				that.rec_dialog.dismiss();
 			}
@@ -135,10 +145,20 @@ public class PocketSphinxDemo extends Activity implements OnTouchListener, Recog
 
 	public void onError(int err) {
 		final PocketSphinxDemo that = this;
+		
+		System.out.println("ERRORE RICONOSCIMENTO = "+err);
+		
 		that.edit_text.post(new Runnable() {
 			public void run() {
 				that.rec_dialog.dismiss();
 			}
 		});
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		
+		menu.getItem(2).setEnabled(false);
+		return true;
 	}
 }

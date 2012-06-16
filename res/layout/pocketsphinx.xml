@@ -1,35 +1,49 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#000000"
     android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/EditText01"
+    <WebView
+        android:id="@+id/webView"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:contentDescription="Recognition results"
-        android:text="Text goes here..." >
-    </EditText>
+        android:layout_height="fill_parent" />
 
-    <TextView
-        android:id="@+id/PerformanceText"
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Perfoming text" >
-    </TextView>
+        android:layout_height="match_parent" >
 
-    <Button
-        android:id="@+id/Button01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0"
-        android:text="Hold and Speak" >
+        <TextView
+            android:id="@+id/PerformanceText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="22dp"
+            android:text="Perfoming text" />
 
-    </Button>
+        <EditText
+            android:id="@+id/EditText01"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/PerformanceText"
+            android:layout_marginTop="26dp"
+            android:layout_weight="1"
+            android:contentDescription="Recognition results"
+            android:ems="10"
+            android:text="Text goes here..." />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/Button01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="0"
+            android:text="Hold and Speak" />
+
+    </RelativeLayout>
+
+</merge>
