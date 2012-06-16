@@ -99,6 +99,14 @@ public class MessageIOStream extends Socket {
     }
     
     public String getIpAddress(){
-    	return this.getRemoteSocketAddress().toString();
+    	String ip = this.getRemoteSocketAddress().toString();
+    	String[] parts = ip.split("/");
+    	
+    	return parts[0];
     }
+    
+    public int getPortNumber(){
+    	return this.getPort();
+    }
+    
 }
