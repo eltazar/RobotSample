@@ -26,6 +26,7 @@
         android:layout_alignLeft="@+id/ipAddress"
         android:layout_below="@+id/ipAddress"
         android:background="@android:drawable/editbox_background"
+        android:text="192.168.0.2"
         android:ems="10" >
 
         <requestFocus />
@@ -48,6 +49,7 @@
         android:layout_alignLeft="@+id/port"
         android:layout_below="@+id/port"
         android:background="@android:drawable/editbox_background"
+        android:text="80"
         android:ems="10" />
 
     <Button
@@ -72,37 +74,43 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/status"
-        android:layout_alignLeft="@+id/status"
-        android:layout_marginBottom="24dp"
-        android:text="Robot: "
+        android:layout_alignBaseline="@+id/edit_ipAddress"
+        android:layout_alignBottom="@+id/edit_ipAddress"
+        android:layout_alignLeft="@+id/test_image"
+        android:layout_marginLeft="21dp"
+        android:text="ROBOT: "
         android:textColor="#000000"
-        foo:customFont="fonts/droidsans.ttf" >
-    </it.sapienza.widget.CustomTextView>
+        foo:customFont="fonts/droidsans.ttf" />
 
     <it.sapienza.widget.CustomTextView
         android:id="@+id/ipRobot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView1"
-        android:layout_alignBottom="@+id/textView1"
-        android:layout_toRightOf="@+id/textView1"
-        android:text=""
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_below="@+id/edit_ipAddress"
+        android:text="Ip: --"
         android:textColor="#000000"
-        foo:customFont="fonts/droidsans.ttf" >
-    </it.sapienza.widget.CustomTextView>
+        foo:customFont="fonts/droidsans.ttf" />
+
+    <it.sapienza.widget.CustomTextView
+        android:id="@+id/portRobot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/edit_port"
+        android:layout_alignBottom="@+id/edit_port"
+        android:layout_alignLeft="@+id/ipRobot"
+        android:text="Porta: --"
+        android:textColor="#000000"
+        foo:customFont="fonts/droidsans.ttf" />
 
     <it.sapienza.widget.CustomTextView
         android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/test_image"
-        android:layout_alignTop="@+id/test_image"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="52dp"
-        android:text=""
+        android:layout_alignLeft="@+id/portRobot"
+        android:layout_below="@+id/edit_port"
+        android:text="Non connesso"
         android:textColor="#000000"
-        foo:customFont="fonts/droidsans.ttf" >
-    </it.sapienza.widget.CustomTextView>
+        foo:customFont="fonts/droidsans.ttf" />
 
 </RelativeLayout>

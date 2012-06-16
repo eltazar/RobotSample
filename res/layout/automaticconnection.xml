@@ -13,45 +13,8 @@
         android:layout_height="150dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="25dp"
+        android:layout_marginRight="26dp"
         android:src="@drawable/metalplate2" />
-
-    <it.sapienza.widget.CustomTextView
-        android:id="@+id/status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/test_image"
-        android:layout_alignTop="@+id/test_image"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="52dp"
-        android:text=""
-        android:textColor="#000000"
-        foo:customFont="fonts/droidsans.ttf" >
-    </it.sapienza.widget.CustomTextView>
-
-    <it.sapienza.widget.CustomTextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/status"
-        android:layout_alignLeft="@+id/status"
-        android:layout_marginBottom="24dp"
-        android:text="Robot: "
-        android:textColor="#000000"
-        foo:customFont="fonts/droidsans.ttf" >
-    </it.sapienza.widget.CustomTextView>
-
-    <it.sapienza.widget.CustomTextView
-        android:id="@+id/ipRobot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView1"
-        android:layout_alignBottom="@+id/textView1"
-        android:layout_toRightOf="@+id/textView1"
-        android:text=""
-        android:textColor="#000000"
-        foo:customFont="fonts/droidsans.ttf" >
-    </it.sapienza.widget.CustomTextView>
 
     <ProgressBar
         android:id="@+id/progressbarConnection"
@@ -59,8 +22,8 @@
         android:layout_width="200dip"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/status"
-        android:layout_marginLeft="53dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="47dp"
         android:max="254" />
 
     <it.sapienza.widget.CustomTextView
@@ -69,10 +32,53 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/progressbarConnection"
         android:layout_alignRight="@+id/progressbarConnection"
-        android:layout_marginRight="40dp"
+        android:layout_marginRight="42dp"
         android:text="Ricerca in corso..."
         android:textColor="#FFFFFF"
-        foo:customFont="fonts/droidsans.ttf" >
-    </it.sapienza.widget.CustomTextView>
+        foo:customFont="fonts/droidsans.ttf" />
+
+    <it.sapienza.widget.CustomTextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/test_image"
+        android:layout_marginTop="85dp"
+        android:layout_marginLeft="22dp"
+        android:text="ROBOT: "
+        android:textColor="#000000"
+        foo:customFont="fonts/droidsans.ttf" />
+
+    <it.sapienza.widget.CustomTextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/test_image"
+        android:layout_marginTop="160dp"
+        android:layout_marginLeft="22dp"
+        android:text="Non connesso"
+        android:textColor="#000000"
+        foo:customFont="fonts/droidsans.ttf" />
+
+    <it.sapienza.widget.CustomTextView
+        android:id="@+id/portRobot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/test_image"
+        android:layout_marginTop="135dp"
+        android:layout_marginLeft="22dp"
+        android:text="Porta: --"
+        android:textColor="#000000"
+        foo:customFont="fonts/droidsans.ttf" />
+
+    <it.sapienza.widget.CustomTextView
+        android:id="@+id/ipRobot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/test_image"
+        android:layout_marginTop="110dp"
+        android:layout_marginLeft="22dp"
+        android:text="Ip: --"
+        android:textColor="#000000"
+        foo:customFont="fonts/droidsans.ttf" />
 
 </RelativeLayout>

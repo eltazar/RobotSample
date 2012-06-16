@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:foo="http://schemas.android.com/apk/res/it.sapienza.robotsample"
+    xmlns:foo="http://schemas.android.com/apk/res/it.sapienza.robotsample"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/configbackground4" >
@@ -16,50 +16,56 @@
         android:layout_marginRight="25dp"
         android:src="@drawable/metalplate2" />
 
-    <it.sapienza.widget.CustomTextView
-        android:id="@+id/status"
+    <Button
+        android:id="@+id/disconnectionBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/test_image"
-        android:layout_alignTop="@+id/test_image"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="52dp"
-        android:text=""
-        android:textColor="#000000"
-        foo:customFont="fonts/droidsans.ttf" >
-    </it.sapienza.widget.CustomTextView>
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="58dp"
+        android:text="Disconnetti robot" />
 
     <it.sapienza.widget.CustomTextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/status"
-        android:layout_alignLeft="@+id/status"
-        android:layout_marginBottom="24dp"
-        android:text="Robot: "
+        android:layout_alignLeft="@+id/test_image"
+        android:layout_marginTop="85dp"
+        android:layout_marginLeft="22dp"
+        android:text="ROBOT: "
         android:textColor="#000000"
-        foo:customFont="fonts/droidsans.ttf" >
-    </it.sapienza.widget.CustomTextView>
+        foo:customFont="fonts/droidsans.ttf" />
 
     <it.sapienza.widget.CustomTextView
         android:id="@+id/ipRobot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView1"
-        android:layout_alignBottom="@+id/textView1"
-        android:layout_toRightOf="@+id/textView1"
-        android:text=""
+        android:layout_alignLeft="@+id/test_image"
+        android:layout_marginTop="110dp"
+        android:layout_marginLeft="22dp"
+        android:text="Ip:"
         android:textColor="#000000"
-        foo:customFont="fonts/droidsans.ttf" >
-    </it.sapienza.widget.CustomTextView>
+        foo:customFont="fonts/droidsans.ttf" />
 
-    <Button
-        android:id="@+id/disconnectionBtn"
+    <it.sapienza.widget.CustomTextView
+        android:id="@+id/portRobot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/status"
-        android:layout_marginRight="83dp"
-        android:layout_toLeftOf="@+id/test_image"
-        android:text="Disconnetti robot" />
+        android:layout_alignLeft="@+id/test_image"
+        android:layout_marginTop="135dp"
+        android:layout_marginLeft="22dp"
+        android:text="Porta:"
+        android:textColor="#000000"
+        foo:customFont="fonts/droidsans.ttf" />
+
+    <it.sapienza.widget.CustomTextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/test_image"
+        android:layout_marginTop="160dp"
+        android:layout_marginLeft="22dp"
+        android:text="Stato:"
+        android:textColor="#000000"
+        foo:customFont="fonts/droidsans.ttf" />
 
 </RelativeLayout>
