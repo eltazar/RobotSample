@@ -27,6 +27,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	private ProtocolAdapter pAdapt;
 
 	private TextView ipRobot;
+	private TextView portRobot;
 	private TextView status;
 
 	private EditText ipAddressEditText;
@@ -53,7 +54,8 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		}
 
 		//System.out.println("ON CREATE =  "+mode);
-
+		
+		/*
 		//in base allo stato della connessione carico l'opportuno layout
 		if(pAdapt.isThereAvaiableStream()){
 
@@ -64,7 +66,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			ipRobot = (TextView) findViewById(R.id.ipRobot);
 
 			status.setText("Connesso");
-			ipRobot.setText(pAdapt.getAssociatedStream().getIpAddress());
+			ipRobot.setText("Ip :"+pAdapt.getAssociatedStream().getIpAddress());
 		}
 		else{
 			setContentView(R.layout.choosetypeconnection);
@@ -73,7 +75,9 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			manualBtn = (Button) findViewById(R.id.manualConnection);
 			manualBtn.setOnClickListener(this);
 		}
-
+		
+		*/
+		
 		//NON NECESSARIO SE CONTROLLO STATO CONNESSIONE COME SOPRA
 		//se ho salvato uno stato precedente, in cui la connessione era stata stabilita setto i tasti
 		/* if( savedInstanceState != null ) {
@@ -101,15 +105,19 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 
 		if(ProtocolAdapter.getInstance().isThereAvaiableStream()){
 			setContentView(R.layout.disconnectconnection);
+			
 			disconnectBtn = (Button) findViewById(R.id.disconnectionBtn);
 			status = (TextView) findViewById(R.id.status);
+			ipRobot = (TextView) findViewById(R.id.ipRobot);
+			portRobot = (TextView) findViewById(R.id.portRobot);
 			disconnectBtn.setOnClickListener(this);
+			
 			status.setText("Connesso");
-			System.out.println("INDIRIZZO IP AL QUALE SONO CONNESSO"+pAdapt.getAssociatedStream().getIpAddress());
-			ipRobot.setText(pAdapt.getAssociatedStream().getIpAddress());
+			//System.out.println("INDIRIZZO IP AL QUALE SONO CONNESSO"+pAdapt.getAssociatedStream().getIpAddress());
+			ipRobot.setText("Ip: "+pAdapt.getAssociatedStream().getIpAddress());
+			portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
 		}
 		else{
-			setContentView(R.layout.choosetypeconnection);
 			setContentView(R.layout.choosetypeconnection);
 			automaticBtn = (Button) findViewById(R.id.autoconnectBtn);
 			automaticBtn.setOnClickListener(this);
@@ -145,6 +153,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			portEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
 			status = (TextView) findViewById(R.id.status);
 			ipRobot = (TextView) findViewById(R.id.ipRobot);
+			portRobot = (TextView) findViewById(R.id.portRobot);
 			break;
 		case R.id.connectionBtn:
 			final EditText ipAddress = (EditText)findViewById(R.id.edit_ipAddress);
@@ -182,7 +191,8 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 
 				System.out.println("Client: Connessione terminata");
 
-				ipRobot.setText("");
+				ipRobot.setText("Ip: --");
+				portRobot.setText("Porta: --");
 				status.setText("Disconnesso");
 				//rimuovo lo stream associato durante la connessione
 				pAdapt.setProtocolAdapter(null);
@@ -206,10 +216,13 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 				//creo socket con stream in/out associati
 				System.out.println("Client: Richiesta connessione con: " + ipAddress+"/"+port);
 				socketAndStream = new MessageIOStream( InetAddress.getByName(ipAddress),portNumber,5000);
-				status.setText("Connesso");
 				System.out.println("Client: Connessione stabilita");
 				//associo al protocolAdapter un socket e stream
 				pAdapt.setProtocolAdapter(socketAndStream);
+				
+				status.setText("Connesso");
+				ipRobot.setText("Ip: "+ pAdapt.getAssociatedStream().getIpAddress());
+				portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
 			}
 			catch (UnknownHostException ex) {
 				System.out.println("Client: Impossibile connettersi"+ex.getLocalizedMessage());
@@ -227,12 +240,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		}
 
 	}
-
-	private void changeFont(TextView textview){
-		Typeface font=Typeface.createFromAsset(getAssets(), "fonts/droidsans.ttf");
-		textview.setTypeface(font);
-	}
-
+	
 	@Override
 	public boolean onPrepareOptionsMenu (Menu menu) {
 		//disabilita il relativo tasto del menu option
