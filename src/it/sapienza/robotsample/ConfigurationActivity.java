@@ -71,31 +71,9 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		if(extras != null) {
 			//mode = extras.getString("mode");
 		}
-
+		
 		System.out.println("ON CREATE confituration activity");
 		
-		/*
-		//in base allo stato della connessione carico l'opportuno layout
-		if(pAdapt.isThereAvaiableStream()){
-
-			setContentView(R.layout.disconnectconnection);
-			disconnectBtn = (Button) findViewById(R.id.disconnectionBtn);
-			disconnectBtn.setOnClickListener(this);
-			status = (TextView) findViewById(R.id.status);
-			ipRobot = (TextView) findViewById(R.id.ipRobot);
-
-			status.setText("Connesso");
-			ipRobot.setText("Ip :"+pAdapt.getAssociatedStream().getIpAddress());
-		}
-		else{
-			setContentView(R.layout.choosetypeconnection);
-			automaticBtn = (Button) findViewById(R.id.autoconnectBtn);
-			automaticBtn.setOnClickListener(this);
-			manualBtn = (Button) findViewById(R.id.manualConnection);
-			manualBtn.setOnClickListener(this);
-		}
-		
-		*/
 	}
 
 	@Override
@@ -141,13 +119,12 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		// TODO Auto-generated method stub
 		switch ( v.getId() ) {
 		case R.id.autoconnectBtn:
-			//doAutoconnection();
 			loadLayoutConnection("auto");
-			networkScanning();
+			if(pAdapt.isThereAvaiableStream() == false)
+				networkScanning();
 			break;	
 		case R.id.manualConnection:
 			loadLayoutConnection("manual");
-			//doManualconnection();
 			break;
 		case R.id.connectionBtn:
 			final EditText ipAddress = (EditText)findViewById(R.id.edit_ipAddress);
@@ -158,7 +135,6 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			disconnectFromServer();
 			break;
 		case R.id.rescan:
-			//doAutoconnection();
 			networkScanning();
 			break;
 		case R.id.back:
@@ -170,31 +146,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			break;
 		}
 	}
-	
-	/*
-	private void doAutoconnection(){
-		setContentView(R.layout.automaticconnection);
-		findViewReferences();
-		rescanBtn = (Button) findViewById(R.id.rescan);
-		rescanBtn.setEnabled(false);
-		rescanBtn.setOnClickListener(this);
-		backBtn = (Button) findViewById(R.id.back);
-		backBtn.setOnClickListener(this);
-		bar = (ProgressBar) findViewById(R.id.progressbarConnection);
-		networkScanning();
-	}
-	
-	private void doManualconnection(){
-		setContentView(R.layout.manualconnection);
-		connectBtn = (Button) findViewById(R.id.connectionBtn);
-		connectBtn.setOnClickListener(this);
-		ipAddressEditText = (EditText)findViewById(R.id.edit_ipAddress); 
-		ipAddressEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
-		portEditText = (EditText)findViewById(R.id.edit_port); 
-		portEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
-		findViewReferences();
-	}
-	*/
+
 	private void loadLayoutConnection(String type){
 		
 		if(type.equals("manual")){
@@ -213,10 +165,33 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			rescanBtn.setOnClickListener(this);
 			bar = (ProgressBar) findViewById(R.id.progressbarConnection);
 		}
+		
 		//recupero view comuni a tutti i layout
 		findViewReferences();
 		backBtn = (Button) findViewById(R.id.back);
 		backBtn.setOnClickListener(this);
+		
+		
+		//controllo stato connessione e aggiorno textView
+		if(pAdapt.isThereAvaiableStream()){
+			status.setText("Connesso");
+			ipRobot.setText("Ip: "+pAdapt.getAssociatedStream().getIpAddress());
+			portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
+			if(rescanBtn != null)
+				rescanBtn.setEnabled(false);
+			if(connectBtn != null)
+				connectBtn.setEnabled(false);
+		}
+		else{
+			status.setText("Non connesso");
+			ipRobot.setText("Ip: --");
+			portRobot.setText("Porta: --");
+			if(rescanBtn != null)
+				rescanBtn.setEnabled(true);
+			if(connectBtn != null)
+				connectBtn.setEnabled(true);
+		}
+		
 	}
 	
 
@@ -345,6 +320,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 				status.setText("Connesso");
 				ipRobot.setText("Ip: "+ pAdapt.getAssociatedStream().getIpAddress());
 				portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
+				connectBtn.setEnabled(false);
 			}
 			catch (UnknownHostException ex) {
 				System.out.println("Client: Impossibile connettersi"+ex.getLocalizedMessage());
