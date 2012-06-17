@@ -29,7 +29,9 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	private Button disconnectBtn;
 	private Button automaticBtn;
 	private Button manualBtn;
-
+	private Button rescanBtn;
+	private Button backBtn;
+	
 	private ProtocolAdapter pAdapt;
 
 	private TextView ipRobot;
@@ -139,21 +141,13 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		// TODO Auto-generated method stub
 		switch ( v.getId() ) {
 		case R.id.autoconnectBtn:
-			setContentView(R.layout.automaticconnection);
-			findViewReferences();
-			bar = (ProgressBar) findViewById(R.id.progressbarConnection);
+			//doAutoconnection();
+			loadLayoutConnection("auto");
 			networkScanning();
-			//startActivity(new Intent(this, SplashScreenActivity.class));
-			break;
+			break;	
 		case R.id.manualConnection:
-			setContentView(R.layout.manualconnection);
-			connectBtn = (Button) findViewById(R.id.connectionBtn);
-			connectBtn.setOnClickListener(this);
-			ipAddressEditText = (EditText)findViewById(R.id.edit_ipAddress); 
-			ipAddressEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
-			portEditText = (EditText)findViewById(R.id.edit_port); 
-			portEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
-			findViewReferences();
+			loadLayoutConnection("manual");
+			//doManualconnection();
 			break;
 		case R.id.connectionBtn:
 			final EditText ipAddress = (EditText)findViewById(R.id.edit_ipAddress);
@@ -163,8 +157,68 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		case R.id.disconnectionBtn:
 			disconnectFromServer();
 			break;
+		case R.id.rescan:
+			//doAutoconnection();
+			networkScanning();
+			break;
+		case R.id.back:
+			setContentView(R.layout.choosetypeconnection);
+			automaticBtn = (Button) findViewById(R.id.autoconnectBtn);
+			automaticBtn.setOnClickListener(this);
+			manualBtn = (Button) findViewById(R.id.manualConnection);
+			manualBtn.setOnClickListener(this);
+			break;
 		}
 	}
+	
+	/*
+	private void doAutoconnection(){
+		setContentView(R.layout.automaticconnection);
+		findViewReferences();
+		rescanBtn = (Button) findViewById(R.id.rescan);
+		rescanBtn.setEnabled(false);
+		rescanBtn.setOnClickListener(this);
+		backBtn = (Button) findViewById(R.id.back);
+		backBtn.setOnClickListener(this);
+		bar = (ProgressBar) findViewById(R.id.progressbarConnection);
+		networkScanning();
+	}
+	
+	private void doManualconnection(){
+		setContentView(R.layout.manualconnection);
+		connectBtn = (Button) findViewById(R.id.connectionBtn);
+		connectBtn.setOnClickListener(this);
+		ipAddressEditText = (EditText)findViewById(R.id.edit_ipAddress); 
+		ipAddressEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+		portEditText = (EditText)findViewById(R.id.edit_port); 
+		portEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+		findViewReferences();
+	}
+	*/
+	private void loadLayoutConnection(String type){
+		
+		if(type.equals("manual")){
+			setContentView(R.layout.manualconnection);
+			connectBtn = (Button) findViewById(R.id.connectionBtn);
+			connectBtn.setOnClickListener(this);
+			ipAddressEditText = (EditText)findViewById(R.id.edit_ipAddress); 
+			ipAddressEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+			portEditText = (EditText)findViewById(R.id.edit_port); 
+			portEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+		}
+		else if(type.equals("auto")){
+			setContentView(R.layout.automaticconnection);
+			rescanBtn = (Button) findViewById(R.id.rescan);
+			rescanBtn.setEnabled(false);
+			rescanBtn.setOnClickListener(this);
+			bar = (ProgressBar) findViewById(R.id.progressbarConnection);
+		}
+		//recupero view comuni a tutti i layout
+		findViewReferences();
+		backBtn = (Button) findViewById(R.id.back);
+		backBtn.setOnClickListener(this);
+	}
+	
 
 	private void networkScanning(){
 		
@@ -174,7 +228,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		new Thread(new Runnable(){
 			public void run(){
 				scannedIp = NetworkUtility.getInstance().doScan();
-				autoConnect(ipRobot,portRobot,status);				
+				autoConnect();				
 			};
 		}).start();
 	}	
@@ -182,7 +236,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	/*
 	 * SISTEMARE STA COSA: autoconnect è sia qui che in splashScreenActivity-> disaccopiare
 	 * **/
-	private void autoConnect(TextView...textViews){
+	private void autoConnect(){
 		System.out.println("#### Inizio prova autoconnesione...");
 		String ack = "";
 		boolean isAutoconnected = false;
@@ -243,6 +297,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			    	ipRobot.setText("Ip: --");
 					portRobot.setText("Porta: --");
 					status.setText("Impossibile connettersi");
+					rescanBtn.setEnabled(true);
 					bar.setProgress(0);
 			    }
 			});
