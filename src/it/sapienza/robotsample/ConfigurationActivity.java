@@ -1,23 +1,29 @@
 package it.sapienza.robotsample;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import netInterface.*;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class ConfigurationActivity extends BaseActivity implements OnClickListener{
 
-	private static final int INVISIBLE = 1;
-	private static final int VISIBLE = 0;
 	private netInterface.MessageIOStream socketAndStream;
 	private Button connectBtn;
 	private Button disconnectBtn;
@@ -32,7 +38,20 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 
 	private EditText ipAddressEditText;
 	private EditText portEditText;
+	
+	private ArrayList<String> scannedIp;
 
+	private ProgressBar bar;
+	
+	//gestore per i messaggi relativi alla progress bar
+	Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			System.out.println("INCREMENTO PROGRESS BAR");
+			//incremento la status bar col valore ritornato
+			bar.incrementProgressBy(msg.what);
+		}
+	};
 	//private String mode;
 
 
@@ -45,7 +64,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 
 		//recupero protocol adapter
 		pAdapt = ProtocolAdapter.getInstance();
-		System.out.println("PADATP = "+pAdapt);
+		System.out.println("PADATP = "+pAdapt+"LISTA INDIRIZZI = "+NetworkUtility.getInstance().getIpAddresses());
 
 		//recupero parametri extra passati dal chiamante
 		Bundle extras = getIntent().getExtras();
@@ -142,6 +161,10 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			setContentView(R.layout.automaticconnection);
 			status = (TextView) findViewById(R.id.status);
 			ipRobot = (TextView) findViewById(R.id.ipRobot);
+			portRobot = (TextView) findViewById(R.id.portRobot);
+			bar = (ProgressBar) findViewById(R.id.progressbarConnection);
+			networkScanning();
+			//startActivity(new Intent(this, SplashScreenActivity.class));
 			break;
 		case R.id.manualConnection:
 			setContentView(R.layout.manualconnection);
@@ -175,14 +198,97 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		}
 	}
 
-	private void disconnectFromServer(){
-		//TextView connectionStatus = (TextView)findViewById(R.id.connection_status); 
-		try {
-			//    		 //socketAndStream = pAdapt.getSocketStream();
-			//    		 socketAndStream.getMis().closeInput();
-			//             socketAndStream.getMos().closeOutput();
-			//             socketAndStream.close();
+	private void networkScanning(){
+		
+		NetworkUtility.getInstance().setContext(this);
+		NetworkUtility.getInstance().setHandler(handler);
+		
+		new Thread(new Runnable(){
+			public void run(){
+				scannedIp = NetworkUtility.getInstance().doScan();
+				autoConnect(ipRobot,portRobot,status);				
+			};
+		}).start();
+	}	
+	
+	/*
+	 * SISTEMARE STA COSA: autoconnect è sia qui che in splashScreenActivity-> disaccopiare
+	 * **/
+	private void autoConnect(TextView...textViews){
+		System.out.println("#### Inizio prova autoconnesione...");
+		String ack = "";
+		boolean isAutoconnected = false;
+		
+		for( String ip : scannedIp){
+			System.out.println("Sto provando a connettermi a: = "+ip);
+			
+			MessageIOStream socket;
+			
+			try {
+				socket = new MessageIOStream(InetAddress.getByName(ip),80,5000);
+				pAdapt.setProtocolAdapter(socket);
+				try {
+					//mando messaggio al server per dire che sono l'app
+					ack = pAdapt.sendMessage("#CNT0\r");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println("Ack ricevuto = "+ack+" Lunghezza = "+ack.length());
 
+				//se ricevo ack corretto fermo ciclo
+				System.out.println("Substring ack = "+ack.substring(1, ack.length()));
+				
+				//controllo che il primo carattere sia 6 (in ascii = "ack")
+				byte b = (byte)ack.charAt(0);
+				//if(b==6){
+				if(ack.substring(0, 10).equals("6RoborRack")){
+					System.out.println("AUTOCONNESSIONE RIUSCITA");
+					isAutoconnected = true;
+					break;
+				}
+				//altrimenti chiudo socket e risorse associate
+				socket.getMis().closeInput();
+				socket.getMos().closeOutput();
+				socket.close();
+				pAdapt.setProtocolAdapter(null);				
+
+			} catch (UnknownHostException e) {
+				System.out.println(" Eccezione = "+e.getLocalizedMessage());
+				e.printStackTrace();
+			} catch (IOException e) {
+				System.out.println(" Eccezione = "+e.getLocalizedMessage());
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		if(isAutoconnected == true){
+			//se autoconnessione avvenuta mostro interfaccia con joystick
+			startActivity(new Intent(this, InterfacciaRobotActivity.class));
+
+		}
+		else{
+			System.out.println("Autoconnessione non riuscita -> aggiorno activity");
+			ConfigurationActivity.this.runOnUiThread(new Runnable() {
+			    public void run() {
+			    	refreshActivity();
+			    }
+			});
+		}
+	}
+	
+	private void refreshActivity(){
+		
+		ipRobot.setText("Ip: --");
+		portRobot.setText("Porta: --");
+		status.setText("Impossibile connettersi");
+		bar.setProgress(0);
+	}
+	
+	private void disconnectFromServer(){
+
+		try {
 			if(pAdapt.isThereAvaiableStream()){
 				MessageIOStream tempSock = pAdapt.getAssociatedStream();
 				tempSock.getMis().closeInput();
