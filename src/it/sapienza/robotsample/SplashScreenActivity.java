@@ -45,7 +45,7 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 
 		bar = (ProgressBar) findViewById(R.id.progress);
 		//associo al networkScanner l'handler
-		netScan = new NetworkUtility(handler,this);
+		netScan = NetworkUtility.getInstance();
 	}
 	
 	@Override
@@ -53,6 +53,8 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 		super.onStart();
 		bar.setProgress(0);
 
+		netScan.setContext(this);
+		netScan.setHandler(handler);
 		//lancio ricerca su un nuovo thread
 		new Thread(new Runnable(){
 			public void run(){

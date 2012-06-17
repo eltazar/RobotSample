@@ -1,6 +1,8 @@
 package netInterface;
 
 
+import it.sapienza.robotsample.ProtocolAdapter;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -20,16 +22,30 @@ import android.os.Handler;
 
 public class NetworkUtility{
 
-	private static final int NB_THREADS = 10;
+	private static final int NB_THREADS = 5;
 	private static final String LOG_TAG = "NetworkScanner";
 	private Context mContext;
 	private ArrayList<String> ipScanned;
 	private Handler handler;
 	
+	private static NetworkUtility netUtil = null;
+	
 	/*
 	 * 
 	 * */
-	public NetworkUtility(Activity act) {
+	
+	public static NetworkUtility getInstance(){
+		if(netUtil == null){
+			netUtil = new NetworkUtility();
+		}
+		return netUtil;
+	}
+	
+	private NetworkUtility(){
+		ipScanned = new ArrayList<String>();
+		
+	}
+/*	public NetworkUtility(Activity act) {
 		mContext = act;
 		ipScanned = new ArrayList<String>();
 	}
@@ -40,7 +56,16 @@ public class NetworkUtility{
 		this.handler = handler;
 		ipScanned = new ArrayList<String>();
 	}
-
+*/
+	
+	public void setContext(Context ac){
+		mContext = ac;
+	}
+	
+	public void setHandler(Handler h){
+		handler = h;
+	}
+	
 	/*
 	 * Effettua una scansione multithread della subnet al quale siamo connessi
 	 * */
@@ -49,6 +74,9 @@ public class NetworkUtility{
 
 	    //trovo indirizzo gateway
 	    String gtw = getPreGatewayString();
+	    
+	    //rimuovo precedenti risultati
+	    ipScanned.clear();
 	    
 	    //creo pool di n thread
 	    ExecutorService executor = Executors.newFixedThreadPool(NB_THREADS);
@@ -67,6 +95,7 @@ public class NetworkUtility{
 
 	    Log.i(LOG_TAG, "Scan finished");
 	    System.out.println("Ip raggiungibili \n = "+ipScanned);
+	    
 	    return ipScanned;
 	}
 
@@ -83,7 +112,7 @@ public class NetworkUtility{
 	                	ipScanned.add(host);
 	                }	                	
 	                if(handler != null){
-	                	//se handler esiste invio messaggio di incremento di 1 perchè un host è stato scansionato
+	                	//se handler esiste invio messaggio di incremento di 1 perchÔøΩ un host ÔøΩ stato scansionato
 	                	handler.sendEmptyMessage(1);
 	                }
 	                
@@ -96,30 +125,8 @@ public class NetworkUtility{
 	    };
 	}
 	
-/*	public int scannerFasullo(int count){
-		String host = "192.168.0."+Integer.toString(count);
-		Log.i(LOG_TAG, "Pinging " + host + "...");
-		try {
-            InetAddress inet = InetAddress.getByName(host);
-            boolean reachable = inet.isReachable(1000);
-            Log.i(LOG_TAG, "=> Result: " + (reachable ? "reachable" : "not reachable"));
-            if(reachable){
-            	ipScanned.add(host);
-            }	                	
-            if(handler != null){
-            	handler.sendEmptyMessage(1);
-            }
-            
-        } catch (UnknownHostException e) {
-            Log.e(LOG_TAG, "Not found", e);
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "IO Error", e);
-        }  
-		return count;
-	}
-*/	
 	/*
-	 * Ritorna le informazioni relative all'hotspot al quale il device è connesso
+	 * Ritorna le informazioni relative all'hotspot al quale il device ÔøΩ connesso
 	 * */
 	public void getInfoWifiConnection(){
 		
@@ -163,6 +170,10 @@ public class NetworkUtility{
 	     }
 		
 		return gtwTok.get(0)+"."+gtwTok.get(1)+"."+gtwTok.get(2);
+	}
+	
+	public ArrayList<String> getIpAddresses(){
+		return ipScanned;
 	}
 	
 }
