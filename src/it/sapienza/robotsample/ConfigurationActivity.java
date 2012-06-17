@@ -187,14 +187,13 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			ipRobot.setText("Ip: --");
 			portRobot.setText("Porta: --");
 			if(rescanBtn != null)
-				rescanBtn.setEnabled(true);
+				rescanBtn.setEnabled(false);
 			if(connectBtn != null)
 				connectBtn.setEnabled(true);
 		}
 		
 	}
 	
-
 	private void networkScanning(){
 		
 		NetworkUtility.getInstance().setContext(this);
@@ -262,8 +261,21 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 
 		if(isAutoconnected == true){
 			//se autoconnessione avvenuta mostro interfaccia con joystick
-			startActivity(new Intent(this, InterfacciaRobotActivity.class));
+			
+			//lancio activity joystick appena connesso
+			//startActivity(new Intent(this, InterfacciaRobotActivity.class));
 
+			//oppure aggiorno interfaccia e mostro optionMenu ----> DA DECIDERE
+			ConfigurationActivity.this.runOnUiThread(new Runnable() {
+			    public void run() {
+			    	ipRobot.setText("Ip: "+pAdapt.getAssociatedStream().getIpAddress());
+					portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
+					status.setText("Connesso");
+					rescanBtn.setEnabled(false);
+					bar.setProgress(0);
+			    	openOptionsMenu();
+			    }
+			});
 		}
 		else{
 			System.out.println("Autoconnessione non riuscita -> aggiorno activity");
@@ -321,6 +333,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 				ipRobot.setText("Ip: "+ pAdapt.getAssociatedStream().getIpAddress());
 				portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
 				connectBtn.setEnabled(false);
+				this.openOptionsMenu();
 			}
 			catch (UnknownHostException ex) {
 				System.out.println("Client: Impossibile connettersi"+ex.getLocalizedMessage());
