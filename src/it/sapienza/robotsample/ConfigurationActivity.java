@@ -60,11 +60,9 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		//mode = "no mode";
-
 		//recupero protocol adapter
 		pAdapt = ProtocolAdapter.getInstance();
-		System.out.println("PADATP = "+pAdapt+"LISTA INDIRIZZI = "+NetworkUtility.getInstance().getIpAddresses());
+		//System.out.println("PADATP = "+pAdapt+"LISTA INDIRIZZI = "+NetworkUtility.getInstance().getIpAddresses());
 
 		//recupero parametri extra passati dal chiamante
 		Bundle extras = getIntent().getExtras();
@@ -72,7 +70,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			//mode = extras.getString("mode");
 		}
 
-		//System.out.println("ON CREATE =  "+mode);
+		System.out.println("ON CREATE confituration activity");
 		
 		/*
 		//in base allo stato della connessione carico l'opportuno layout
@@ -96,39 +94,24 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		}
 		
 		*/
-		
-		//NON NECESSARIO SE CONTROLLO STATO CONNESSIONE COME SOPRA
-		//se ho salvato uno stato precedente, in cui la connessione era stata stabilita setto i tasti
-		/* if( savedInstanceState != null ) {
-        	System.out.println("Recupero stato salvato");
-        	if(savedInstanceState .getString("connStatus").equals("Connesso")){
-        		connectBtn.setClickable(false);
-        		disconnectBtn.setClickable(true);
-        	}
-        	//setto la label con lo status giusto
-        	connectionStatus.setText(savedInstanceState .getString("connStatus"));
-        }
-		 */
 	}
 
 	@Override
 	public void onPause(){
 		super.onPause();
-		System.out.println("ON PAUSE");
+		System.out.println("ON PAUSE configuration activity");
 	}
 
 	@Override
 	public void onResume(){
 		super.onPause();
-		System.out.println("ON RESUME");
+		System.out.println("ON RESUME configuration activity");
 
 		if(ProtocolAdapter.getInstance().isThereAvaiableStream()){
 			setContentView(R.layout.disconnectconnection);
 			
 			disconnectBtn = (Button) findViewById(R.id.disconnectionBtn);
-			status = (TextView) findViewById(R.id.status);
-			ipRobot = (TextView) findViewById(R.id.ipRobot);
-			portRobot = (TextView) findViewById(R.id.portRobot);
+			findViewReferences();
 			disconnectBtn.setOnClickListener(this);
 			
 			status.setText("Connesso");
@@ -145,23 +128,19 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		}
 	}
 
-	/*
-    @Override
-    protected void onSaveInstanceState (Bundle outState){
-    	super.onSaveInstanceState(outState);
-    	System.out.println("SALVO STATO");
-    	outState.putString("connStatus",connectionStatus.getText().toString());
-    }*/
-
+	private void findViewReferences(){
+		status = (TextView) findViewById(R.id.status);
+		ipRobot = (TextView) findViewById(R.id.ipRobot);
+		portRobot = (TextView) findViewById(R.id.portRobot);
+	}
+	
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch ( v.getId() ) {
 		case R.id.autoconnectBtn:
 			setContentView(R.layout.automaticconnection);
-			status = (TextView) findViewById(R.id.status);
-			ipRobot = (TextView) findViewById(R.id.ipRobot);
-			portRobot = (TextView) findViewById(R.id.portRobot);
+			findViewReferences();
 			bar = (ProgressBar) findViewById(R.id.progressbarConnection);
 			networkScanning();
 			//startActivity(new Intent(this, SplashScreenActivity.class));
@@ -174,9 +153,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			ipAddressEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
 			portEditText = (EditText)findViewById(R.id.edit_port); 
 			portEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
-			status = (TextView) findViewById(R.id.status);
-			ipRobot = (TextView) findViewById(R.id.ipRobot);
-			portRobot = (TextView) findViewById(R.id.portRobot);
+			findViewReferences();
 			break;
 		case R.id.connectionBtn:
 			final EditText ipAddress = (EditText)findViewById(R.id.edit_ipAddress);
@@ -186,15 +163,6 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		case R.id.disconnectionBtn:
 			disconnectFromServer();
 			break;
-			/*case R.id.scan_button:
-            	//MessageIOStream.checkHosts("192.168.0");
-            	System.out.println("STO PER AVVIARE IP SCAN");
-            	//MessageIOStream.checkReachable();
-            	NetworkUtility netScan = new NetworkUtility(this);
-            	//netScan.getInfoWifiConnection();
-            	netScan.doScan();
-            break;
-			 */
 		}
 	}
 
@@ -272,18 +240,13 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			System.out.println("Autoconnessione non riuscita -> aggiorno activity");
 			ConfigurationActivity.this.runOnUiThread(new Runnable() {
 			    public void run() {
-			    	refreshActivity();
+			    	ipRobot.setText("Ip: --");
+					portRobot.setText("Porta: --");
+					status.setText("Impossibile connettersi");
+					bar.setProgress(0);
 			    }
 			});
 		}
-	}
-	
-	private void refreshActivity(){
-		
-		ipRobot.setText("Ip: --");
-		portRobot.setText("Porta: --");
-		status.setText("Impossibile connettersi");
-		bar.setProgress(0);
 	}
 	
 	private void disconnectFromServer(){
@@ -309,8 +272,6 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	}
 
 	private void connectToServer(String ipAddress,String port){
-
-		//TextView connectionStatus = (TextView)findViewById(R.id.connection_status); 
 
 		System.out.println("Cliccatto bottone connessione");
 		int portNumber;
