@@ -11,10 +11,13 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
-public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, RecognitionListener {
+public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, RecognitionListener, OnCheckedChangeListener {
 	static {
 		System.loadLibrary("pocketsphinx_jni");
 	}
@@ -105,12 +108,41 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 		//rec.setUsePartials(true);
 		this.rec_thread = new Thread(this.rec);
 		this.listening = false;
-		Button b = (Button) findViewById(R.id.Button01);
-		b.setOnTouchListener(this);
+		
+		ToggleButton toggle = (ToggleButton) findViewById(R.id.toggle);
+		//toggle.setOnClickListener(this);
+		toggle.setOnCheckedChangeListener(this);
+		
+		//Button b = (Button) findViewById(R.id.Button01);
+		//b.setOnTouchListener(this);
 		this.performance_text = (TextView) findViewById(R.id.PerformanceText);
 		this.edit_text = (EditText) findViewById(R.id.EditText01);
 		this.rec.setRecognitionListener(this);
 		this.rec_thread.start();
+	}
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		// TODO Auto-generated method stub
+		
+		if(isChecked){
+			System.out.println("ASCOLTO");
+			start_date = new Date();
+			this.listening = true;
+			this.rec.start();
+		}
+		else{
+			System.out.println("FERMO");
+			Date end_date = new Date();
+			long nmsec = end_date.getTime() - start_date.getTime();
+			this.speech_dur = (float)nmsec / 1000;
+			if (this.listening) {
+				Log.d(getClass().getName(), "Showing Dialog");
+				this.rec_dialog = ProgressDialog.show(PocketSphinxDemo.this, "", "Recognizing speech...", true);
+				this.rec_dialog.setCancelable(false);
+				this.listening = false;
+			}
+			this.rec.shutdown();
+		}
+		
 	}
 
 	/** Called when partial results are generated. */

@@ -26,23 +26,30 @@
             android:id="@+id/EditText01"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/toggle"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/PerformanceText"
             android:layout_marginTop="26dp"
             android:layout_weight="1"
             android:contentDescription="Recognition results"
             android:ems="10"
-            android:text="Text goes here..." />
+            android:text="Text goes here..." >
 
-        <Button
-            android:id="@+id/Button01"
+            <requestFocus />
+        </EditText>
+
+        <ToggleButton
+            android:id="@+id/toggle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="15dp"
-            android:layout_weight="0"
-            android:text="Hold and Speak" />
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginRight="54dp"
+            android:textOff=""
+			android:textOn=""
+            android:background="@drawable/btn_toggle_bg"
+            android:checked="false" />
 
     </RelativeLayout>
 
