@@ -19,51 +19,57 @@ containing a value of this type.
         public static final int customFont=0x7f010000;
     }
     public static final class drawable {
-        public static final int configbackground3=0x7f020000;
-        public static final int configbackground4=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int metalplate2=0x7f020003;
-        public static final int onscreen_control_base=0x7f020004;
-        public static final int onscreen_control_knob=0x7f020005;
-        public static final int tagmetal=0x7f020006;
+        public static final int add_icon=0x7f020000;
+        public static final int btn_toggle=0x7f020001;
+        public static final int btn_toggle_bg=0x7f020002;
+        public static final int configbackground4=0x7f020003;
+        public static final int delete_icon=0x7f020004;
+        public static final int ic_launcher=0x7f020005;
+        public static final int metalplate2=0x7f020006;
+        public static final int onscreen_control_base=0x7f020007;
+        public static final int onscreen_control_knob=0x7f020008;
+        public static final int rec=0x7f020009;
+        public static final int rec_icon=0x7f02000a;
+        public static final int segnali=0x7f02000b;
+        public static final int stop_rec=0x7f02000c;
     }
     public static final class id {
-        public static final int Button01=0x7f060019;
-        public static final int EditText01=0x7f060018;
-        public static final int JoyPad=0x7f060022;
-        public static final int PerformanceText=0x7f060017;
-        public static final int ahead=0x7f06001b;
-        public static final int autoconnectBtn=0x7f06000a;
-        public static final int back=0x7f060007;
-        public static final int baseWV=0x7f06000c;
-        public static final int config=0x7f060021;
-        public static final int connectionBtn=0x7f060015;
-        public static final int connection_status=0x7f060011;
-        public static final int disconnectionBtn=0x7f06000b;
-        public static final int drag_layer=0x7f06000d;
-        public static final int edit_ipAddress=0x7f060012;
-        public static final int edit_port=0x7f060014;
-        public static final int imageView1=0x7f06000e;
-        public static final int imageView2=0x7f06000f;
-        public static final int ipAddress=0x7f060010;
-        public static final int ipRobot=0x7f060005;
-        public static final int left=0x7f06001d;
-        public static final int manualConnection=0x7f060009;
-        public static final int message_server=0x7f06001e;
-        public static final int port=0x7f060013;
-        public static final int portRobot=0x7f060004;
-        public static final int progress=0x7f06001a;
-        public static final int progressbarConnection=0x7f060001;
-        public static final int rescan=0x7f060008;
-        public static final int right=0x7f06001c;
-        public static final int seekBar1=0x7f06001f;
-        public static final int status=0x7f060003;
-        public static final int test_image=0x7f060000;
-        public static final int textView1=0x7f060002;
-        public static final int textView2=0x7f060006;
-        public static final int textViewProgress=0x7f060020;
-        public static final int voiceControl=0x7f060023;
-        public static final int webView=0x7f060016;
+        public static final int EditText01=0x7f070018;
+        public static final int JoyPad=0x7f070022;
+        public static final int PerformanceText=0x7f070017;
+        public static final int ahead=0x7f07001b;
+        public static final int autoconnectBtn=0x7f07000a;
+        public static final int back=0x7f070007;
+        public static final int baseWV=0x7f07000c;
+        public static final int config=0x7f070021;
+        public static final int connectionBtn=0x7f070015;
+        public static final int connection_status=0x7f070011;
+        public static final int disconnectionBtn=0x7f07000b;
+        public static final int drag_layer=0x7f07000d;
+        public static final int edit_ipAddress=0x7f070012;
+        public static final int edit_port=0x7f070014;
+        public static final int imageView1=0x7f07000e;
+        public static final int imageView2=0x7f07000f;
+        public static final int ipAddress=0x7f070010;
+        public static final int ipRobot=0x7f070005;
+        public static final int left=0x7f07001e;
+        public static final int manualConnection=0x7f070009;
+        public static final int message_server=0x7f07001f;
+        public static final int port=0x7f070013;
+        public static final int portRobot=0x7f070004;
+        public static final int progress=0x7f07001a;
+        public static final int progressbarConnection=0x7f070001;
+        public static final int rescan=0x7f070008;
+        public static final int right=0x7f07001d;
+        public static final int seekBar1=0x7f07001c;
+        public static final int status=0x7f070003;
+        public static final int test_image=0x7f070000;
+        public static final int textView1=0x7f070002;
+        public static final int textView2=0x7f070006;
+        public static final int textViewProgress=0x7f070020;
+        public static final int toggle=0x7f070019;
+        public static final int voiceControl=0x7f070023;
+        public static final int webView=0x7f070016;
     }
     public static final class layout {
         public static final int automaticconnection=0x7f030000;
@@ -76,7 +82,7 @@ containing a value of this type.
         public static final int standardrobotcontroller=0x7f030007;
     }
     public static final class menu {
-        public static final int option_menu=0x7f050000;
+        public static final int option_menu=0x7f060000;
     }
     public static final class string {
         public static final int app_name=0x7f040001;
@@ -85,6 +91,14 @@ containing a value of this type.
         public static final int disconnect_label=0x7f040005;
         public static final int ipAddress=0x7f040000;
         public static final int port=0x7f040002;
+    }
+    public static final class style {
+        /**  Overwrite the ToggleButton style 
+         */
+        public static final int Widget_Button_Toggle=0x7f050000;
+        /**  Perhaps more theme items here...? 
+         */
+        public static final int YourThemeName=0x7f050001;
     }
     public static final class styleable {
         /** Attributes that can be used with a CustomTextView.
