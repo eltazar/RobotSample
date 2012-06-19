@@ -6,6 +6,7 @@ import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import edu.cmu.pocketsphinx.Config;
 import edu.cmu.pocketsphinx.Decoder;
@@ -159,10 +160,17 @@ public class RecognizerTask implements Runnable {
 		return this.use_partials;
 	}
 
-	public RecognizerTask() {
+	private Handler handler;
+	
+	public Handler getHandler(){
+		return handler;
+	}
+	
+	public RecognizerTask(Handler handler) {
 		pocketsphinx
 				.setLogfile("mnt/sdcard/edu.cmu.pocketsphinx/pocketsphinx.log");
 		Config c = new Config();
+		this.handler = handler;
 		/*
 		 * In 2.2 and above we can use getExternalFilesDir() or whatever it's
 		 * called
