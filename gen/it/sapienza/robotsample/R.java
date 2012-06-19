@@ -42,14 +42,12 @@ containing a value of this type.
         public static final int stoptmp2=0x7f020014;
     }
     public static final class id {
-        public static final int EditText01=0x7f070019;
-        public static final int JoyPad=0x7f070024;
-        public static final int PerformanceText=0x7f070018;
-        public static final int ahead=0x7f07001d;
+        public static final int JoyPad=0x7f070022;
+        public static final int ahead=0x7f07001b;
         public static final int autoconnectBtn=0x7f07000b;
         public static final int back=0x7f070007;
         public static final int baseWV=0x7f07000d;
-        public static final int config=0x7f070023;
+        public static final int config=0x7f070021;
         public static final int connectionBtn=0x7f070016;
         public static final int connection_status=0x7f070012;
         public static final int disconnectionBtn=0x7f07000c;
@@ -61,24 +59,24 @@ containing a value of this type.
         public static final int imageView2=0x7f070010;
         public static final int ipAddress=0x7f070011;
         public static final int ipRobot=0x7f070005;
-        public static final int left=0x7f070020;
+        public static final int left=0x7f07001e;
         public static final int manualConnection=0x7f07000a;
-        public static final int message_server=0x7f070021;
+        public static final int message_server=0x7f07001f;
         public static final int port=0x7f070014;
         public static final int portRobot=0x7f070004;
-        public static final int progress=0x7f07001c;
+        public static final int progress=0x7f07001a;
         public static final int progressbarConnection=0x7f070001;
         public static final int rescan=0x7f070008;
-        public static final int right=0x7f07001f;
+        public static final int right=0x7f07001d;
         public static final int searchTxt=0x7f070006;
-        public static final int seekBar1=0x7f07001e;
-        public static final int signal=0x7f07001b;
+        public static final int seekBar1=0x7f07001c;
+        public static final int signal=0x7f070019;
         public static final int status=0x7f070003;
         public static final int test_image=0x7f070000;
         public static final int textView1=0x7f070002;
-        public static final int textViewProgress=0x7f070022;
-        public static final int toggle=0x7f07001a;
-        public static final int voiceControl=0x7f070025;
+        public static final int textViewProgress=0x7f070020;
+        public static final int toggle=0x7f070018;
+        public static final int voiceControl=0x7f070023;
         public static final int webView=0x7f070017;
     }
     public static final class layout {
