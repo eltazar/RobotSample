@@ -149,6 +149,8 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 
 	private void loadLayoutConnection(String type){
 		
+		
+		//recupero view dedicate ai rispettivi layout
 		if(type.equals("manual")){
 			setContentView(R.layout.manualconnection);
 			connectBtn = (Button) findViewById(R.id.connectionBtn);
@@ -199,6 +201,8 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		NetworkUtility.getInstance().setContext(this);
 		NetworkUtility.getInstance().setHandler(handler);
 		
+		TextView searchTxt = (TextView) findViewById(R.id.searchTxt);
+		searchTxt.setVisibility(View.VISIBLE);
 		new Thread(new Runnable(){
 			public void run(){
 				scannedIp = NetworkUtility.getInstance().doScan();
@@ -307,6 +311,10 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 				status.setText("Disconnesso");
 				//rimuovo lo stream associato durante la connessione
 				pAdapt.setProtocolAdapter(null);
+				backBtn = (Button) findViewById(R.id.back);
+				backBtn.setOnClickListener(this);
+				backBtn.setVisibility(View.VISIBLE);
+				disconnectBtn.setVisibility(View.INVISIBLE);
 			}
 		} catch (java.io.IOException e) {
 			System.out.println("Disconnessione fallita: "+e.getLocalizedMessage());
