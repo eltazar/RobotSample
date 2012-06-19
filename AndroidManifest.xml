@@ -46,7 +46,7 @@
         </activity>
         <activity 
             android:screenOrientation="landscape" 
-            android:name=".PocketSphinxDemo">
+            android:name=".VoiceControlActivity">
         </activity>
     </application>
 
