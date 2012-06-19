@@ -70,16 +70,16 @@
         android:textColor="#000000"
         foo:customFont="fonts/droidsans.ttf" />
 
-    <it.sapienza.widget.CustomTextView
-        android:id="@+id/textView2"
+    <TextView
+        android:id="@+id/searchTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/progressbarConnection"
         android:layout_alignLeft="@+id/progressbarConnection"
         android:layout_marginLeft="42dp"
         android:text="Ricerca in corso..."
-        android:textColor="#FFFFFF"
-        foo:customFont="fonts/droidsans.ttf" />
+        android:visibility="invisible"
+        android:textColor="#FFFFFF"/>
 
     <Button
         android:id="@+id/back"
