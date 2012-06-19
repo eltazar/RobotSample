@@ -4,10 +4,12 @@ import java.util.Date;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -54,9 +56,15 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 	 */
 	EditText edit_text;
 	
-	WebView baseWV;
-	
 	/**
+	*La webView per la cam del robot;
+	*/
+	private WebView baseWV;
+	
+	private ToggleButton toggleBtn;
+
+	/**
+	 * 
 	 * Respond to touch events on the Speak button.
 	 * 
 	 * This allows the Speak button to function as a "push and hold" button, by
@@ -93,7 +101,7 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 		/* Let the button handle its own state */
 		return false;
 	}
-
+	
 	/** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -103,15 +111,15 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 		baseWV.loadUrl("http:www.google.it");
 		baseWV.getSettings().setJavaScriptEnabled(true);
 		baseWV.getSettings().setPluginsEnabled(true);
-		
+				
 		this.rec = new RecognizerTask();
 		//rec.setUsePartials(true);
 		this.rec_thread = new Thread(this.rec);
 		this.listening = false;
 		
-		ToggleButton toggle = (ToggleButton) findViewById(R.id.toggle);
+		toggleBtn = (ToggleButton) findViewById(R.id.toggle);
 		//toggle.setOnClickListener(this);
-		toggle.setOnCheckedChangeListener(this);
+		toggleBtn.setOnCheckedChangeListener(this);
 		
 		//Button b = (Button) findViewById(R.id.Button01);
 		//b.setOnTouchListener(this);
@@ -120,6 +128,8 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 		this.rec.setRecognitionListener(this);
 		this.rec_thread.start();
 	}
+	
+	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		// TODO Auto-generated method stub
 		
@@ -128,6 +138,14 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 			start_date = new Date();
 			this.listening = true;
 			this.rec.start();
+		
+			final Handler handler = new Handler();
+			handler.postDelayed(new Runnable() {
+			  @Override
+			  public void run() {
+				  PocketSphinxDemo.this.toggleBtn.setChecked(false);
+			  }
+			}, 5000);
 		}
 		else{
 			System.out.println("FERMO");
@@ -140,7 +158,7 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 				this.rec_dialog.setCancelable(false);
 				this.listening = false;
 			}
-			this.rec.shutdown();
+			this.rec.stop();
 		}
 		
 	}
@@ -149,13 +167,13 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 	public void onPartialResults(Bundle b) {
 		final PocketSphinxDemo that = this;
 		final String hyp = b.getString("hyp");
-		System.out.println("RISULTATO PARZIALE CALCOLATO = "+hyp);
-		/*that.edit_text.post(new Runnable() {
-			public void run() {
-				//System.out.println("RISULTATO PARZIALE CALCOLATO = "+hyp);
-				that.edit_text.setText(hyp);
-			}
-		});*/
+		//System.out.println("RISULTATO PARZIALE CALCOLATO = "+hyp);
+//		that.edit_text.post(new Runnable() {
+//			public void run() {
+//				//System.out.println("RISULTATO PARZIALE CALCOLATO = "+hyp);
+//				that.edit_text.setText(hyp);
+//			}
+//		});
 	}
 
 	/** Called with full results are generated. */
@@ -193,4 +211,6 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 		menu.getItem(2).setEnabled(false);
 		return true;
 	}
+
+
 }
