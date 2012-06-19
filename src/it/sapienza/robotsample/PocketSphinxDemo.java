@@ -1,5 +1,7 @@
 package it.sapienza.robotsample;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import android.app.ProgressDialog;
@@ -9,7 +11,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -63,6 +64,8 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 	
 	private ToggleButton toggleBtn;
 
+	private ArrayList<String> hotWords;
+	
 	/**
 	 * 
 	 * Respond to touch events on the Speak button.
@@ -112,6 +115,8 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 		baseWV.getSettings().setJavaScriptEnabled(true);
 		baseWV.getSettings().setPluginsEnabled(true);
 				
+		createCommands();
+		
 		this.rec = new RecognizerTask();
 		//rec.setUsePartials(true);
 		this.rec_thread = new Thread(this.rec);
@@ -183,12 +188,17 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 		this.edit_text.post(new Runnable() {
 			public void run() {
 				that.edit_text.setText(hyp);
+				
+				
+				
 				//Date end_date = new Date();
 				//long nmsec = end_date.getTime() - that.start_date.getTime();
 				//float rec_dur = (float)nmsec / 1000;
 				//that.performance_text.setText(String.format("%.2f seconds %.2f xRT", that.speech_dur,rec_dur / that.speech_dur));
 				Log.d(getClass().getName(), "Hiding Dialog");
 				that.rec_dialog.dismiss();
+				
+				matchUtterance(hyp);
 			}
 		});
 	}
@@ -211,6 +221,56 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 		menu.getItem(2).setEnabled(false);
 		return true;
 	}
+	
+	
+	private void matchUtterance(String utt){
+		
+		System.out.println("UTTERANCE ARRIVATO: "+utt);
+		
+		String cmd = "STOP";
+		
+		if(utt != null){
+		
+			String[] words = utt.split(" ");
+			boolean commandRecognized = false;
+
+			for(String hot:hotWords){
+				for(int i = 0; i < words.length; i++){
+					if(hot.equals(words[i])){
+						//trovato parola
+						commandRecognized = true;
+						cmd = hot;
+					}
+				}
+				if(commandRecognized){
+					break;
+				}			
+			}	
+		}
+		System.out.println("IL COMANDO è: = "+cmd);
+		
+//		try {
+//			ProtocolAdapter.getInstance().sendMessage(cmd);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+	}
+	
+	
+	private void createCommands(){
+	
+		hotWords = new ArrayList<String>();
+		hotWords.add("STOP");
+		hotWords.add("OFF");
+		hotWords.add("FORWARD");
+		hotWords.add("STRAIGHT");
+		hotWords.add("BACKWARD");
+		hotWords.add("RIGHT");
+		hotWords.add("LEFT");
+		hotWords.add("BACK");
+	}	
 
 
 }
