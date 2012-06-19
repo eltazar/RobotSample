@@ -22,7 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, RecognitionListener, OnCheckedChangeListener {
+public class VoiceControlActivity extends BaseActivity implements OnTouchListener, RecognitionListener, OnCheckedChangeListener {
 	static {
 		System.loadLibrary("pocketsphinx_jni");
 	}
@@ -125,7 +125,7 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 			this.speech_dur = (float)nmsec / 1000;
 			if (this.listening) {
 				Log.d(getClass().getName(), "Showing Dialog");
-				this.rec_dialog = ProgressDialog.show(PocketSphinxDemo.this, "", "Recognizing speech...", true);
+				this.rec_dialog = ProgressDialog.show(VoiceControlActivity.this, "", "Recognizing speech...", true);
 				this.rec_dialog.setCancelable(false);
 				this.listening = false;
 			}
@@ -196,7 +196,7 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 
 	/** Called when partial results are generated. */
 	public void onPartialResults(Bundle b) {
-		final PocketSphinxDemo that = this;
+		final VoiceControlActivity that = this;
 		final String hyp = b.getString("hyp");
 
 		System.out.println("RISULTATO PARZIALE CALCOLATO = "+hyp);
