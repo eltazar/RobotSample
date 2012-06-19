@@ -1,6 +1,6 @@
 package it.sapienza.robotsample;
 
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -158,44 +158,35 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 		this.listening = false;
 		
 		toggleBtn = (ToggleButton) findViewById(R.id.toggle);
-		//toggle.setOnClickListener(this);
 		toggleBtn.setOnCheckedChangeListener(this);
 		
-		//Button b = (Button) findViewById(R.id.Button01);
-		//b.setOnTouchListener(this);
-		this.performance_text = (TextView) findViewById(R.id.PerformanceText);
-		this.edit_text = (EditText) findViewById(R.id.EditText01);
+
 		this.rec.setRecognitionListener(this);
 		this.rec_thread.start();
 	}
 	
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		// TODO Auto-generated method stub
 		
 		if(isChecked){
 			System.out.println("ASCOLTO");
-			start_date = new Date();
 			this.listening = true;
 			this.rec.start();
 		
+			//auto stop dopo X secondi
 			final Handler handler = new Handler();
 			handler.postDelayed(new Runnable() {
 			  @Override
 			  public void run() {
-				  PocketSphinxDemo.this.toggleBtn.setChecked(false);
+				  System.out.println("AUTO FERMO REC");
+				  //PocketSphinxDemo.this.toggleBtn.setChecked(false);
 			  }
 			}, 5000);
 		}
 		else{
 			System.out.println("FERMO");
-			Date end_date = new Date();
-			long nmsec = end_date.getTime() - start_date.getTime();
-			this.speech_dur = (float)nmsec / 1000;
 			if (this.listening) {
 				Log.d(getClass().getName(), "Showing Dialog");
-				this.rec_dialog = ProgressDialog.show(PocketSphinxDemo.this, "", "Recognizing speech...", true);
-				this.rec_dialog.setCancelable(false);
 				this.listening = false;
 			}
 			this.rec.stop();
@@ -207,47 +198,19 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 	public void onPartialResults(Bundle b) {
 		final PocketSphinxDemo that = this;
 		final String hyp = b.getString("hyp");
-		//System.out.println("RISULTATO PARZIALE CALCOLATO = "+hyp);
-//		that.edit_text.post(new Runnable() {
-//			public void run() {
-//				//System.out.println("RISULTATO PARZIALE CALCOLATO = "+hyp);
-//				that.edit_text.setText(hyp);
-//			}
-//		});
+
+		System.out.println("RISULTATO PARZIALE CALCOLATO = "+hyp);
 	}
 
 	/** Called with full results are generated. */
 	public void onResults(Bundle b) {
 		final String hyp = b.getString("hyp");
-		final PocketSphinxDemo that = this;
-		this.edit_text.post(new Runnable() {
-			public void run() {
-				that.edit_text.setText(hyp);
-				
-				
-				
-				//Date end_date = new Date();
-				//long nmsec = end_date.getTime() - that.start_date.getTime();
-				//float rec_dur = (float)nmsec / 1000;
-				//that.performance_text.setText(String.format("%.2f seconds %.2f xRT", that.speech_dur,rec_dur / that.speech_dur));
-				Log.d(getClass().getName(), "Hiding Dialog");
-				that.rec_dialog.dismiss();
-				
-			}
-		});
+		
 		matchUtterance(hyp);
 	}
 
 	public void onError(int err) {
-		final PocketSphinxDemo that = this;
-		
 		System.out.println("ERRORE RICONOSCIMENTO = "+err);
-		
-		that.edit_text.post(new Runnable() {
-			public void run() {
-				that.rec_dialog.dismiss();
-			}
-		});
 	}
 	
 	@Override
@@ -293,6 +256,38 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 		
 	}
 	
+	private void sendCommand(String cmd){
+		
+		ProtocolAdapter pAdapt = ProtocolAdapter.getInstance();
+		
+		//int id = getResources().getIdentifier("yourpackagename:drawable/" + StringGenerated, null, null);
+		
+		if(cmd.equals("STOP") || cmd.equals("OFF")){
+			
+			//invio comandi per stare fermo
+		}
+		else if(cmd.equals("FORWARD") || cmd.equals("STRAIGHT")){
+			ImageView signalImg = (ImageView) findViewById(R.id.signal);
+			signalImg.setImageResource(R.drawable.forw);
+		}
+		else if(cmd.equals("BACWARD") || cmd.equals("BACK")){
+			
+		}
+		else if(cmd.equals("RIGHT")){
+
+		}
+		else if(cmd.equals("LEFT")){
+			
+		}
+
+//		PocketSphinxDemo.this.runOnUiThread(new Runnable() {
+//		    public void run(int id) {
+//		    	
+//		    	
+//		    }
+//		});
+		
+	}
 	
 	private void createCommands(){
 	
@@ -306,6 +301,5 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 		hotWords.add("LEFT");
 		hotWords.add("BACK");
 	}	
-
-
 }
+	
