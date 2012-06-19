@@ -51,6 +51,14 @@
             android:background="@drawable/btn_toggle_bg"
             android:checked="false" />
 
+        <ImageView
+            android:id="@+id/signal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/toggle"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/stop" />
+
     </RelativeLayout>
 
 </merge>
