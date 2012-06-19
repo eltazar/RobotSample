@@ -233,9 +233,9 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 				Log.d(getClass().getName(), "Hiding Dialog");
 				that.rec_dialog.dismiss();
 				
-				matchUtterance(hyp);
 			}
 		});
+		matchUtterance(hyp);
 	}
 
 	public void onError(int err) {
@@ -284,12 +284,12 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 		}
 		System.out.println("IL COMANDO è: = "+cmd);
 		
-//		try {
-//			ProtocolAdapter.getInstance().sendMessage(cmd);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		//passo all'handler il messaggio per poterlo consegnare al thread dell' UI
+		Message msg = this.rec.getHandler().obtainMessage();
+		Bundle b = new Bundle();
+		b.putString("cmd", cmd);
+		msg.setData(b);
+		this.rec.getHandler().sendMessage(msg);
 		
 	}
 	
