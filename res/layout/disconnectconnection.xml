@@ -16,21 +16,13 @@
         android:layout_marginRight="25dp"
         android:src="@drawable/metalplate2" />
 
-    <Button
-        android:id="@+id/disconnectionBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="58dp"
-        android:text="Disconnetti robot" />
-
     <it.sapienza.widget.CustomTextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/test_image"
-        android:layout_marginTop="85dp"
         android:layout_marginLeft="22dp"
+        android:layout_marginTop="85dp"
         android:text="ROBOT: "
         android:textColor="#000000"
         foo:customFont="fonts/droidsans.ttf" />
@@ -40,8 +32,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/test_image"
-        android:layout_marginTop="110dp"
         android:layout_marginLeft="22dp"
+        android:layout_marginTop="110dp"
         android:text="Ip:"
         android:textColor="#000000"
         foo:customFont="fonts/droidsans.ttf" />
@@ -51,8 +43,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/test_image"
-        android:layout_marginTop="135dp"
         android:layout_marginLeft="22dp"
+        android:layout_marginTop="135dp"
         android:text="Porta:"
         android:textColor="#000000"
         foo:customFont="fonts/droidsans.ttf" />
@@ -62,10 +54,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/test_image"
-        android:layout_marginTop="160dp"
         android:layout_marginLeft="22dp"
+        android:layout_marginTop="160dp"
         android:text="Stato:"
         android:textColor="#000000"
         foo:customFont="fonts/droidsans.ttf" />
+
+    <Button
+        android:id="@+id/disconnectionBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="82dp"
+        android:text="Disconnetti robot" />
+
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/disconnectionBtn"
+        android:layout_alignBottom="@+id/disconnectionBtn"
+        android:layout_alignRight="@+id/disconnectionBtn"
+        android:layout_marginRight="25dp"
+        android:visibility="invisible"        
+        android:text="Indietro" />
 
 </RelativeLayout>
