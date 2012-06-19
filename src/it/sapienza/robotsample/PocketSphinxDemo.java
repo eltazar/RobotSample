@@ -7,6 +7,7 @@ import java.util.Date;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
@@ -17,6 +18,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -57,6 +59,8 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 	 */
 	EditText edit_text;
 	
+	private ImageView signalImg;
+	
 	/**
 	*La webView per la cam del robot;
 	*/
@@ -66,6 +70,35 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 
 	private ArrayList<String> hotWords;
 	
+	Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			 Bundle bundle = msg.getData();
+			 
+			 System.out.println("HANDLER: RICEVUTO MESSAGGIO = "+bundle.getString("cmd"));
+			 
+		      if(bundle.containsKey("cmd")) {
+		      
+		    	String cmd = bundle.getString("cmd");
+		    	
+		        if(cmd.equals("STOP") || cmd.equals("OFF")){
+		        	signalImg.setImageResource(R.drawable.stop);		        
+				}
+				else if(cmd.equals("FORWARD") || cmd.equals("STRAIGHT")){
+					signalImg.setImageResource(R.drawable.forw);
+				}
+				else if(cmd.equals("BACKWARD") || cmd.equals("BACK")){
+					signalImg.setImageResource(R.drawable.backw);
+				}
+				else if(cmd.equals("RIGHT")){
+					signalImg.setImageResource(R.drawable.right);
+				}
+				else if(cmd.equals("LEFT")){
+					signalImg.setImageResource(R.drawable.left);
+				}
+			}
+		}
+	};
 	/**
 	 * 
 	 * Respond to touch events on the Speak button.
@@ -110,6 +143,8 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pocketsphinx);
 		
+		signalImg = (ImageView) findViewById(R.id.signal);
+		
 		baseWV = (WebView)findViewById(R.id.webView);
 		baseWV.loadUrl("http:www.google.it");
 		baseWV.getSettings().setJavaScriptEnabled(true);
@@ -117,7 +152,7 @@ public class PocketSphinxDemo extends BaseActivity implements OnTouchListener, R
 				
 		createCommands();
 		
-		this.rec = new RecognizerTask();
+		this.rec = new RecognizerTask(handler);
 		//rec.setUsePartials(true);
 		this.rec_thread = new Thread(this.rec);
 		this.listening = false;
