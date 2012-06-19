@@ -299,10 +299,8 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 
 		try {
 			if(pAdapt.isThereAvaiableStream()){
-				MessageIOStream tempSock = pAdapt.getAssociatedStream();
-				tempSock.getMis().closeInput();
-				tempSock.getMos().closeOutput();
-				tempSock.close();
+				
+				pAdapt.closeCommunication();
 
 				System.out.println("Client: Connessione terminata");
 
