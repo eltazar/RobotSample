@@ -85,8 +85,10 @@ public class ProtocolAdapter {
 	}
 	
 	public void closeCommunication() throws IOException{
-		messageStream.getMis().closeInput();
-		messageStream.getMos().closeOutput();
-		messageStream.close();
+		if(messageStream != null){
+			messageStream.getMis().closeInput();
+			messageStream.getMos().closeOutput();
+			messageStream.close();
+		}
 	}
 }
