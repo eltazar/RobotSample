@@ -32,7 +32,7 @@ public class BaseActivity extends Activity{
     			startActivity(new Intent(this, InterfacciaRobotActivity.class));
     			return true;
     		case R.id.voiceControl:
-    			startActivity(new Intent(this, PocketSphinxDemo.class));
+    			startActivity(new Intent(this, VoiceControlActivity.class));
     			return true;
     		default:
     			return super.onOptionsItemSelected(item);
