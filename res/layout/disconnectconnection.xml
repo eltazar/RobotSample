@@ -3,7 +3,7 @@
     xmlns:foo="http://schemas.android.com/apk/res/it.sapienza.robotsample"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/configbackground4" >
+    android:background="@drawable/metalbackground" >
 
     <!-- android:background="#000000" -->
 
