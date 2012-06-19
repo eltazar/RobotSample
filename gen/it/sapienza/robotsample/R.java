@@ -61,11 +61,11 @@ containing a value of this type.
         public static final int progressbarConnection=0x7f070001;
         public static final int rescan=0x7f070008;
         public static final int right=0x7f07001d;
+        public static final int searchTxt=0x7f070006;
         public static final int seekBar1=0x7f07001c;
         public static final int status=0x7f070003;
         public static final int test_image=0x7f070000;
         public static final int textView1=0x7f070002;
-        public static final int textView2=0x7f070006;
         public static final int textViewProgress=0x7f070020;
         public static final int toggle=0x7f070019;
         public static final int voiceControl=0x7f070023;
