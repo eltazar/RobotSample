@@ -4,15 +4,18 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 
 import netInterface.*;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -357,6 +360,80 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		}
 
 	}
+
+	private  void exit(){
+		try {
+			pAdapt.closeCommunication();
+		} catch (IOException e) {
+			System.out.println("Errore disconnessione: "+e.getLocalizedMessage());
+		}
+	    this.finish();
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+
+	    	TextView hack = (TextView) findViewById(R.id.hack);
+	    	
+	    	ActivityManager mngr = (ActivityManager) getSystemService( ACTIVITY_SERVICE );
+
+	    	List<ActivityManager.RunningTaskInfo> taskList = mngr.getRunningTasks(10);
+
+	    	System.out.println("LISTA DI TASK = "+taskList.get(0).numActivities);
+	    	
+	    	//TODO: perchè al primo avvio dell'app get(0).numActivities è = 2 ??????
+	    	if((taskList.get(0).numActivities == 1 || taskList.get(0).numActivities == 2) &&
+	    			taskList.get(0).topActivity.getClassName().equals(this.getClass().getName())) {
+	    		
+    			System.out.println( "Configuration activity: ultima activity dello stack");
+
+	    		
+	    		if(hack.getText().equals("choose")){
+
+	    			AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
+	    			alertbox.setTitle("RobotSample");
+	    			alertbox.setMessage("Vuoi davvero chiudere l'app?");
+
+	    			alertbox.setPositiveButton("Yes",
+	    					new DialogInterface.OnClickListener() {
+	    				public void onClick(DialogInterface arg0, int arg1) {
+	    					exit();
+	    				}
+	    			});
+
+	    			alertbox.setNeutralButton("No",
+	    					new DialogInterface.OnClickListener() {
+	    				public void onClick(DialogInterface arg0, int arg1) {
+	    				}
+	    			});
+
+	    			alertbox.show();
+
+	    			return true;
+	    		}
+	    		else{
+	    			System.out.println("MOSTRO LAYOUT CHOOSE");
+	    			setContentView(R.layout.choosetypeconnection);
+	    			automaticBtn = (Button) findViewById(R.id.autoconnectBtn);
+	    			automaticBtn.setOnClickListener(this);
+	    			manualBtn = (Button) findViewById(R.id.manualConnection);
+	    			manualBtn.setOnClickListener(this);
+	    			return true;
+	    		}
+	    	}
+	    	else {
+		        return super.onKeyDown(keyCode, event);
+		    }
+	    	
+	    } else {
+	        return super.onKeyDown(keyCode, event);
+	    }
+
+	}
+	
+	
+
 	
 	@Override
 	public boolean onPrepareOptionsMenu (Menu menu) {
