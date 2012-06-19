@@ -124,4 +124,15 @@
         android:layout_alignRight="@+id/ipAddress"
         android:text="Indietro" />
 
+    <TextView
+        android:id="@+id/hack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/connectionBtn"
+        android:layout_below="@+id/connectionBtn"
+        android:layout_marginLeft="47dp"
+        android:layout_marginTop="18dp"
+        android:visibility="gone"
+        android:text="manual" />
+
 </RelativeLayout>

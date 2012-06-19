@@ -80,4 +80,14 @@
         android:visibility="invisible"        
         android:text="Indietro" />
 
+    <TextView
+        android:id="@+id/hack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/disconnectionBtn"
+        android:layout_below="@+id/test_image"
+        android:layout_marginTop="14dp"
+        android:visibility="gone"
+        android:text="disconnect" />
+
 </RelativeLayout>
