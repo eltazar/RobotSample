@@ -10,33 +10,8 @@
         android:layout_height="fill_parent" />
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="534dp"
         android:layout_height="match_parent" >
-
-        <TextView
-            android:id="@+id/PerformanceText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="22dp"
-            android:text="Perfoming text" />
-
-        <EditText
-            android:id="@+id/EditText01"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/toggle"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/PerformanceText"
-            android:layout_marginTop="26dp"
-            android:layout_weight="1"
-            android:contentDescription="Recognition results"
-            android:ems="10"
-            android:text="Text goes here..." >
-
-            <requestFocus />
-        </EditText>
 
         <ToggleButton
             android:id="@+id/toggle"
@@ -44,10 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="54dp"
-            android:textOff=""
-			android:textOn=""
+            android:layout_marginBottom="18dp"
             android:background="@drawable/btn_toggle_bg"
             android:checked="false" />
 
