@@ -25,4 +25,14 @@
         android:layout_marginTop="17dp"
         android:text="Ricerca automatica" />
 
+    <TextView
+        android:id="@+id/hack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/autoconnectBtn"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="23dp"
+        android:visibility="gone"
+        android:text="choose" />
+
 </RelativeLayout>
