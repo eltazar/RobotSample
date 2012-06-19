@@ -31,7 +31,7 @@ public class ProtocolAdapter {
 		try{
 			messageStream.sendMessageAsUTF8(message);
 
-			//se il messaggio è di connessione aspetto risposta
+			//se il messaggio ÔøΩ di connessione aspetto risposta
 			if(message.equals("#CNT0\r")){
 				System.out.println("In attesa di ack dal robot");
 				answer = messageStream.receiveMessage();
@@ -82,5 +82,11 @@ public class ProtocolAdapter {
 		if(messageStream == null)
 			return false;
 		else return true;
+	}
+	
+	public void closeCommunication() throws IOException{
+		messageStream.getMis().closeInput();
+		messageStream.getMos().closeOutput();
+		messageStream.close();
 	}
 }
