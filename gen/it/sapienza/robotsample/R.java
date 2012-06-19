@@ -25,13 +25,14 @@ containing a value of this type.
         public static final int configbackground4=0x7f020003;
         public static final int delete_icon=0x7f020004;
         public static final int ic_launcher=0x7f020005;
-        public static final int metalplate2=0x7f020006;
-        public static final int onscreen_control_base=0x7f020007;
-        public static final int onscreen_control_knob=0x7f020008;
-        public static final int rec=0x7f020009;
-        public static final int rec_icon=0x7f02000a;
-        public static final int segnali=0x7f02000b;
-        public static final int stop_rec=0x7f02000c;
+        public static final int metalbackground=0x7f020006;
+        public static final int metalplate2=0x7f020007;
+        public static final int onscreen_control_base=0x7f020008;
+        public static final int onscreen_control_knob=0x7f020009;
+        public static final int rec=0x7f02000a;
+        public static final int rec_icon=0x7f02000b;
+        public static final int segnali=0x7f02000c;
+        public static final int stop_rec=0x7f02000d;
     }
     public static final class id {
         public static final int EditText01=0x7f070018;
