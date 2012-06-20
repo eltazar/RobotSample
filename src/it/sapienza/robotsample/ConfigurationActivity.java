@@ -253,9 +253,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 					break;
 				}
 				//altrimenti chiudo socket e risorse associate
-				socket.getMis().closeInput();
-				socket.getMos().closeOutput();
-				socket.close();
+				pAdapt.closeCommunication();
 				pAdapt.setProtocolAdapter(null);				
 
 			} catch (UnknownHostException e) {
