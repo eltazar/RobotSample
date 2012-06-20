@@ -78,6 +78,8 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 			System.out.println("Sto provando a connettermi a: = "+ip);
 			
 			MessageIOStream socket;
+	
+			//TODO: controllare che ack abbia lunghezza >1 per nn farlo crashare durante la stampa di debug
 			
 			try {
 				socket = new MessageIOStream(InetAddress.getByName(ip),80,5000);
@@ -106,6 +108,7 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 				socket.getMis().closeInput();
 				socket.getMos().closeOutput();
 				socket.close();
+				pAdapt.closeCommunication();
 				pAdapt.setProtocolAdapter(null);				
 
 			} catch (UnknownHostException e) {
