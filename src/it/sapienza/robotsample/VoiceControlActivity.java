@@ -207,6 +207,8 @@ public class VoiceControlActivity extends BaseActivity implements OnTouchListene
 		final String hyp = b.getString("hyp");
 		
 		matchUtterance(hyp);
+		//fermo registrazione quando riconosciuto comando
+		VoiceControlActivity.this.toggleBtn.setChecked(false);
 	}
 
 	public void onError(int err) {
