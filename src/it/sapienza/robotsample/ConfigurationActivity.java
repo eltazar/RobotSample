@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ConfigurationActivity extends BaseActivity implements OnClickListener{
 
@@ -71,8 +72,9 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 
 		//recupero parametri extra passati dal chiamante
 		Bundle extras = getIntent().getExtras();
-		if(extras != null) {
+		if(extras != null && extras.getString("toast").equals("noAuto")) {
 			//mode = extras.getString("mode");
+			Toast.makeText(getApplicationContext(), "Autoconnessione non riuscita, riprova od esegui una connessione manuale", Toast.LENGTH_LONG).show();
 		}
 		
 		System.out.println("ON CREATE confituration activity");
@@ -251,9 +253,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 					break;
 				}
 				//altrimenti chiudo socket e risorse associate
-				socket.getMis().closeInput();
-				socket.getMos().closeOutput();
-				socket.close();
+				pAdapt.closeCommunication();
 				pAdapt.setProtocolAdapter(null);				
 
 			} catch (UnknownHostException e) {
