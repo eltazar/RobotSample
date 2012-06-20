@@ -393,9 +393,9 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 
 	    			AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
 	    			alertbox.setTitle("RobotSample");
-	    			alertbox.setMessage("Vuoi davvero chiudere l'app?");
+	    			alertbox.setMessage("Vuoi davvero uscire?");
 
-	    			alertbox.setPositiveButton("Yes",
+	    			alertbox.setPositiveButton("Si",
 	    					new DialogInterface.OnClickListener() {
 	    				public void onClick(DialogInterface arg0, int arg1) {
 	    					exit();
