@@ -105,9 +105,6 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 					break;
 				}
 				//altrimenti chiudo socket e risorse associate
-				socket.getMis().closeInput();
-				socket.getMos().closeOutput();
-				socket.close();
 				pAdapt.closeCommunication();
 				pAdapt.setProtocolAdapter(null);				
 
