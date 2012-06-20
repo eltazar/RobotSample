@@ -373,7 +373,8 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 	    if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-
+	    	
+	    	//TODO: sistemare questo metodo e i relativi if a cascata -> non mi piace .. ma per ora..
 	    	TextView hack = (TextView) findViewById(R.id.hack);
 	    	
 	    	ActivityManager mngr = (ActivityManager) getSystemService( ACTIVITY_SERVICE );
@@ -382,13 +383,13 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 
 	    	System.out.println("LISTA DI TASK = "+taskList.get(0).numActivities);
 	    	
-	    	//TODO: perchè al primo avvio dell'app get(0).numActivities è = 2 ??????
+	    	//FIX IT: perchè al primo avvio dell'app get(0).numActivities è = 2 ??????
 	    	if((taskList.get(0).numActivities == 1 || taskList.get(0).numActivities == 2) &&
 	    			taskList.get(0).topActivity.getClassName().equals(this.getClass().getName())) {
 	    		
     			System.out.println( "Configuration activity: ultima activity dello stack");
 
-	    		
+	    		//se ultima activity e il layout è quello principale chiudo l'app
 	    		if(hack.getText().equals("choose")){
 
 	    			AlertDialog.Builder alertbox = new AlertDialog.Builder(this);
@@ -413,6 +414,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	    			return true;
 	    		}
 	    		else{
+	    			//altrimenti mosto il layout principale
 	    			System.out.println("MOSTRO LAYOUT CHOOSE");
 	    			setContentView(R.layout.choosetypeconnection);
 	    			automaticBtn = (Button) findViewById(R.id.autoconnectBtn);
@@ -431,9 +433,6 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	    }
 
 	}
-	
-	
-
 	
 	@Override
 	public boolean onPrepareOptionsMenu (Menu menu) {
