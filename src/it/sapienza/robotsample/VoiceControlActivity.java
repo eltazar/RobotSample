@@ -1,6 +1,7 @@
 package it.sapienza.robotsample;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -22,7 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-public class VoiceControlActivity extends BaseActivity implements OnTouchListener, RecognitionListener, OnCheckedChangeListener {
+public class VoiceControlActivity extends BaseActivity implements RecognitionListener, OnCheckedChangeListener {
 	static {
 		System.loadLibrary("pocketsphinx_jni");
 	}
@@ -69,74 +70,62 @@ public class VoiceControlActivity extends BaseActivity implements OnTouchListene
 	private ToggleButton toggleBtn;
 
 	private ArrayList<String> hotWords;
+	private ArrayList<String> speedWords;
 	
 	Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			 Bundle bundle = msg.getData();
 			 
-			 System.out.println("HANDLER: RICEVUTO MESSAGGIO = "+bundle.getString("cmd"));
+			 System.out.println("HANDLER: RICEVUTO MESSAGGIO = "+bundle.getString("cmd")/*+" "+bundle.getInt("spd")*/);
 			 
-		      if(bundle.containsKey("cmd")) {
+			 ProtocolAdapter pAdapt = ProtocolAdapter.getInstance();
+
+		     if(bundle.containsKey("cmd") /*&& bundle.containsKey("spd")*/) {
 		      
 		    	String cmd = bundle.getString("cmd");
 		    	
-		        if(cmd.equals("STOP") || cmd.equals("OFF")){
-		        	signalImg.setImageResource(R.drawable.stop);		        
-				}
-				else if(cmd.equals("FORWARD") || cmd.equals("STRAIGHT")){
-					signalImg.setImageResource(R.drawable.forw);
-				}
-				else if(cmd.equals("BACKWARD") || cmd.equals("BACK")){
-					signalImg.setImageResource(R.drawable.backw);
-				}
-				else if(cmd.equals("RIGHT")){
-					signalImg.setImageResource(R.drawable.right);
-				}
-				else if(cmd.equals("LEFT")){
-					signalImg.setImageResource(R.drawable.left);
+		    	//per comandi vocali avanzati 
+		    	//String spd = bundle.getString("spd");
+		    	//String command = String.format("SPD0%d\r", spd);
+		    	try {
+		    		if(cmd.equals("STOP") || cmd.equals("OFF")){
+		    			signalImg.setImageResource(R.drawable.stop);	
+		    			pAdapt.sendMessage("#SPD00\r");
+		    			pAdapt.sendMessage("#TRN00\r");		        	
+		    		}
+		    		else if(cmd.equals("FORWARD") || cmd.equals("STRAIGHT")){
+		    			signalImg.setImageResource(R.drawable.forw);
+
+		    			//pAdapt.sendMessage(command);
+		    			pAdapt.sendMessage("#SPD090\r");
+		    			pAdapt.sendMessage("#TRN00\r");
+		    		}
+		    		else if(cmd.equals("BACKWARD") || cmd.equals("BACK")){
+		    			signalImg.setImageResource(R.drawable.backw);
+
+		    			pAdapt.sendMessage("#SPD0-90\r");
+		    			pAdapt.sendMessage("#TRN00\r");
+		    		}
+		    		else if(cmd.equals("RIGHT")){
+		    			signalImg.setImageResource(R.drawable.right);
+
+		    			pAdapt.sendMessage("#SPD00\r");
+		    			pAdapt.sendMessage("#TRN060\r");
+		    		}
+		    		else if(cmd.equals("LEFT")){
+		    			signalImg.setImageResource(R.drawable.left);
+
+		    			pAdapt.sendMessage("#SPD00\r");
+		    			pAdapt.sendMessage("#TRN0-60\r");
+		    		}
+		    	 } catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 				}
 			}
 		}
 	};
-	/**
-	 * 
-	 * Respond to touch events on the Speak button.
-	 * 
-	 * This allows the Speak button to function as a "push and hold" button, by
-	 * triggering the start of recognition when it is first pushed, and the end
-	 * of recognition when it is released.
-	 * 
-	 * @param v
-	 *            View on which this event is called
-	 * @param event
-	 *            Event that was triggered.
-	 */
-	public boolean onTouch(View v, MotionEvent event) {
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_DOWN:
-			start_date = new Date();
-			this.listening = true;
-			this.rec.start();
-			break;
-		case MotionEvent.ACTION_UP:
-			Date end_date = new Date();
-			long nmsec = end_date.getTime() - start_date.getTime();
-			this.speech_dur = (float)nmsec / 1000;
-			if (this.listening) {
-				Log.d(getClass().getName(), "Showing Dialog");
-				this.rec_dialog = ProgressDialog.show(VoiceControlActivity.this, "", "Recognizing speech...", true);
-				this.rec_dialog.setCancelable(false);
-				this.listening = false;
-			}
-			this.rec.stop();
-			break;
-		default:
-			;
-		}
-		/* Let the button handle its own state */
-		return false;
-	}
 	
 	/** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
@@ -146,7 +135,7 @@ public class VoiceControlActivity extends BaseActivity implements OnTouchListene
 		signalImg = (ImageView) findViewById(R.id.signal);
 		
 		baseWV = (WebView)findViewById(R.id.webView);
-		baseWV.loadUrl("http:www.google.it");
+		baseWV.loadUrl("http://www.google.it");
 		baseWV.getSettings().setJavaScriptEnabled(true);
 		baseWV.getSettings().setPluginsEnabled(true);
 				
@@ -174,14 +163,14 @@ public class VoiceControlActivity extends BaseActivity implements OnTouchListene
 			this.rec.start();
 		
 			//auto stop dopo X secondi
-			final Handler handler = new Handler();
+			/*final Handler handler = new Handler();
 			handler.postDelayed(new Runnable() {
 			  @Override
 			  public void run() {
 				  System.out.println("AUTO FERMO REC");
 				  //PocketSphinxDemo.this.toggleBtn.setChecked(false);
 			  }
-			}, 5000);
+			}, 10000);*/
 		}
 		else{
 			System.out.println("FERMO");
@@ -199,13 +188,12 @@ public class VoiceControlActivity extends BaseActivity implements OnTouchListene
 		final VoiceControlActivity that = this;
 		final String hyp = b.getString("hyp");
 
-		System.out.println("RISULTATO PARZIALE CALCOLATO = "+hyp);
+		//System.out.println("RISULTATO PARZIALE CALCOLATO = "+hyp);
 	}
 
 	/** Called with full results are generated. */
 	public void onResults(Bundle b) {
 		final String hyp = b.getString("hyp");
-		
 		matchUtterance(hyp);
 		//fermo registrazione quando riconosciuto comando
 		VoiceControlActivity.this.toggleBtn.setChecked(false);
@@ -228,10 +216,13 @@ public class VoiceControlActivity extends BaseActivity implements OnTouchListene
 		System.out.println("UTTERANCE ARRIVATO: "+utt);
 		
 		String cmd = "STOP";
+		int speed = 30;
 		
 		if(utt != null){
 		
+			//vettore parole utterance
 			String[] words = utt.split(" ");
+			
 			boolean commandRecognized = false;
 
 			for(String hot:hotWords){
@@ -245,16 +236,34 @@ public class VoiceControlActivity extends BaseActivity implements OnTouchListene
 				if(commandRecognized){
 					break;
 				}			
-			}	
+			}
+	
+			/*//per gestire velocità comando
+			if(words.length == 3){
+				
+				if( words[1].equals("LEFT") || words[1].equals("RIGHT") || words[1].equals("FORWARD")){
+					
+					if(words[2].equals("ONE")){
+						speed = 60;
+					}
+					else if(words[2].equals("TWO")){
+						speed = 90;
+					}
+				}
+			}
+			*/
+			
+			System.out.println("IL COMANDO è: = "+cmd /*+"VELOCITà  = "+speed*/);
+			
+			//passo all'handler il messaggio per poterlo consegnare al thread dell' UI
+			Message msg = this.rec.getHandler().obtainMessage();
+			Bundle b = new Bundle();
+			b.putString("cmd", cmd);
+			//b.putInt("spd",speed);
+			msg.setData(b);
+			this.rec.getHandler().sendMessage(msg);
 		}
-		System.out.println("IL COMANDO √®: = "+cmd);
-		
-		//passo all'handler il messaggio per poterlo consegnare al thread dell' UI
-		Message msg = this.rec.getHandler().obtainMessage();
-		Bundle b = new Bundle();
-		b.putString("cmd", cmd);
-		msg.setData(b);
-		this.rec.getHandler().sendMessage(msg);
+
 		
 	}
 	
@@ -294,14 +303,20 @@ public class VoiceControlActivity extends BaseActivity implements OnTouchListene
 	private void createCommands(){
 	
 		hotWords = new ArrayList<String>();
+		speedWords = new ArrayList<String>();
+		
 		hotWords.add("STOP");
 		hotWords.add("OFF");
 		hotWords.add("FORWARD");
 		hotWords.add("STRAIGHT");
 		hotWords.add("BACKWARD");
+		hotWords.add("BACK");
 		hotWords.add("RIGHT");
 		hotWords.add("LEFT");
-		hotWords.add("BACK");
+		
+		
+		speedWords.add("ONE");
+		speedWords.add("TWO");
 	}	
 }
 	
