@@ -4,6 +4,8 @@ package it.sapienza.robotsample;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -47,14 +49,6 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	 * Progress dialog for final recognition.
 	 */
 	ProgressDialog rec_dialog;
-	/**
-	 * Performance counter view.
-	 */
-	TextView performance_text;
-	/**
-	 * Editable text view.
-	 */
-	EditText edit_text;
 	
 	private ImageView signalImg;
 	
@@ -64,7 +58,9 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	private WebView baseWV;
 	
 	private ToggleButton toggleBtn;
-
+	
+	private Timer timer;
+	
 	private ArrayList<String> hotWords;
 	private ArrayList<String> speedWords;
 	
@@ -131,6 +127,10 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	/** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+				
+		timer = new Timer();
+		
+		System.out.println("VOICE CONTROL: On Create");
 		setContentView(R.layout.pocketsphinx);
 		
 		signalImg = (ImageView) findViewById(R.id.signal);
@@ -172,7 +172,27 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 			System.out.println("ASCOLTO");
 			this.listening = true;
 			this.rec.start();
-		
+			
+			timer = new Timer();
+			
+			try{
+				timer.schedule(new TimerTask() {
+
+					public void run() {
+						runOnUiThread(new Runnable() {
+			                public void run() {
+			                    // some code #3 (that needs to be ran in UI thread)
+								System.out.println("AUTO FERMO REC");
+								toggleBtn.setChecked(false);
+			                }
+			            });						
+					}
+				}, 5000);
+			}
+			catch(IllegalStateException e){
+				System.out.println("ERRORE timer: "+e.getLocalizedMessage());
+			}
+			
 			//auto stop dopo X secondi
 			/*final Handler handler = new Handler();
 			handler.postDelayed(new Runnable() {
@@ -186,8 +206,11 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		else{
 			System.out.println("FERMO");
 			if (this.listening) {
-				Log.d(getClass().getName(), "Showing Dialog");
 				this.listening = false;
+			}
+			if(timer != null){
+				timer.cancel();
+				timer.purge();
 			}
 			this.rec.stop();
 		}
@@ -198,7 +221,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	public void onPartialResults(Bundle b) {
 		final VoiceControlActivity that = this;
 		final String hyp = b.getString("hyp");
-
+		
 		
 		try{
 			if(hyp.split(" ").length == 3 || hyp.split(" ").length == 2){
@@ -221,8 +244,6 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	public void onResults(Bundle b) {
 		final String hyp = b.getString("hyp");
 		matchUtterance(hyp);
-		//fermo registrazione quando riconosciuto comando
-		VoiceControlActivity.this.toggleBtn.setChecked(false);
 	}
 
 	public void onError(int err) {
@@ -264,7 +285,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 				}			
 			}
 	
-			/*//per gestire velocità comando
+			/*//per gestire velocitÔøΩ comando
 			if(words.length == 3){
 				
 				if( words[1].equals("LEFT") || words[1].equals("RIGHT") || words[1].equals("FORWARD")){
@@ -279,7 +300,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 			}
 			*/
 			
-			System.out.println("IL COMANDO è: = "+cmd /*+"VELOCITà  = "+speed*/);
+			System.out.println("IL COMANDO ÔøΩ: = "+cmd /*+"VELOCITÔøΩ  = "+speed*/);
 			
 			//passo all'handler il messaggio per poterlo consegnare al thread dell' UI
 			Message msg = this.rec.getHandler().obtainMessage();
@@ -339,6 +360,8 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		hotWords.add("BACK");
 		hotWords.add("RIGHT");
 		hotWords.add("LEFT");
+		//hotWords.add("TAKE");
+		//hotWords.add("LEAVE");
 		
 		
 		speedWords.add("ONE");
