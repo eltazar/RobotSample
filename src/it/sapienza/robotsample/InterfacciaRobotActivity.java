@@ -20,7 +20,7 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 	private float mCenter_y;
 	private float increment = 0.5f;
 	
-	private final int activity_index = 2;
+	private final int activity_index = 1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
