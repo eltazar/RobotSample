@@ -151,6 +151,15 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	}
 	
 	@Override
+	public void onPause(){
+		super.onPause();
+		System.out.println("VOICE CONTRO: On Pause");
+		this.rec.stop();
+		this.rec_thread.interrupt();
+		this.rec_thread = null;
+	}
+	
+	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		
 		if(isChecked){
