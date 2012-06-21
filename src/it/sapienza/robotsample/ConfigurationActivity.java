@@ -328,31 +328,29 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		int portNumber;
 
 		try{
+			//creo socket con stream in/out associati
 			portNumber = Integer.parseInt(port);
+			System.out.println("Client: Richiesta connessione con: " + ipAddress+"/"+port);
+			
+			socketAndStream = new MessageIOStream( InetAddress.getByName(ipAddress),portNumber,5000);
+			System.out.println("Client: Connessione stabilita");
+			//associo al protocolAdapter un socket e stream
+			pAdapt.setProtocolAdapter(socketAndStream);
 
-			try{
-				//creo socket con stream in/out associati
-				System.out.println("Client: Richiesta connessione con: " + ipAddress+"/"+port);
-				socketAndStream = new MessageIOStream( InetAddress.getByName(ipAddress),portNumber,5000);
-				System.out.println("Client: Connessione stabilita");
-				//associo al protocolAdapter un socket e stream
-				pAdapt.setProtocolAdapter(socketAndStream);
-				
-				status.setText("Connesso");
-				ipRobot.setText("Ip: "+ pAdapt.getAssociatedStream().getIpAddress());
-				portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
-				connectBtn.setEnabled(false);
-				this.openOptionsMenu();
-			}
-			catch (UnknownHostException ex) {
-				System.out.println("Client: Impossibile connettersi"+ex.getLocalizedMessage());
-				status.setText("Impossibile connettersi");
-				//System.exit(0);
-			} catch (java.io.IOException ex) {
-				System.out.println("Client: Impossibile connettersi"+ex.getLocalizedMessage());
-				status.setText("Impossibile connettersi");
-				//System.exit(0);
-			}
+			status.setText("Connesso");
+			ipRobot.setText("Ip: "+ pAdapt.getAssociatedStream().getIpAddress());
+			portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
+			connectBtn.setEnabled(false);
+			this.openOptionsMenu();
+		}
+		catch (UnknownHostException ex) {
+			System.out.println("Client: Impossibile connettersi"+ex.getLocalizedMessage());
+			status.setText("Impossibile connettersi");
+			//System.exit(0);
+		} catch (java.io.IOException ex) {
+			System.out.println("Client: Impossibile connettersi"+ex.getLocalizedMessage());
+			status.setText("Impossibile connettersi");
+			//System.exit(0);
 		}
 		catch(NumberFormatException ex){
 			System.out.println("Client: Numero di porta errato:"+ex.getLocalizedMessage());
