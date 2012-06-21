@@ -159,10 +159,11 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	public void onPause(){
 		super.onPause();
 		System.out.println("VOICE CONTROL: On Pause");
-		this.rec.setRecognitionListener(null);
-		this.rec.stop();
-		this.rec_thread.interrupt();
-		this.rec_thread = null;
+		//this.rec.setRecognitionListener(null);
+		//this.rec.stop();
+		//this.rec_thread.interrupt();
+		//this.rec_thread = null;
+		
 	}
 	
 	@Override
