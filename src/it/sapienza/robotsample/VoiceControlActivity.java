@@ -73,12 +73,17 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		public void handleMessage(Message msg) {
 			 Bundle bundle = msg.getData();
 			 
-			 System.out.println("HANDLER: RICEVUTO MESSAGGIO = "+bundle.getString("cmd")/*+" "+bundle.getInt("spd")*/);
+			
 			 
 			 ProtocolAdapter pAdapt = ProtocolAdapter.getInstance();
 
-		     if(bundle.containsKey("cmd") /*&& bundle.containsKey("spd")*/) {
+			 if(bundle.containsKey("check")){
+				//fermo registrazione quando riconosciuto comando
+					VoiceControlActivity.this.toggleBtn.setChecked(false);
+			 }
+			 else if(bundle.containsKey("cmd") /*&& bundle.containsKey("spd")*/) {
 		      
+				System.out.println("HANDLER: RICEVUTO COMANDO = "+bundle.getString("cmd")/*+" "+bundle.getInt("spd")*/);
 		    	String cmd = bundle.getString("cmd");
 		    	
 		    	//per comandi vocali avanzati 
@@ -194,6 +199,21 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		final VoiceControlActivity that = this;
 		final String hyp = b.getString("hyp");
 
+		
+		try{
+			if(hyp.split(" ").length == 3 || hyp.split(" ").length == 2){
+				Message msg = this.rec.getHandler().obtainMessage();
+				Bundle bundle = new Bundle();
+				bundle.putString("check", "check");
+				//b.putInt("spd",speed);
+				msg.setData(bundle);
+				this.rec.getHandler().sendMessage(msg);
+			}
+		}
+		catch(NullPointerException e){
+			System.out.println("Frase parziale null point exception");
+		}
+		
 		//System.out.println("RISULTATO PARZIALE CALCOLATO = "+hyp);
 	}
 
