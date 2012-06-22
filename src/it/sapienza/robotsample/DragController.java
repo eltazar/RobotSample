@@ -240,9 +240,9 @@ public class DragController extends MyAbsoluteLayout {
 			protocolAdapter.sendMessage(pitch, roll);
 			float speed = Math.max(Math.abs(pitch),Math.abs(roll));
 			int spd = (int)(speed*128);
-			System.out.println("PITCH = "+pitch+" ROLL = "+roll+" SPEED = "+speed+" TOT = "+spd);
+			//System.out.println("PITCH = "+pitch+" ROLL = "+roll+" SPEED = "+speed+" TOT = "+spd);
 			
-			handler.sendEmptyMessage(spd/10);
+			handler.sendEmptyMessage(spd);
     	}
     	catch (java.io.IOException ex) {
             System.out.println("Eccezione in sendMessage: "+ex.getLocalizedMessage());
