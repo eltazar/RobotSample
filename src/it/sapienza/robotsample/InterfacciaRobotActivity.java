@@ -29,16 +29,27 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 	
 	//gestore per i messaggi relativi alla progress bar
 	private Handler handler = new Handler() {
+		
+		private int oldValue = 0;
 		@Override
 		public void handleMessage(Message msg) {
 			//System.out.println("INCREMENTO PROGRESS BAR");
 			//incremento la status bar col valore ritornato
+			
 			if(msg.what == 0){
 				for(int i = speedometer.getProgress(); i >= 0; i--){
 					speedometer.incrementProgressBy(-i);
 				}
 			}
-			speedometer.incrementProgressBy(msg.what);
+			if(msg.what > oldValue){
+				System.out.println("ora è = "+speedometer.getProgress()+"arrivato = "+msg.what+" incremento di = "+Math.abs(msg.what-speedometer.getProgress()));
+				speedometer.incrementProgressBy(Math.abs(msg.what-speedometer.getProgress()));
+				oldValue = msg.what;
+			}
+			else if(msg.what < oldValue){
+				speedometer.incrementProgressBy(Math.abs(msg.what-oldValue));
+				oldValue = msg.what;
+			}
 		}
 	};
 
