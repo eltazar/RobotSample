@@ -136,7 +136,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		signalImg = (ImageView) findViewById(R.id.signal);
 		
 		baseWV = (WebView)findViewById(R.id.webView);
-		baseWV.loadUrl("http://www.google.it");
+		//baseWV.loadUrl("http://www.google.it");
 		baseWV.getSettings().setJavaScriptEnabled(true);
 		baseWV.getSettings().setPluginsEnabled(true);
 				
@@ -193,16 +193,6 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 			catch(IllegalStateException e){
 				System.out.println("ERRORE timer: "+e.getLocalizedMessage());
 			}
-			
-			//auto stop dopo X secondi
-			/*final Handler handler = new Handler();
-			handler.postDelayed(new Runnable() {
-			  @Override
-			  public void run() {
-				  System.out.println("AUTO FERMO REC");
-				  //PocketSphinxDemo.this.toggleBtn.setChecked(false);
-			  }
-			}, 10000);*/
 		}
 		else{
 			System.out.println("FERMO");
