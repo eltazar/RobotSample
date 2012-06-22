@@ -2,6 +2,7 @@ package it.sapienza.robotsample;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Handler;
 import android.os.IBinder;
 import android.view.View;
 import android.view.MotionEvent;
@@ -45,14 +46,26 @@ public class DragController extends MyAbsoluteLayout {
 	/** The window token used as the parent for the DragView. */
 	private IBinder mWindowToken;
 	
-	static ProtocolAdapter protocolAdapter;
+	private static ProtocolAdapter protocolAdapter;
 
 	private float view_center_x, view_center_y;
+	
+	private Handler handler;
+	
+	private int old_speed = 0;
+	private int new_speed = 0;
 
 	public DragController(Context context) {
 		super(context);
 		mContext = context;
 		
+		protocolAdapter = ProtocolAdapter.getInstance();
+	}
+	
+	public DragController(Context context,Handler h) {
+		super(context);
+		mContext = context;
+		handler = h;
 		protocolAdapter = ProtocolAdapter.getInstance();
 	}
 
@@ -138,6 +151,7 @@ public class DragController extends MyAbsoluteLayout {
 			if (mOriginator != null) {
 				try{
 					protocolAdapter.sendMessage(0, 0);
+					handler.sendEmptyMessage(0);
 		    	}
 		    	catch (java.io.IOException ex) {
 		            System.out.println("Eccezione in sendMessage: "+ex.getLocalizedMessage());
@@ -224,6 +238,11 @@ public class DragController extends MyAbsoluteLayout {
 
 		try{
 			protocolAdapter.sendMessage(pitch, roll);
+			float speed = Math.max(Math.abs(pitch),Math.abs(roll));
+			int spd = (int)(speed*128);
+			System.out.println("PITCH = "+pitch+" ROLL = "+roll+" SPEED = "+speed+" TOT = "+spd);
+			
+			handler.sendEmptyMessage(spd/10);
     	}
     	catch (java.io.IOException ex) {
             System.out.println("Eccezione in sendMessage: "+ex.getLocalizedMessage());
