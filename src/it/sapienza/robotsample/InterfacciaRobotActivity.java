@@ -2,6 +2,8 @@ package it.sapienza.robotsample;
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 public class InterfacciaRobotActivity extends BaseActivity implements OnTouchListener {
 
@@ -21,6 +24,23 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 	private float increment = 0.5f;
 	
 	private final int activity_index = 1;
+	
+	private ProgressBar speedometer;
+	
+	//gestore per i messaggi relativi alla progress bar
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			//System.out.println("INCREMENTO PROGRESS BAR");
+			//incremento la status bar col valore ritornato
+			if(msg.what == 0){
+				for(int i = speedometer.getProgress(); i >= 0; i--){
+					speedometer.incrementProgressBy(-i);
+				}
+			}
+			speedometer.incrementProgressBy(msg.what);
+		}
+	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -29,11 +49,14 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 
 		//Otteniamo il riferimento alla WebView
 		baseWV = (WebView)findViewById(R.id.baseWV);
-		baseWV.loadUrl("http://rackbot:rackbot@172.20.10.4/mobile.htm");
+		//baseWV.loadUrl("http://rackbot:rackbot@172.20.10.4/mobile.htm");
+		//baseWV.loadUrl("http://www.google.it");
 		baseWV.getSettings().setJavaScriptEnabled(true);
 		baseWV.getSettings().setPluginsEnabled(true);
 
-		mDragController = new DragController(this);
+		speedometer = (ProgressBar) findViewById(R.id.speed);
+		
+		mDragController = new DragController(this, handler);
 		setUpViews();
 	}
 	
