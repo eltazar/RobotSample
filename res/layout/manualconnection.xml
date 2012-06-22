@@ -71,7 +71,7 @@
         android:layout_marginLeft="21dp"
         android:text="ROBOT: "
         android:textColor="#000000"
-        foo:customFont="fonts/droidsans.ttf" />
+        foo:customFont="fonts/droidsansbold.ttf" />
 
     <it.sapienza.widget.CustomTextView
         android:id="@+id/ipRobot"
