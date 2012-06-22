@@ -47,7 +47,7 @@
            <ProgressBar
                android:id="@+id/speed"
                style="?android:attr/progressBarStyleHorizontal"
-               android:layout_width="150dp"
+               android:layout_width="200dp"
                android:max="128"
                android:progress="0"
                android:layout_height="wrap_content"
