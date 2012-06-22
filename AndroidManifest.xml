@@ -46,7 +46,8 @@
         </activity>
         <activity 
             android:screenOrientation="landscape" 
-            android:name=".VoiceControlActivity">
+            android:name=".VoiceControlActivity"
+            android:theme="@android:style/Theme.NoTitleBar">
         </activity>
     </application>
 
