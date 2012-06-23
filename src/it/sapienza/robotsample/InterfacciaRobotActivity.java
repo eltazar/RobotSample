@@ -23,7 +23,7 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 	private float mCenter_y;
 	private float increment = 0.5f;
 	
-	private final int activity_index = 1;
+	private final int activity_index = 0;
 	
 	private ProgressBar speedometer;
 	

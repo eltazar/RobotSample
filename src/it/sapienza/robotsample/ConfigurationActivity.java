@@ -435,7 +435,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	@Override
 	public boolean onPrepareOptionsMenu (Menu menu) {
 		//disabilita il relativo tasto del menu option
-		menu.getItem(0).setEnabled(false);
+		menu.getItem(2).setEnabled(false);
 		return true;
 	}
 }

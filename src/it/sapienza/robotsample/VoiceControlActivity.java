@@ -244,7 +244,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		
-		menu.getItem(2).setEnabled(false);
+		menu.getItem(1).setEnabled(false);
 		return true;
 	}
 	
