@@ -1,7 +1,6 @@
 package netInterface;
 
 
-import it.sapienza.robotsample.ProtocolAdapter;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -13,7 +12,6 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.lang.Runnable;
 import android.util.Log;
-import android.app.Activity;
 import android.content.Context;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiInfo;

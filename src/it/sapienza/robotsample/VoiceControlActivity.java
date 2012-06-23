@@ -9,17 +9,15 @@ import java.util.TimerTask;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.Menu;
 import android.webkit.WebView;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class VoiceControlActivity extends BaseActivity implements RecognitionListener, OnCheckedChangeListener {
@@ -57,7 +55,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	*La webView per la cam del robot;
 	*/
 	private WebView baseWV;
-	
+
 	private ToggleButton toggleBtn;
 	private ProgressBar speedometer;
 	private Timer timer;
@@ -127,29 +125,29 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	/** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-				
-		timer = new Timer();
 		
+		timer = new Timer();
+
 		System.out.println("VOICE CONTROL: On Create");
 		setContentView(R.layout.pocketsphinx);
-		
+
 		signalImg = (ImageView) findViewById(R.id.signal);
 		speedometer = (ProgressBar) findViewById(R.id.speedo);
 		baseWV = (WebView)findViewById(R.id.webView);
 		//baseWV.loadUrl("http://www.google.it");
 		baseWV.getSettings().setJavaScriptEnabled(true);
 		baseWV.getSettings().setPluginsEnabled(true);
-				
+
 		createCommands();
-		
+
 		this.rec = new RecognizerTask(handler);
 		//rec.setUsePartials(true);
 		this.rec_thread = new Thread(this.rec);
 		this.listening = false;
-		
+
 		toggleBtn = (ToggleButton) findViewById(R.id.toggle);
 		toggleBtn.setOnCheckedChangeListener(this);
-		
+
 
 		this.rec.setRecognitionListener(this);
 		this.rec_thread.start();
