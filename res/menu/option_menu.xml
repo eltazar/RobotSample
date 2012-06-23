@@ -11,4 +11,9 @@
         android:id="@+id/JoyPad"
         android:title="JoyPad"
         android:icon="@drawable/joystick"/>
+    <item
+        android:id="@+id/voiceControl"
+        android:title="Comandi vocali"
+        android:icon="@drawable/voice"/>
+
 </menu>
