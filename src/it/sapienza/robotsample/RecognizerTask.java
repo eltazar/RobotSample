@@ -6,6 +6,7 @@ import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import edu.cmu.pocketsphinx.Config;
@@ -101,6 +102,8 @@ public class RecognizerTask implements Runnable {
 		}
 	}
 
+	final static String SD_PATH = Environment.getExternalStorageDirectory().toString()+"/";
+	
 	/**
 	 * PocketSphinx native decoder object.
 	 */
@@ -168,7 +171,7 @@ public class RecognizerTask implements Runnable {
 	
 	public RecognizerTask(Handler handler) {
 		pocketsphinx
-				.setLogfile("mnt/sdcard/edu.cmu.pocketsphinx/pocketsphinx.log");
+				.setLogfile(SD_PATH + "edu.cmu.pocketsphinx/pocketsphinx.log");
 		Config c = new Config();
 		this.handler = handler;
 		/*
@@ -181,9 +184,10 @@ public class RecognizerTask implements Runnable {
 				"/sdcard/Android/data/edu.cmu.pocketsphinx/lm/en_US/hub4.5000.dic");
 		c.setString("-lm",
 				"/sdcard/Android/data/edu.cmu.pocketsphinx/lm/en_US/hub4.5000.DMP");*/
-		c.setString("-hmm", "/mnt/sdcard/edu.cmu.pocketsphinx/hmm/en_US/hub4wsj_sc_8k");
-		c.setString("-dict", "/mnt/sdcard/edu.cmu.pocketsphinx/lm/en_US/hub4.5000.dic");
-		c.setString("-lm", "/mnt/sdcard/edu.cmu.pocketsphinx/lm/en_US/hub4.5000.DMP");
+		System.out.println(" STO CAZZO = "+SD_PATH + "edu.cmu.pocketsphinx/hmm/en_US/hub4wsj_sc_8k");
+		c.setString("-hmm", SD_PATH + "edu.cmu.pocketsphinx/hmm/en_US/hub4wsj_sc_8k");
+		c.setString("-dict", SD_PATH + "edu.cmu.pocketsphinx/lm/en_US/hub4.5000.dic");
+		c.setString("-lm", SD_PATH + "edu.cmu.pocketsphinx/lm/en_US/hub4.5000.DMP");
 		/*
 		c.setString("-hmm",
 		"/sdcard/Android/data/edu.cmu.pocketsphinx/hmm/zh/tdt_sc_8k");
@@ -192,7 +196,7 @@ public class RecognizerTask implements Runnable {
 		c.setString("-lm",
 		"/sdcard/Android/data/edu.cmu.pocketsphinx/lm/zh_TW/gigatdt.5000.DMP");
 		*/
-		c.setString("-rawlogdir", "mnt/sdcard/edu.cmu.pocketsphinx");
+		c.setString("-rawlogdir", SD_PATH + "edu.cmu.pocketsphinx");
 		c.setFloat("-samprate", 8000.0);
 		c.setInt("-maxhmmpf", 2000);
 		c.setInt("-maxwpf", 10);
