@@ -18,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -58,7 +59,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	private WebView baseWV;
 	
 	private ToggleButton toggleBtn;
-	
+	private ProgressBar speedometer;
 	private Timer timer;
 	
 	private ArrayList<String> hotWords;
@@ -68,9 +69,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		@Override
 		public void handleMessage(Message msg) {
 			 Bundle bundle = msg.getData();
-			 
-			
-			 
+
 			 ProtocolAdapter pAdapt = ProtocolAdapter.getInstance();
 
 			 if(bundle.containsKey("check")){
@@ -88,31 +87,32 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    	try {
 		    		if(cmd.equals("STOP") || cmd.equals("OFF")){
 		    			signalImg.setImageResource(R.drawable.stop);	
+		    			speedometer.setProgress(0);
 		    			pAdapt.sendMessage("#SPD00\r");
 		    			pAdapt.sendMessage("#TRN00\r");		        	
 		    		}
 		    		else if(cmd.equals("FORWARD") || cmd.equals("STRAIGHT")){
 		    			signalImg.setImageResource(R.drawable.forw);
-
+		    			speedometer.setProgress(90);
 		    			//pAdapt.sendMessage(command);
 		    			pAdapt.sendMessage("#SPD090\r");
 		    			pAdapt.sendMessage("#TRN00\r");
 		    		}
 		    		else if(cmd.equals("BACKWARD") || cmd.equals("BACK")){
 		    			signalImg.setImageResource(R.drawable.backw);
-
+		    			speedometer.setProgress(90);
 		    			pAdapt.sendMessage("#SPD0-90\r");
 		    			pAdapt.sendMessage("#TRN00\r");
 		    		}
 		    		else if(cmd.equals("RIGHT")){
 		    			signalImg.setImageResource(R.drawable.right);
-
+		    			speedometer.setProgress(60);
 		    			pAdapt.sendMessage("#SPD00\r");
 		    			pAdapt.sendMessage("#TRN060\r");
 		    		}
 		    		else if(cmd.equals("LEFT")){
 		    			signalImg.setImageResource(R.drawable.left);
-
+		    			speedometer.setProgress(60);
 		    			pAdapt.sendMessage("#SPD00\r");
 		    			pAdapt.sendMessage("#TRN0-60\r");
 		    		}
@@ -134,7 +134,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		setContentView(R.layout.pocketsphinx);
 		
 		signalImg = (ImageView) findViewById(R.id.signal);
-		
+		speedometer = (ProgressBar) findViewById(R.id.speedo);
 		baseWV = (WebView)findViewById(R.id.webView);
 		//baseWV.loadUrl("http://www.google.it");
 		baseWV.getSettings().setJavaScriptEnabled(true);
