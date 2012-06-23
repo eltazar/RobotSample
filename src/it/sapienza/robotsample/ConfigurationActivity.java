@@ -230,7 +230,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			MessageIOStream socket;
 			
 			try {
-				socket = new MessageIOStream(InetAddress.getByName(ip),80,5000);
+				socket = new MessageIOStream(InetAddress.getByName(ip),80,2500);
 				pAdapt.setProtocolAdapter(socket);
 				try {
 					//mando messaggio al server per dire che sono l'app
