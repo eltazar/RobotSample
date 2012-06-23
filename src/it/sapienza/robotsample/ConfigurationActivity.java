@@ -382,7 +382,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	    	System.out.println("LISTA DI TASK = "+taskList.get(0).numActivities);
 	    	
 	    	//FIX IT: perchè al primo avvio dell'app get(0).numActivities è = 2 ??????
-	    	if((taskList.get(0).numActivities == 1 || taskList.get(0).numActivities == 2) &&
+	    	if((taskList.get(0).numActivities == 1 /*|| taskList.get(0).numActivities == 2*/) &&
 	    			taskList.get(0).topActivity.getClassName().equals(this.getClass().getName())) {
 	    		
     			System.out.println( "Configuration activity: ultima activity dello stack");
