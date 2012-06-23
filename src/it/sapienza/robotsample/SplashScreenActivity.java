@@ -1,17 +1,27 @@
 package it.sapienza.robotsample;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
@@ -24,6 +34,8 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 
 	private ProgressBar bar;
 	private ArrayList<String> scannedIp;
+	final static String SD_PATH = Environment.getExternalStorageDirectory().toString()+"/";
+	
 	//private int mProgressStatus = 0;
 
 	//gestore per i messaggi relativi alla progress bar
@@ -37,15 +49,39 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 	};
 	//private Handler mHandler = new Handler();
 	private NetworkUtility netScan;
-
+	private ProgressDialog progDailog;
+	
 	@Override
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
 		setContentView(R.layout.splashscreen);
 
+		SharedPreferences mPrefs = getSharedPreferences("prefs", Context.MODE_PRIVATE);
+		
+		if(!mPrefs.getBoolean("has_started_before", false)) {
+            // Do what ever you want to do the first time the app is run
+        	System.out.println("APP LANCIATA PRIMA VOLTA");
+        	//copio i file necessari allo speech recognition dalla cartella Assets alla sd card
+        	new Thread(new Runnable(){
+    			public void run(){
+    				System.out.println("THREAD per installazione file su SDCARD");
+    	        	copyFileOrDir("edu.cmu.pocketsphinx");
+    	        	renameFile("mdef.mp3","mdef",SD_PATH+"edu.cmu.pocketsphinx/hmm/en_US/hub4wsj_sc_8k/");
+    	        	renameFile("sendump.mp3","sendump",SD_PATH+"edu.cmu.pocketsphinx/hmm/en_US/hub4wsj_sc_8k/");
+    	        	renameFile("wsj0vp.5000.DMP.mp3","wsj0vp.5000.DMP",SD_PATH+"edu.cmu.pocketsphinx/lm/en_US/");
+    	        	getSharedPreferences("prefs", Context.MODE_PRIVATE).edit().putBoolean("has_started_before", true).commit();		
+    			};
+    		}).start();
+        }
+		//Remember our choice for next time
+		//mPrefs.edit().putBoolean("has_started_before", false).commit();
+
+		System.out.println("NON è PRIMA VOLTA APP");
+
 		bar = (ProgressBar) findViewById(R.id.progress);
 		//associo al networkScanner l'handler
 		netScan = NetworkUtility.getInstance();
+       
 	}
 	
 	@Override
@@ -56,15 +92,92 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 		netScan.setContext(this);
 		netScan.setHandler(handler);
 		//lancio ricerca su un nuovo thread
-		/*new Thread(new Runnable(){
+		new Thread(new Runnable(){
 			public void run(){
 				scannedIp = netScan.doScan();
 				autoConnect();				
 			};
-		}).start();*/
-		startActivity(new Intent(this, InterfacciaRobotActivity.class));
+		}).start();
+		//startActivity(new Intent(this, InterfacciaRobotActivity.class));
+	}
+	
+	/*
+	 * Copia file o dir dalla directory assets nella SDCARD
+	 * */
+	private void copyFileOrDir(String path) {
+	    AssetManager assetManager = this.getAssets();
+	    String assets[] = null;
+	    try {
+	        Log.i("tag", "copyFileOrDir() "+path);
+	        assets = assetManager.list(path);
+	        if (assets.length == 0) {
+	            copyFile(path);
+	        } else {
+	            String fullPath =  SD_PATH + path;
+	            Log.i("tag", "path="+fullPath);
+	            File dir = new File(fullPath);
+	            if (!dir.exists() && !path.startsWith("images") && !path.startsWith("sounds") && !path.startsWith("webkit"))
+	                if (!dir.mkdirs());
+	                    Log.i("tag", "could not create dir "+fullPath);
+	            for (int i = 0; i < assets.length; ++i) {
+	                String p;
+	                if (path.equals(""))
+	                    p = "";
+	                else 
+	                    p = path + "/";
+
+	                if (!path.startsWith("images") && !path.startsWith("sounds") && !path.startsWith("webkit"))
+	                    copyFileOrDir( p + assets[i]);
+	            }
+	        }
+	    } catch (IOException ex) {
+	        Log.e("tag", "I/O Exception", ex);
+	    }
 	}
 
+	private void copyFile(String filename) {
+	    AssetManager assetManager = this.getAssets();
+
+	    InputStream in = null;
+	    OutputStream out = null;
+	    String newFileName = null;
+	    try {
+	        Log.i("tag", "copyFile() "+filename);
+	        in = assetManager.open(filename);
+	        if (filename.endsWith(".jpg")) // extension was added to avoid compression on APK file
+	            newFileName = SD_PATH + filename.substring(0, filename.length()-4);
+	        else
+	            newFileName = SD_PATH + filename;
+	        out = new FileOutputStream(newFileName);
+
+	        byte[] buffer = new byte[1024];
+	        int read;
+	        while ((read = in.read(buffer)) != -1) {
+	            out.write(buffer, 0, read);
+	        }
+	        in.close();
+	        in = null;
+	        out.flush();
+	        out.close();
+	        out = null;
+	    } catch (Exception e) {
+	        Log.e("tag", "Exception in copyFile() of "+newFileName + "perchè: "+e.getCause());
+	        Log.e("tag", "Exception in copyFile() "+e.toString());
+	    }
+
+	}
+
+	private void renameFile(String oldName, String newName, String path){
+
+		//punta a alla dir opportuna
+		File dir = new File(path);
+
+		File from = new File(dir,oldName);
+		File to = new File(dir,newName);
+		if(from.exists())
+			from.renameTo(to);
+	}
+	
 	/*
 	 * Prova a connettersi in automatico con gli indirizzi ritornati dagli scanner alla ricerca 
 	 * di quello appartenente al robot. Questo metodo gira DENTRO il trhead che ha fatto partire la rirca!!
