@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.webkit.WebView;
 
 /*
  * Si occupa di associare a ogni activty che la eredita lo stesso optionsMenu
@@ -39,4 +40,9 @@ public class BaseActivity extends Activity{
     	}
 
     }
+	
+	//setta l'ip della webcam al valore selezionato dall'utente
+	public void setSelectedIp(String ipWebcam)
+	{
+	}
 }
