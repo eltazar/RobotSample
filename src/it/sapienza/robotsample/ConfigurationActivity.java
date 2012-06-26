@@ -35,7 +35,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	private Button manualBtn;
 	private Button rescanBtn;
 	private Button backBtn;
-	
+	private final int activity_index = 2;
 	private ProtocolAdapter pAdapt;
 
 	private TextView ipRobot;
@@ -435,7 +435,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	@Override
 	public boolean onPrepareOptionsMenu (Menu menu) {
 		//disabilita il relativo tasto del menu option
-		menu.getItem(2).setEnabled(false);
+		menu.getItem(activity_index).setEnabled(false);
 		return true;
 	}
 }
