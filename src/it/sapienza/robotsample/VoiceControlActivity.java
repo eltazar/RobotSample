@@ -55,7 +55,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	*La webView per la cam del robot;
 	*/
 	private WebView baseWV;
-
+	private final int activity_index = 1;
 	private ToggleButton toggleBtn;
 	private ProgressBar speedometer;
 	private Timer timer;
@@ -242,7 +242,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		
-		menu.getItem(1).setEnabled(false);
+		menu.getItem(activity_index).setEnabled(false);
 		return true;
 	}
 	
