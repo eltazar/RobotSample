@@ -13,7 +13,7 @@ import android.widget.TextView;
 public class WebcamHandler {
 
 	private ArrayList<String> ips;
-	private InterfacciaRobotActivity IRB;
+	private BaseActivity gui;
 	private int ips_size;
 	private WebView preview1;
 	private WebView preview2;
@@ -28,7 +28,7 @@ public class WebcamHandler {
 	private TextView firstIp;
 	private TextView secondIp;
 
-	public WebcamHandler (FrameLayout frame, InterfacciaRobotActivity irb) {
+	public WebcamHandler (FrameLayout frame, BaseActivity irb) {
 
 		ips = NetworkUtility.getInstance().getIpAddresses();
 		setIRB(irb);
@@ -55,19 +55,19 @@ public class WebcamHandler {
 		 * Da decommentare se presente il robot
 		 *  
 		 */
-		ips = NetworkUtility.getInstance().getIpAddresses();
+		//ips = NetworkUtility.getInstance().getIpAddresses();
 
 		/*
 		 * Da commentare se presente il robot
 		 *  
 		 */
-		/*
+		
 		ips = new ArrayList<String>();
-		ips.add("http://www.java.it");
-		ips.add("http://www.wikipedia.it");
-		ips.add("http://www.mare.it");
-		ips.add("http://www.google.it");
-		ips.add("http://www.meteo.it");*/
+		ips.add("http://www.java.it/");
+		ips.add("http://www.wikipedia.it/");
+		ips.add("http://www.mare.it/");
+		ips.add("http://www.google.it/");
+		ips.add("http://www.meteo.it/");
 
 		ips_size = ips.size();
 
@@ -182,7 +182,8 @@ public class WebcamHandler {
 
 	private String formURL(String ip) {
 
-		return "http://rackbot:rackbot@" + ip + "/mobile.htm";
+		return ip;
+		//return "http://rackbot:rackbot@" + ip + "/mobile.htm";
 	}
 
 	private CharSequence getIpLabel(String string) {
@@ -198,11 +199,11 @@ public class WebcamHandler {
 		this.current_page = current_page;
 	}
 
-	public InterfacciaRobotActivity getIRB() {
-		return IRB;
+	public BaseActivity getIRB() {
+		return gui;
 	}
 
-	public void setIRB(InterfacciaRobotActivity iRB) {
-		IRB = iRB;
+	public void setIRB(BaseActivity iRB) {
+		gui = iRB;
 	}
 }
