@@ -7,20 +7,26 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import netInterface.NetworkUtility;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.Menu;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.webkit.WebView;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class VoiceControlActivity extends BaseActivity implements RecognitionListener, OnCheckedChangeListener {
+public class VoiceControlActivity extends BaseActivity implements RecognitionListener, OnCheckedChangeListener, OnClickListener {
 	static {
 		System.loadLibrary("pocketsphinx_jni");
 	}
@@ -59,7 +65,8 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	private ToggleButton toggleBtn;
 	private ProgressBar speedometer;
 	private Timer timer;
-	
+	private ImageView webcam;
+	private static VoiceControlActivity vocalInt;
 	private ArrayList<String> hotWords;
 	private ArrayList<String> speedWords;
 	
@@ -127,7 +134,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		super.onCreate(savedInstanceState);
 		
 		timer = new Timer();
-
+		vocalInt = this;
 		System.out.println("VOICE CONTROL: On Create");
 		setContentView(R.layout.pocketsphinx);
 
@@ -138,6 +145,9 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		baseWV.getSettings().setJavaScriptEnabled(true);
 		baseWV.getSettings().setPluginsEnabled(true);
 
+		webcam = (ImageView) findViewById(R.id.webcam);
+		webcam.setOnClickListener(this);
+		
 		createCommands();
 
 		this.rec = new RecognizerTask(handler);
@@ -355,6 +365,32 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		
 		speedWords.add("ONE");
 		speedWords.add("TWO");
-	}	
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch ( v.getId() ) {
+			case R.id.webcam:
+				if(NetworkUtility.getInstance().getIpAddresses().size() == 0){
+        			Toast.makeText(getApplicationContext(), "Webcam non disponibile, effettuare una nuova scansione", Toast.LENGTH_LONG).show();
+        			}
+        		else {
+        			FrameLayout frameLayout = (FrameLayout)findViewById(R.id.preview);        		
+        			//lancia la nuova activity
+        			new WebcamHandler(frameLayout, vocalInt);
+        		}
+				break;
+			default:
+				break;
+		}
+	}
+	
+	//setta l'ip della webcam al valore selezionato dall'utente
+	public void setSelectedIp(String ipWebcam)
+	{
+		//String finalIp = "http://rackbot:rackbot@" + ipWebcam + "/mobile.htm";
+		//baseWV.loadUrl(finalIp);
+		baseWV.loadUrl(ipWebcam);
+	}
 }
 	
