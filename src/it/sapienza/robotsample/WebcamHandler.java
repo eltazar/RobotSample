@@ -39,7 +39,9 @@ public class WebcamHandler {
 		frameLayout.focusableViewAvailable(frameLayout);
 
 		preview1 = (WebView)frameLayout.findViewById(R.id.webView1);
+		preview1.setInitialScale(1);
 		preview2 = (WebView)frameLayout.findViewById(R.id.webView2);
+		preview2.setInitialScale(1);
 
 		previous = (TextView)frameLayout.findViewById(R.id.previous);
 		next = (TextView)frameLayout.findViewById(R.id.next);
