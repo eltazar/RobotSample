@@ -53,7 +53,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			System.out.println("INCREMENTO PROGRESS BAR");
+			//System.out.println("INCREMENTO PROGRESS BAR");
 			//incremento la status bar col valore ritornato
 			bar.incrementProgressBy(msg.what);
 		}
@@ -224,6 +224,11 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		String ack = "";
 		boolean isAutoconnected = false;
 		
+		ConfigurationActivity.this.runOnUiThread(new Runnable() {
+		    public void run() {
+				((TextView)findViewById(R.id.searchTxt)).setVisibility(View.VISIBLE);
+		    }
+		});		
 		for( String ip : scannedIp){
 			System.out.println("Sto provando a connettermi a: = "+ip);
 			
@@ -279,6 +284,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 					portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
 					status.setText("Connesso");
 					rescanBtn.setEnabled(false);
+					((TextView)findViewById(R.id.searchTxt)).setVisibility(View.INVISIBLE);
 					bar.setProgress(0);
 			    	openOptionsMenu();
 			    }
@@ -292,6 +298,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 					portRobot.setText("Porta: --");
 					status.setText("Impossibile connettersi");
 					rescanBtn.setEnabled(true);
+					((TextView)findViewById(R.id.searchTxt)).setVisibility(View.INVISIBLE);
 					bar.setProgress(0);
 			    }
 			});
