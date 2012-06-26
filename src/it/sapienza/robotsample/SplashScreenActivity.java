@@ -42,7 +42,7 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			System.out.println("INCREMENTO PROGRESS BAR");
+			//System.out.println("INCREMENTO PROGRESS BAR");
 			//incremento la status bar col valore ritornato
 			bar.incrementProgressBy(msg.what);
 		}
