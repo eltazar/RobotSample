@@ -55,20 +55,20 @@ public class WebcamHandler {
 		 * Da decommentare se presente il robot
 		 *  
 		 */
-		//ips = NetworkUtility.getInstance().getIpAddresses();
+		ips = NetworkUtility.getInstance().getIpAddresses();
 
 		/*
 		 * Da commentare se presente il robot
 		 *  
 		 */
-		
+		/*
 		ips = new ArrayList<String>();
 		ips.add("http://www.java.it/");
 		ips.add("http://www.wikipedia.it/");
 		ips.add("http://www.mare.it/");
 		ips.add("http://www.google.it/");
 		ips.add("http://www.meteo.it/");
-
+		 */
 		ips_size = ips.size();
 
 		setWebViews();
@@ -182,8 +182,7 @@ public class WebcamHandler {
 
 	private String formURL(String ip) {
 
-		return ip;
-		//return "http://rackbot:rackbot@" + ip + "/mobile.htm";
+		return "http://rackbot:rackbot@" + ip + "/mobile.htm";
 	}
 
 	private CharSequence getIpLabel(String string) {
