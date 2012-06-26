@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:keepScreenOn="true" >
 
     <WebView
         android:id="@+id/baseWV"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 
-       <it.sapienza.robotsample.DragLayer
+    <it.sapienza.robotsample.DragLayer
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:launcher="http://schemas.android.com/apk/res/com.android.launcher"
         android:id="@+id/drag_layer"
@@ -16,46 +17,133 @@
         android:layout_height="match_parent" >
     </it.sapienza.robotsample.DragLayer>
 
-       <RelativeLayout
-           android:layout_width="fill_parent"
-           android:layout_height="fill_parent"
-           android:layout_alignParentLeft="true"
-           android:layout_alignParentTop="true" >
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
 
-           <ImageView
-               android:id="@+id/imageView1"
-               android:layout_width="120dp"
-               android:layout_height="120dp"
-               android:layout_alignParentBottom="true"
-               android:layout_alignParentRight="true"
-               android:layout_margin="20dp"
-               android:layout_marginBottom="17dp"
-               android:layout_marginRight="14dp"
-               android:scaleType="fitEnd"
-               android:src="@drawable/onscreen_control_base" />
+        <ImageView
+            android:id="@+id/imageView1"
+            android:contentDescription="@string/desc1"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="20dp"
+            android:layout_marginBottom="17dp"
+            android:layout_marginRight="14dp"
+            android:scaleType="fitEnd"
+            android:src="@drawable/onscreen_control_base" />
 
-           <ImageView
-               android:id="@+id/imageView2"
-               android:layout_width="67dp"
-               android:layout_height="67dp"
-               android:layout_alignBottom="@+id/imageView1"
-               android:layout_alignRight="@+id/imageView1"
-               android:layout_marginBottom="26dp"
-               android:layout_marginRight="26dp"
-               android:src="@drawable/onscreen_control_knob" />
+        <ImageView
+            android:id="@+id/imageView2"
+            android:contentDescription="@string/desc2"
+            android:layout_width="67dp"
+            android:layout_height="67dp"
+            android:layout_alignBottom="@+id/imageView1"
+            android:layout_alignRight="@+id/imageView1"
+            android:layout_marginBottom="26dp"
+            android:layout_marginRight="26dp"
+            android:src="@drawable/onscreen_control_knob" />
 
-           <ProgressBar
-               android:id="@+id/speed"
-               style="?android:attr/progressBarStyleHorizontal"
-               android:layout_width="200dp"
-               android:max="128"
-               android:progress="0"
-               android:layout_height="wrap_content"
-               android:layout_alignBottom="@+id/imageView1"
-               android:layout_alignParentLeft="true"
-               android:layout_marginLeft="23dp"
-               android:progressDrawable="@drawable/speedometer" />
+        <ProgressBar
+            android:id="@+id/speed"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView1"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="23dp"
+            android:max="128"
+            android:progress="0"
+            android:progressDrawable="@drawable/speedometer" />
 
-       </RelativeLayout>
+        <ImageView
+            android:id="@+id/imageView3"
+            android:contentDescription="@string/desc3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignRight="@+id/imageView1"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/webcam" />
+
+        <FrameLayout
+            android:id="@+id/preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imageView1"
+            android:layout_alignLeft="@+id/speed"
+            android:layout_alignRight="@+id/imageView1"
+            android:layout_alignTop="@+id/imageView3"
+            android:background="#545454"
+            android:visibility="gone" >
+
+            <WebView
+                android:id="@+id/webView1"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center|left"
+                android:layout_marginLeft="60dp" />
+
+            <WebView
+                android:id="@+id/webView2"
+                android:layout_width="150dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center|right"
+                android:layout_marginRight="60dp" />
+
+            <TextView
+                android:id="@+id/next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="15dp"
+                android:padding="5dp"
+                android:text="@string/Next" />
+
+            <TextView
+                android:id="@+id/previous"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|left"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="15dp"
+                android:padding="5dp"
+                android:text="@string/Back" />
+
+            <TextView
+                android:id="@+id/pages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="5dp"
+                android:padding="5dp"
+                android:text="@string/numpage" />
+
+            <TextView
+                android:id="@+id/firstip"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="48dp"
+                android:gravity="center"
+                android:text="@string/label1" />
+
+            <TextView
+                android:id="@+id/secondip"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="48dp"
+                android:layout_marginRight="60dp"
+                android:gravity="center"
+                android:text="@string/label2" />
+
+        </FrameLayout>
+    </RelativeLayout>
 
 </RelativeLayout>
