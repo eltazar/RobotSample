@@ -20,7 +20,7 @@ import android.os.Handler;
 
 public class NetworkUtility{
 
-	private static final int NB_THREADS = 5;
+	private static final int NB_THREADS = 10;
 	private static final String LOG_TAG = "NetworkScanner";
 	private Context mContext;
 	private ArrayList<String> ipScanned;
@@ -104,7 +104,7 @@ public class NetworkUtility{
 	            Log.i(LOG_TAG, "Pinging " + host + "...");
 	            try {
 	                InetAddress inet = InetAddress.getByName(host);
-	                boolean reachable = inet.isReachable(1200);
+	                boolean reachable = inet.isReachable(2000);
 	                Log.i(LOG_TAG, "=> Result: " + (reachable ? "reachable" : "not reachable"));
 	                if(reachable){
 	                	ipScanned.add(host);
