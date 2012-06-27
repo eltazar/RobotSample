@@ -45,23 +45,23 @@ public class DragController extends MyAbsoluteLayout {
 
 	/** The window token used as the parent for the DragView. */
 	private IBinder mWindowToken;
-	
+
 	private static ProtocolAdapter protocolAdapter;
 
 	private float view_center_x, view_center_y;
-	
+
 	private Handler handler;
-	
-	private int old_speed = 0;
-	private int new_speed = 0;
+
+	private int global_pitch = 0;
+	private int global_roll = 0;
 
 	public DragController(Context context) {
 		super(context);
 		mContext = context;
-		
+
 		protocolAdapter = ProtocolAdapter.getInstance();
 	}
-	
+
 	public DragController(Context context,Handler h) {
 		super(context);
 		mContext = context;
@@ -110,7 +110,7 @@ public class DragController extends MyAbsoluteLayout {
 		dragView.show(mWindowToken, (int)view_center_x, (int)view_center_y);
 	}
 
-	
+
 	//Draw the view into a bitmap.
 	private Bitmap getViewBitmap(View v) {
 		v.clearFocus();
@@ -143,7 +143,7 @@ public class DragController extends MyAbsoluteLayout {
 		return bitmap;
 	}
 
-	
+
 	//Stop dragging without dropping.
 	private void endDrag() {
 		if (mDragging) {
@@ -152,10 +152,10 @@ public class DragController extends MyAbsoluteLayout {
 				try{
 					protocolAdapter.sendMessage(0, 0);
 					handler.sendEmptyMessage(0);
-		    	}
-		    	catch (java.io.IOException ex) {
-		            System.out.println("Eccezione in sendMessage: "+ex.getLocalizedMessage());
-		        }
+				}
+				catch (java.io.IOException ex) {
+					System.out.println("Eccezione in sendMessage: "+ex.getLocalizedMessage());
+				}
 				mOriginator.setVisibility(View.VISIBLE);
 			}
 
@@ -166,11 +166,11 @@ public class DragController extends MyAbsoluteLayout {
 		}
 	}
 
-	
+
 	//Call this from a drag source view.
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		final int action = ev.getAction();
-		
+
 		switch (action) {
 		case MotionEvent.ACTION_MOVE:
 			break;
@@ -187,7 +187,7 @@ public class DragController extends MyAbsoluteLayout {
 		return mDragging;
 	}
 
-	
+
 	//Call this from a drag source view.
 	public boolean onTouchEvent(MotionEvent ev) {
 		if (!mDragging) {
@@ -212,7 +212,7 @@ public class DragController extends MyAbsoluteLayout {
 
 		if(dist > outBoundDist)
 			action = MotionEvent.ACTION_UP;
-		
+
 		if(dist <= max_dist) {
 
 			screenX = (int)ev.getRawX();
@@ -236,17 +236,32 @@ public class DragController extends MyAbsoluteLayout {
 		float roll = (screenX - view_center_x)/max_dist;
 		float pitch = -(screenY - view_center_y)/max_dist;
 
-		try{
-			protocolAdapter.sendMessage(pitch, roll);
-			float speed = Math.max(Math.abs(pitch),Math.abs(roll));
-			int spd = (int)(speed*128);
-			//System.out.println("PITCH = "+pitch+" ROLL = "+roll+" SPEED = "+speed+" TOT = "+spd);
-			
-			handler.sendEmptyMessage(spd);
-    	}
-    	catch (java.io.IOException ex) {
-            System.out.println("Eccezione in sendMessage: "+ex.getLocalizedMessage());
-        }
+		int local_roll = (int)(roll*10);
+		int local_pitch = (int)(pitch*10);
+		
+		System.out.println("int_local pitch = " + local_pitch + " int_local roll = " + local_roll);
+		System.out.println("int_global pitch = " + global_pitch + " int_global roll = " + global_roll);
+		
+		if(local_roll != global_roll || local_pitch!= global_pitch) {
+
+			global_roll = local_roll;
+			global_pitch = local_pitch;
+
+			try{
+
+				protocolAdapter.sendMessage(pitch, roll);
+				
+			}
+			catch (java.io.IOException ex) {
+				System.out.println("Eccezione in sendMessage: "+ex.getLocalizedMessage());
+			}
+		}
+		
+		float speed = Math.max(Math.abs(pitch),Math.abs(roll));
+		int spd = (int)(speed*128);
+		//System.out.println("PITCH = "+pitch+" ROLL = "+roll+" SPEED = "+speed+" TOT = "+spd);
+
+		handler.sendEmptyMessage(spd);
 		
 		switch (action) {
 
@@ -271,7 +286,7 @@ public class DragController extends MyAbsoluteLayout {
 		return true;
 	}
 
-	
+
 	//Add a DropTarget to the list of potential places to receive drop events
 	public void addDropTarget(DragLayer target) {
 		mDragLayer.add(target);
