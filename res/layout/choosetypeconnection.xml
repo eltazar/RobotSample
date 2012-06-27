@@ -1,18 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:foo="http://schemas.android.com/apk/res/it.sapienza.robotsample"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/metalbackground" >
 
     <!-- android:background="#000000" -->
 
+    <TextView
+        android:id="@+id/hack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="23dp"
+        android:text="choose"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/test_image"
+        android:layout_width="200dp"
+        android:layout_height="150dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="26dp"
+        android:src="@drawable/metalplate2" />
+
+    <it.sapienza.widget.CustomTextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/test_image"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="85dp"
+        android:text="ROBOT: "
+        android:textColor="#000000"
+        foo:customFont="fonts/droidsansbold.ttf" />
+
+    <it.sapienza.widget.CustomTextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/test_image"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="160dp"
+        android:text="Non connesso"
+        android:textColor="#000000"
+        foo:customFont="fonts/droidsans.ttf" />
+
+    <it.sapienza.widget.CustomTextView
+        android:id="@+id/portRobot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/test_image"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="135dp"
+        android:text="Porta: --"
+        android:textColor="#000000"
+        foo:customFont="fonts/droidsans.ttf" />
+
+    <it.sapienza.widget.CustomTextView
+        android:id="@+id/ipRobot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/test_image"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="110dp"
+        android:text="Ip: --"
+        android:textColor="#000000"
+        foo:customFont="fonts/droidsans.ttf" />
+
     <Button
         android:id="@+id/manualConnection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="76dp"
+        android:layout_alignBottom="@+id/ipRobot"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="55dp"
         android:text="Connessione manuale" />
 
     <Button
@@ -21,18 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/manualConnection"
         android:layout_alignRight="@+id/manualConnection"
-        android:layout_below="@+id/manualConnection"
-        android:layout_marginTop="17dp"
+        android:layout_below="@+id/portRobot"
         android:text="Ricerca automatica" />
-
-    <TextView
-        android:id="@+id/hack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/autoconnectBtn"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="23dp"
-        android:visibility="gone"
-        android:text="choose" />
 
 </RelativeLayout>

@@ -3,7 +3,8 @@
     xmlns:foo="http://schemas.android.com/apk/res/it.sapienza.robotsample"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/metalbackground" >
+    android:background="@drawable/metalbackground"
+    android:keepScreenOn="true" >
 
     <!-- android:background="#000000" -->
 
