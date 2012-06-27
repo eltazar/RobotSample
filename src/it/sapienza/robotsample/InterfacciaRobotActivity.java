@@ -43,12 +43,12 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 			
 
 			if(msg.what > oldValue){
-				System.out.println("ACCEL: ora è = "+speedometer.getProgress()+"arrivato = "+msg.what+" incremento di = "+Math.abs(msg.what-speedometer.getProgress()));
+				//System.out.println("ACCEL: ora è = "+speedometer.getProgress()+"arrivato = "+msg.what+" incremento di = "+Math.abs(msg.what-speedometer.getProgress()));
 				speedometer.incrementProgressBy(Math.abs(msg.what-speedometer.getProgress()));
 				oldValue = msg.what;
 			}
 			else if(msg.what < oldValue){
-				System.out.println("DECEL: ora è = "+speedometer.getProgress()+"arrivato = "+msg.what+" decremento di = "+Math.abs(msg.what-speedometer.getProgress()));
+				//System.out.println("DECEL: ora è = "+speedometer.getProgress()+"arrivato = "+msg.what+" decremento di = "+Math.abs(msg.what-speedometer.getProgress()));
 				speedometer.incrementProgressBy(-(Math.abs(msg.what-speedometer.getProgress())));
 				oldValue = msg.what;
 			}

@@ -56,7 +56,7 @@ public class ProtocolAdapter {
 
 		}
 		catch (NullPointerException ex){
-			System.out.println("Protocol adapter eccezione = "+ex.getLocalizedMessage());
+			//System.out.println("Protocol adapter eccezione = "+ex.getLocalizedMessage());
 		}
 		return;
 	}
