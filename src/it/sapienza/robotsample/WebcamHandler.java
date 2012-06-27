@@ -40,9 +40,13 @@ public class WebcamHandler {
 
 		preview1 = (WebView)frameLayout.findViewById(R.id.webView1);
 		preview1.setInitialScale(1);
+		preview1.getSettings().setJavaScriptEnabled(true);
+		preview1.getSettings().setPluginsEnabled(true);
 		preview2 = (WebView)frameLayout.findViewById(R.id.webView2);
 		preview2.setInitialScale(1);
-
+		preview2.getSettings().setJavaScriptEnabled(true);
+		preview2.getSettings().setPluginsEnabled(true);
+		
 		previous = (TextView)frameLayout.findViewById(R.id.previous);
 		next = (TextView)frameLayout.findViewById(R.id.next);
 		pages = (TextView)frameLayout.findViewById(R.id.pages);
