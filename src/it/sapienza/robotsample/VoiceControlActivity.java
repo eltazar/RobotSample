@@ -69,6 +69,9 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	private static VoiceControlActivity vocalInt;
 	private ArrayList<String> hotWords;
 	private ArrayList<String> speedWords;
+	private String last_command = "STOP";
+	private int last_pitch = 0;
+	private int last_roll = 0;
 	
 	Handler handler = new Handler() {
 		@Override
@@ -89,6 +92,61 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    	//per comandi vocali avanzati 
 		    	//String spd = bundle.getString("spd");
 		    	//String command = String.format("SPD0%d\r", spd);
+		    	
+		    	if(last_pitch > 0){
+		    		for(int i = last_pitch ; i>= 0; i--){
+    					if(i % 10 == 0){
+    		    			try {
+        						pAdapt.sendMessage("#SPD0"+i+"\r");
+								pAdapt.sendMessage("#TRN00\r");
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+    					}
+    				}
+		    	}
+		    	else if (last_pitch < 0){
+		    		for(int i = last_pitch ; i<= 0; i++){
+    					if(i % 10 == 0){
+    		    			try {
+        						pAdapt.sendMessage("#SPD0"+i+"\r");
+								pAdapt.sendMessage("#TRN00\r");
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+    					}
+    				}
+		    	}
+		    	
+		    	if(last_roll > 0){
+		    		for(int i = last_roll ; i>= 0; i--){
+    					if(i % 10 == 0){
+    		    			try {
+								pAdapt.sendMessage("#SPD00\r");
+				    			pAdapt.sendMessage("#TRN0"+i+"\r");
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+    					}
+    				}
+		    	}
+		    	else if (last_roll < 0){
+		    		for(int i = last_roll ; i<= 0; i++){
+    					if(i % 10 == 0){
+    		    			try {
+    		    				pAdapt.sendMessage("#SPD00\r");
+				    			pAdapt.sendMessage("#TRN0"+i+"\r");
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+    					}
+    				}
+		    	}
+		    	
 		    	try {
 		    		if(cmd.equals("STOP") || cmd.equals("OFF")){
 		    			signalImg.setImageResource(R.drawable.stop);	
@@ -98,29 +156,72 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    		}
 		    		else if(cmd.equals("FORWARD") || cmd.equals("STRAIGHT")){
 		    			signalImg.setImageResource(R.drawable.forw);
-		    			speedometer.setProgress(90);
+		    			speedometer.setProgress(70);
+		    			last_pitch = 70;
+		    			last_roll = 0;
+		    		/*	System.out.println("LAST COMMAND = "+ last_command);
+		    			if(last_command.equals("BACKWARD")){
+		    				
+		    				for(int i = -90 ; i<= 0; i++){
+		    					if(i % 10 == 0){
+		    						System.out.println(" DIO = "+i);
+		    						pAdapt.sendMessage("#SPD0"+i+"\r");
+		    		    			pAdapt.sendMessage("#TRN00\r");
+		    					}
+		    				}
+		    			}
+		    			*/
 		    			//pAdapt.sendMessage(command);
-		    			pAdapt.sendMessage("#SPD090\r");
+		    			pAdapt.sendMessage("#SPD070\r");
 		    			pAdapt.sendMessage("#TRN00\r");
 		    		}
 		    		else if(cmd.equals("BACKWARD") || cmd.equals("BACK")){
 		    			signalImg.setImageResource(R.drawable.backw);
 		    			speedometer.setProgress(90);
-		    			pAdapt.sendMessage("#SPD0-90\r");
+		    			pAdapt.sendMessage("#SPD0-70\r");
 		    			pAdapt.sendMessage("#TRN00\r");
+		    			last_pitch = -70;
+		    			last_roll = 0;
 		    		}
 		    		else if(cmd.equals("RIGHT")){
 		    			signalImg.setImageResource(R.drawable.right);
 		    			speedometer.setProgress(60);
 		    			pAdapt.sendMessage("#SPD00\r");
-		    			pAdapt.sendMessage("#TRN060\r");
+		    			pAdapt.sendMessage("#TRN055\r");
+		    			/*Timer _timer = new Timer();
+		    			_timer.schedule(new TimerTask() {
+
+							public void run() {
+								runOnUiThread(new Runnable() {
+					                public void run() {
+					                    // some code #3 (that needs to be ran in UI thread)
+					                	try {
+											ProtocolAdapter.getInstance().sendMessage("#SPD00\r");
+											ProtocolAdapter.getInstance().sendMessage("#TRN00\r");
+					                	}
+					                	catch (IOException e) {
+					                		// TODO Auto-generated catch block
+					                		e.printStackTrace();
+					                	}
+					                }
+					            });						
+							}
+						}, 500);*/
+		    			
+		    			last_pitch = 0;
+		    			last_roll = 50;
+		    			
 		    		}
 		    		else if(cmd.equals("LEFT")){
 		    			signalImg.setImageResource(R.drawable.left);
 		    			speedometer.setProgress(60);
 		    			pAdapt.sendMessage("#SPD00\r");
-		    			pAdapt.sendMessage("#TRN0-60\r");
+		    			pAdapt.sendMessage("#TRN0-55\r");
+		    			last_pitch = 0;
+		    			last_roll = -50;
 		    		}
+		    		
+		    		//ast_command = cmd;
 		    	 } catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
