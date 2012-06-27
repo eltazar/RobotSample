@@ -196,7 +196,7 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 			//TODO: controllare che ack abbia lunghezza >1 per nn farlo crashare durante la stampa di debug
 			
 			try {
-				socket = new MessageIOStream(InetAddress.getByName(ip),80,2500);
+				socket = new MessageIOStream(InetAddress.getByName(ip),80,1500);
 				pAdapt.setProtocolAdapter(socket);
 				try {
 					//mando messaggio al server per dire che sono l'app
@@ -208,12 +208,14 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 				System.out.println("Ack ricevuto = "+ack+" Lunghezza = "+ack.length());
 
 				//se ricevo ack corretto fermo ciclo
-				System.out.println("Substring ack = "+ack.substring(1, ack.length()));
+				//System.out.println("Substring ack = "+ack.substring(1, ack.length()));
 				
 				//controllo che il primo carattere sia 6 (in ascii = "ack")
-				byte b = (byte)ack.charAt(0);
-				//if(b==6){
-				if(ack.substring(0, 10).equals("6RoborRack")){
+				
+					byte b = (byte)ack.charAt(0);
+				
+				if(b==6){
+				//if(ack.substring(0, 10).equals("6RoborRack")){
 					System.out.println("AUTOCONNESSIONE RIUSCITA");
 					isAutoconnected = true;
 					break;
@@ -230,6 +232,7 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 		}
 
 		if(isAutoconnected == true){
