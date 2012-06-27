@@ -110,6 +110,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			automaticBtn.setOnClickListener(this);
 			manualBtn = (Button) findViewById(R.id.manualConnection);
 			manualBtn.setOnClickListener(this);
+			findViewReferences();
 		}
 	}
 
@@ -138,16 +139,18 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			break;
 		case R.id.disconnectionBtn:
 			disconnectFromServer();
+			loadLayoutConnection("choose");
 			break;
 		case R.id.rescan:
 			networkScanning();
 			break;
 		case R.id.back:
-			setContentView(R.layout.choosetypeconnection);
-			automaticBtn = (Button) findViewById(R.id.autoconnectBtn);
-			automaticBtn.setOnClickListener(this);
-			manualBtn = (Button) findViewById(R.id.manualConnection);
-			manualBtn.setOnClickListener(this);
+			loadLayoutConnection("choose");
+			//setContentView(R.layout.choosetypeconnection);
+		//	automaticBtn = (Button) findViewById(R.id.autoconnectBtn);
+			//automaticBtn.setOnClickListener(this);
+			//manualBtn = (Button) findViewById(R.id.manualConnection);
+			//manualBtn.setOnClickListener(this);
 			break;
 		}
 	}
@@ -164,6 +167,8 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			ipAddressEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
 			portEditText = (EditText)findViewById(R.id.edit_port); 
 			portEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+			backBtn = (Button) findViewById(R.id.back);
+			backBtn.setOnClickListener(this);
 		}
 		else if(type.equals("auto")){
 			setContentView(R.layout.automaticconnection);
@@ -171,13 +176,23 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			rescanBtn.setEnabled(false);
 			rescanBtn.setOnClickListener(this);
 			bar = (ProgressBar) findViewById(R.id.progressbarConnection);
+			backBtn = (Button) findViewById(R.id.back);
+			backBtn.setOnClickListener(this);
 		}
-		
+		else if(type.equals("choose")){
+			setContentView(R.layout.choosetypeconnection);
+			automaticBtn = (Button) findViewById(R.id.autoconnectBtn);
+			automaticBtn.setOnClickListener(this);
+			manualBtn = (Button) findViewById(R.id.manualConnection);
+			manualBtn.setOnClickListener(this);
+		}
+		else if(type.equals("disconnect")){
+			setContentView(R.layout.disconnectconnection);
+			disconnectBtn = (Button) findViewById(R.id.disconnectionBtn);
+			disconnectBtn.setOnClickListener(this);
+		}
 		//recupero view comuni a tutti i layout
 		findViewReferences();
-		backBtn = (Button) findViewById(R.id.back);
-		backBtn.setOnClickListener(this);
-		
 		
 		//controllo stato connessione e aggiorno textView
 		if(pAdapt.isThereAvaiableStream()){
@@ -251,8 +266,8 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 				
 				//controllo che il primo carattere sia 6 (in ascii = "ack")
 				byte b = (byte)ack.charAt(0);
-				//if(b==6){
-				if(ack.substring(0, 10).equals("6RoborRack")){
+				if(b==6){
+				//if(ack.substring(0, 10).equals("6RoborRack")){
 					System.out.println("AUTOCONNESSIONE RIUSCITA");
 					isAutoconnected = true;
 					break;
@@ -280,15 +295,19 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			//oppure aggiorno interfaccia e mostro optionMenu ----> DA DECIDERE
 			ConfigurationActivity.this.runOnUiThread(new Runnable() {
 			    public void run() {
-			    	ipRobot.setText("Ip: "+pAdapt.getAssociatedStream().getIpAddress());
-					portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
-					status.setText("Connesso");
+			    	//ipRobot.setText("Ip: "+pAdapt.getAssociatedStream().getIpAddress());
+					//portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
+					//status.setText("Connesso");
 					rescanBtn.setEnabled(false);
 					((TextView)findViewById(R.id.searchTxt)).setVisibility(View.INVISIBLE);
 					bar.setProgress(0);
-			    	openOptionsMenu();
+//					setContentView(R.layout.disconnectconnection);
+//					openOptionsMenu();
+					loadLayoutConnection("disconnect");
+					openOptionsMenu();
 			    }
 			});
+			
 		}
 		else{
 			System.out.println("Autoconnessione non riuscita -> aggiorno activity");
@@ -314,15 +333,16 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 
 				System.out.println("Client: Connessione terminata");
 
-				ipRobot.setText("Ip: --");
-				portRobot.setText("Porta: --");
-				status.setText("Disconnesso");
+				//ipRobot.setText("Ip: --");
+				//portRobot.setText("Porta: --");
+				//status.setText("Disconnesso");
 				//rimuovo lo stream associato durante la connessione
 				pAdapt.setProtocolAdapter(null);
-				backBtn = (Button) findViewById(R.id.back);
-				backBtn.setOnClickListener(this);
-				backBtn.setVisibility(View.VISIBLE);
-				disconnectBtn.setVisibility(View.INVISIBLE);
+				//backBtn = (Button) findViewById(R.id.back);
+				//backBtn.setOnClickListener(this);
+				//backBtn.setVisibility(View.VISIBLE);
+				//disconnectBtn.setVisibility(View.INVISIBLE);
+				//setContentView(R.layout.choosetypeconnection);
 			}
 		} catch (java.io.IOException e) {
 			System.out.println("Disconnessione fallita: "+e.getLocalizedMessage());
@@ -344,10 +364,11 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			//associo al protocolAdapter un socket e stream
 			pAdapt.setProtocolAdapter(socketAndStream);
 
-			status.setText("Connesso");
-			ipRobot.setText("Ip: "+ pAdapt.getAssociatedStream().getIpAddress());
-			portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
+			//status.setText("Connesso");
+			//ipRobot.setText("Ip: "+ pAdapt.getAssociatedStream().getIpAddress());
+			//portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
 			connectBtn.setEnabled(false);
+			loadLayoutConnection("disconnect");
 			this.openOptionsMenu();
 		}
 		catch (UnknownHostException ex) {
