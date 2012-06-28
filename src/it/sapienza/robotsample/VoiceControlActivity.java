@@ -64,12 +64,14 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	private final int activity_index = 1;
 	private ToggleButton toggleBtn;
 	private ProgressBar speedometer;
+	//timer per fermare il riconoscimento vocale dopo X millisecondi
 	private Timer timer;
 	private ImageView webcam;
 	private static VoiceControlActivity vocalInt;
+	//lista di comandi riconosciuti dal robot
 	private ArrayList<String> hotWords;
-	private ArrayList<String> speedWords;
-	private String last_command = "STOP";
+	//private ArrayList<String> speedWords;
+	//ultimi valori inviati al roboto
 	private int last_pitch = 0;
 	private int last_roll = 0;
 	
@@ -93,6 +95,8 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    	//String spd = bundle.getString("spd");
 		    	//String command = String.format("SPD0%d\r", spd);
 		    	
+		    	
+		    	//begin: per permettere al robot di cambiare direzione senza dare prima lo stop
 		    	if(last_pitch > 0){
 		    		for(int i = last_pitch ; i>= 0; i--){
     					if(i % 10 == 0){
@@ -100,7 +104,6 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
         						pAdapt.sendMessage("#SPD0"+i+"\r");
 								pAdapt.sendMessage("#TRN00\r");
 							} catch (IOException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
     					}
@@ -113,7 +116,6 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
         						pAdapt.sendMessage("#SPD0"+i+"\r");
 								pAdapt.sendMessage("#TRN00\r");
 							} catch (IOException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
     					}
@@ -147,6 +149,9 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
     				}
 		    	}
 		    	
+		    	//end
+		    	
+		    	//trovo comando
 		    	try {
 		    		if(cmd.equals("STOP") || cmd.equals("OFF")){
 		    			signalImg.setImageResource(R.drawable.stop);	
@@ -157,27 +162,14 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    		else if(cmd.equals("FORWARD") || cmd.equals("STRAIGHT")){
 		    			signalImg.setImageResource(R.drawable.forw);
 		    			speedometer.setProgress(70);
-		    			last_pitch = 70;
-		    			last_roll = 0;
-		    		/*	System.out.println("LAST COMMAND = "+ last_command);
-		    			if(last_command.equals("BACKWARD")){
-		    				
-		    				for(int i = -90 ; i<= 0; i++){
-		    					if(i % 10 == 0){
-		    						System.out.println(" DIO = "+i);
-		    						pAdapt.sendMessage("#SPD0"+i+"\r");
-		    		    			pAdapt.sendMessage("#TRN00\r");
-		    					}
-		    				}
-		    			}
-		    			*/
-		    			//pAdapt.sendMessage(command);
 		    			pAdapt.sendMessage("#SPD070\r");
 		    			pAdapt.sendMessage("#TRN00\r");
+		    			last_pitch = 70;
+		    			last_roll = 0;
 		    		}
 		    		else if(cmd.equals("BACKWARD") || cmd.equals("BACK")){
 		    			signalImg.setImageResource(R.drawable.backw);
-		    			speedometer.setProgress(90);
+		    			speedometer.setProgress(70);
 		    			pAdapt.sendMessage("#SPD0-70\r");
 		    			pAdapt.sendMessage("#TRN00\r");
 		    			last_pitch = -70;
@@ -185,9 +177,11 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    		}
 		    		else if(cmd.equals("RIGHT")){
 		    			signalImg.setImageResource(R.drawable.right);
-		    			speedometer.setProgress(60);
+		    			speedometer.setProgress(50);
 		    			pAdapt.sendMessage("#SPD00\r");
-		    			pAdapt.sendMessage("#TRN055\r");
+		    			pAdapt.sendMessage("#TRN050\r");
+		    			
+		    			//per dire al robot di fermarsi di girare dopo X millisecondi
 		    			/*Timer _timer = new Timer();
 		    			_timer.schedule(new TimerTask() {
 
@@ -200,7 +194,6 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 											ProtocolAdapter.getInstance().sendMessage("#TRN00\r");
 					                	}
 					                	catch (IOException e) {
-					                		// TODO Auto-generated catch block
 					                		e.printStackTrace();
 					                	}
 					                }
@@ -214,16 +207,15 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    		}
 		    		else if(cmd.equals("LEFT")){
 		    			signalImg.setImageResource(R.drawable.left);
-		    			speedometer.setProgress(60);
+		    			speedometer.setProgress(50);
 		    			pAdapt.sendMessage("#SPD00\r");
-		    			pAdapt.sendMessage("#TRN0-55\r");
+		    			pAdapt.sendMessage("#TRN0-50\r");
 		    			last_pitch = 0;
 		    			last_roll = -50;
 		    		}
 		    		
 		    		//ast_command = cmd;
 		    	 } catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 				}
 			}
@@ -233,6 +225,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	/** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		
 		timer = new Timer();
 		vocalInt = this;
@@ -322,7 +315,6 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		final VoiceControlActivity that = this;
 		final String hyp = b.getString("hyp");
 		
-		
 		try{
 			if(hyp.split(" ").length == 3 || hyp.split(" ").length == 2){
 				Message msg = this.rec.getHandler().obtainMessage();
@@ -363,7 +355,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		System.out.println("UTTERANCE ARRIVATO: "+utt);
 		
 		String cmd = "STOP";
-		int speed = 30;
+		//int speed = 30;
 		
 		if(utt != null){
 		
@@ -450,7 +442,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	private void createCommands(){
 	
 		hotWords = new ArrayList<String>();
-		speedWords = new ArrayList<String>();
+		//speedWords = new ArrayList<String>();
 		
 		hotWords.add("STOP");
 		hotWords.add("OFF");
@@ -464,8 +456,8 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		//hotWords.add("LEAVE");
 		
 		
-		speedWords.add("ONE");
-		speedWords.add("TWO");
+		//speedWords.add("ONE");
+		//speedWords.add("TWO");
 	}
 
 	@Override
@@ -489,9 +481,9 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	//setta l'ip della webcam al valore selezionato dall'utente
 	public void setSelectedIp(String ipWebcam)
 	{
-		//String finalIp = "http://rackbot:rackbot@" + ipWebcam + "/mobile.htm";
-		//baseWV.loadUrl(finalIp);
-		baseWV.loadUrl(ipWebcam);
+		String finalIp = "http://rackbot:rackbot@" + ipWebcam + "/mobile.htm";
+		baseWV.loadUrl(finalIp);
+		//baseWV.loadUrl(ipWebcam);
 	}
 }
 	
