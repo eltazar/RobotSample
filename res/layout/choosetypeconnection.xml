@@ -44,8 +44,8 @@
         android:layout_marginLeft="22dp"
         android:layout_marginTop="160dp"
         android:text="Non connesso"
-        android:textColor="#000000"
-        foo:customFont="fonts/droidsans.ttf" />
+		android:textColor="#FF0000"
+        foo:customFont="fonts/droidsansbold.ttf" />
 
     <it.sapienza.widget.CustomTextView
         android:id="@+id/portRobot"

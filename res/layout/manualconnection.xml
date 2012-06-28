@@ -59,52 +59,54 @@
         android:layout_width="200dp"
         android:layout_height="150dp"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/ipAddress"
-        android:layout_marginRight="25dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="26dp"
         android:src="@drawable/metalplate2" />
 
     <it.sapienza.widget.CustomTextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/edit_ipAddress"
-        android:layout_alignBottom="@+id/edit_ipAddress"
         android:layout_alignLeft="@+id/test_image"
-        android:layout_marginLeft="21dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="85dp"
         android:text="ROBOT: "
         android:textColor="#000000"
         foo:customFont="fonts/droidsansbold.ttf" />
 
     <it.sapienza.widget.CustomTextView
-        android:id="@+id/ipRobot"
+        android:id="@+id/status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/edit_ipAddress"
-        android:text="Ip: --"
-        android:textColor="#000000"
-        foo:customFont="fonts/droidsans.ttf" />
+        android:layout_alignLeft="@+id/test_image"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="160dp"
+        android:text="Non connesso"
+        android:textColor="#FF0000"
+        foo:customFont="fonts/droidsansbold.ttf" />
 
     <it.sapienza.widget.CustomTextView
         android:id="@+id/portRobot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/edit_port"
-        android:layout_alignBottom="@+id/edit_port"
-        android:layout_alignLeft="@+id/ipRobot"
+        android:layout_alignLeft="@+id/test_image"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="135dp"
         android:text="Porta: --"
         android:textColor="#000000"
         foo:customFont="fonts/droidsans.ttf" />
 
     <it.sapienza.widget.CustomTextView
-        android:id="@+id/status"
+        android:id="@+id/ipRobot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/portRobot"
-        android:layout_below="@+id/edit_port"
-        android:text="Non connesso"
+        android:layout_alignLeft="@+id/test_image"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="110dp"
+        android:text="Ip: --"
         android:textColor="#000000"
         foo:customFont="fonts/droidsans.ttf" />
+
 
     <Button
         android:id="@+id/connectionBtn"
