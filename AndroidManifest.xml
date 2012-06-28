@@ -34,21 +34,20 @@
         </activity>
         <activity 
             android:screenOrientation="landscape" 
-            android:name=".StandardRobotController">
-        </activity>
-        <activity 
-            android:screenOrientation="landscape" 
-            android:name=".ConfigurationActivity">
+            android:name=".ConfigurationActivity"
+            android:launchMode="singleTask">
         </activity>
         <activity 
             android:screenOrientation="landscape" 
             android:name=".InterfacciaRobotActivity"
-            android:theme="@android:style/Theme.NoTitleBar">
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:launchMode="singleTask">
         </activity>
         <activity 
             android:screenOrientation="landscape" 
             android:name=".VoiceControlActivity"
-            android:theme="@android:style/Theme.NoTitleBar">
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:launchMode="singleTask">
         </activity>
     </application>
 
