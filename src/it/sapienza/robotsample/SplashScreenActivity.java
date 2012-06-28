@@ -180,7 +180,7 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 	
 	/*
 	 * Prova a connettersi in automatico con gli indirizzi ritornati dagli scanner alla ricerca 
-	 * di quello appartenente al robot. Questo metodo gira DENTRO il trhead che ha fatto partire la rirca!!
+	 * di quello appartenente al robot. Questo metodo gira DENTRO il thread che ha fatto partire la ricerca!!
 	 * */
 	private void autoConnect(){
 		System.out.println("#### CERCO DI AUTOCONNETTERMI...");
@@ -208,18 +208,19 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 				//System.out.println("Substring ack = "+ack.substring(1, ack.length()));
 				
 				//controllo che il primo carattere sia 6 (in ascii = "ack")
-				
+				if(ack.length() != 0){
 					byte b = (byte)ack.charAt(0);
-				
-				if(b==6){
-				//if(ack.substring(0, 10).equals("6RoborRack")){
-					System.out.println("AUTOCONNESSIONE RIUSCITA");
-					isAutoconnected = true;
-					break;
+
+					if(b==6){
+						//if(ack.substring(0, 10).equals("6RoborRack")){
+						System.out.println("AUTOCONNESSIONE RIUSCITA");
+						isAutoconnected = true;
+						break;
+					}
+					//altrimenti chiudo socket e risorse associate
+					pAdapt.closeCommunication();
+					pAdapt.setProtocolAdapter(null);	
 				}
-				//altrimenti chiudo socket e risorse associate
-				pAdapt.closeCommunication();
-				pAdapt.setProtocolAdapter(null);				
 
 			} catch (UnknownHostException e) {
 				System.out.println("SplashScreen--> Unkonown Host Exception = "+e.getLocalizedMessage());
