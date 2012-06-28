@@ -69,7 +69,6 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 
 		//recupero protocol adapter
 		pAdapt = ProtocolAdapter.getInstance();
-		//System.out.println("PADATP = "+pAdapt+"LISTA INDIRIZZI = "+NetworkUtility.getInstance().getIpAddresses());
 
 		//recupero parametri extra passati dal chiamante
 		Bundle extras = getIntent().getExtras();
@@ -93,7 +92,10 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		super.onPause();
 		System.out.println("ON RESUME configuration activity");
 
-		if(ProtocolAdapter.getInstance().isThereAvaiableStream()){
+		if(pAdapt.isThereAvaiableStream()){
+			
+			loadLayoutConnection(Layouts.DISCONNECT);
+			/*
 			setContentView(R.layout.disconnectconnection);
 			
 			disconnectBtn = (Button) findViewById(R.id.disconnectionBtn);
@@ -104,10 +106,12 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			status.setTextColor(Color.GREEN);
 			//System.out.println("INDIRIZZO IP AL QUALE SONO CONNESSO"+pAdapt.getAssociatedStream().getIpAddress());
 			ipRobot.setText("Ip: "+pAdapt.getAssociatedStream().getIpAddress());
-			portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
+			portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());*/
 		}
 		else{
-			setContentView(R.layout.choosetypeconnection);
+			
+			loadLayoutConnection(Layouts.CHOOSE);
+			/*setContentView(R.layout.choosetypeconnection);
 			automaticBtn = (Button) findViewById(R.id.autoconnectBtn);
 			automaticBtn.setOnClickListener(this);
 			manualBtn = (Button) findViewById(R.id.manualConnection);
@@ -117,7 +121,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			status.setTextColor(Color.RED);
 			//System.out.println("INDIRIZZO IP AL QUALE SONO CONNESSO"+pAdapt.getAssociatedStream().getIpAddress());
 			ipRobot.setText("Ip: --");
-			portRobot.setText("Porta: --");
+			portRobot.setText("Porta: --");*/
 		}
 	}
 
@@ -132,12 +136,12 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		// TODO Auto-generated method stub
 		switch ( v.getId() ) {
 		case R.id.autoconnectBtn:
-			loadLayoutConnection("auto");
+			loadLayoutConnection(Layouts.AUTO);
 			if(pAdapt.isThereAvaiableStream() == false)
 				networkScanning();
 			break;	
 		case R.id.manualConnection:
-			loadLayoutConnection("manual");
+			loadLayoutConnection(Layouts.MANUAL);
 			break;
 		case R.id.connectionBtn:
 			final EditText ipAddress = (EditText)findViewById(R.id.edit_ipAddress);
@@ -151,7 +155,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			networkScanning();
 			break;
 		case R.id.back:
-			loadLayoutConnection("choose");
+			loadLayoutConnection(Layouts.CHOOSE);
 			//setContentView(R.layout.choosetypeconnection);
 		//	automaticBtn = (Button) findViewById(R.id.autoconnectBtn);
 			//automaticBtn.setOnClickListener(this);
@@ -161,44 +165,46 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		}
 	}
 
-	private void loadLayoutConnection(String type){
+	private void loadLayoutConnection(Layouts value){
 		
+		switch(value){
+			case CHOOSE:
+				setContentView(R.layout.choosetypeconnection);
+				automaticBtn = (Button) findViewById(R.id.autoconnectBtn);
+				automaticBtn.setOnClickListener(this);
+				manualBtn = (Button) findViewById(R.id.manualConnection);
+				manualBtn.setOnClickListener(this);
+				break;
+			case DISCONNECT:
+				setContentView(R.layout.disconnectconnection);
+				disconnectBtn = (Button) findViewById(R.id.disconnectionBtn);
+				disconnectBtn.setOnClickListener(this);
+				break;
+			case MANUAL:
+				setContentView(R.layout.manualconnection);
+				connectBtn = (Button) findViewById(R.id.connectionBtn);
+				connectBtn.setOnClickListener(this);
+				ipAddressEditText = (EditText)findViewById(R.id.edit_ipAddress); 
+				ipAddressEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+				portEditText = (EditText)findViewById(R.id.edit_port); 
+				portEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+				backBtn = (Button) findViewById(R.id.back);
+				backBtn.setOnClickListener(this);
+				break;
+			case AUTO:
+				setContentView(R.layout.automaticconnection);
+				rescanBtn = (Button) findViewById(R.id.rescan);
+				rescanBtn.setEnabled(false);
+				rescanBtn.setOnClickListener(this);
+				bar = (ProgressBar) findViewById(R.id.progressbarConnection);
+				backBtn = (Button) findViewById(R.id.back);
+				backBtn.setOnClickListener(this);
+				break;
+		}
 		
-		//recupero view dedicate ai rispettivi layout
-		if(type.equals("manual")){
-			setContentView(R.layout.manualconnection);
-			connectBtn = (Button) findViewById(R.id.connectionBtn);
-			connectBtn.setOnClickListener(this);
-			ipAddressEditText = (EditText)findViewById(R.id.edit_ipAddress); 
-			ipAddressEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
-			portEditText = (EditText)findViewById(R.id.edit_port); 
-			portEditText.setImeOptions(EditorInfo.IME_ACTION_DONE);
-			backBtn = (Button) findViewById(R.id.back);
-			backBtn.setOnClickListener(this);
-		}
-		else if(type.equals("auto")){
-			setContentView(R.layout.automaticconnection);
-			rescanBtn = (Button) findViewById(R.id.rescan);
-			rescanBtn.setEnabled(false);
-			rescanBtn.setOnClickListener(this);
-			bar = (ProgressBar) findViewById(R.id.progressbarConnection);
-			backBtn = (Button) findViewById(R.id.back);
-			backBtn.setOnClickListener(this);
-		}
-		else if(type.equals("choose")){
-			setContentView(R.layout.choosetypeconnection);
-			automaticBtn = (Button) findViewById(R.id.autoconnectBtn);
-			automaticBtn.setOnClickListener(this);
-			manualBtn = (Button) findViewById(R.id.manualConnection);
-			manualBtn.setOnClickListener(this);
-		}
-		else if(type.equals("disconnect")){
-			setContentView(R.layout.disconnectconnection);
-			disconnectBtn = (Button) findViewById(R.id.disconnectionBtn);
-			disconnectBtn.setOnClickListener(this);
-		}
 		//recupero view comuni a tutti i layout
 		findViewReferences();
+		
 		
 		//controllo stato connessione e aggiorno textView
 		if(pAdapt.isThereAvaiableStream()){
@@ -257,6 +263,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 				}
 		    }
 		});		
+		
 		for( String ip : scannedIp){
 			System.out.println("Sto provando a connettermi a: = "+ip);
 			
@@ -316,7 +323,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 					bar.setProgress(0);
 //					setContentView(R.layout.disconnectconnection);
 //					openOptionsMenu();
-					loadLayoutConnection("disconnect");
+					loadLayoutConnection(Layouts.DISCONNECT);
 					openOptionsMenu();
 			    }
 			});
@@ -354,7 +361,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 				//backBtn.setVisibility(View.VISIBLE);
 				//disconnectBtn.setVisibility(View.INVISIBLE);
 				//setContentView(R.layout.choosetypeconnection);
-				loadLayoutConnection("choose");
+				loadLayoutConnection(Layouts.CHOOSE);
 				System.out.println("Client: Connessione terminata");
 			}
 		} catch (java.io.IOException e) {
@@ -381,7 +388,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			//ipRobot.setText("Ip: "+ pAdapt.getAssociatedStream().getIpAddress());
 			//portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
 			connectBtn.setEnabled(false);
-			loadLayoutConnection("disconnect");
+			loadLayoutConnection(Layouts.DISCONNECT);
 			this.openOptionsMenu();
 		}
 		catch (UnknownHostException ex) {
@@ -458,11 +465,12 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	    		else{
 	    			//altrimenti mosto il layout principale
 	    			System.out.println("MOSTRO LAYOUT CHOOSE");
-	    			setContentView(R.layout.choosetypeconnection);
+	    			loadLayoutConnection(Layouts.CHOOSE);
+	    			/*setContentView(R.layout.choosetypeconnection);
 	    			automaticBtn = (Button) findViewById(R.id.autoconnectBtn);
 	    			automaticBtn.setOnClickListener(this);
 	    			manualBtn = (Button) findViewById(R.id.manualConnection);
-	    			manualBtn.setOnClickListener(this);
+	    			manualBtn.setOnClickListener(this);*/
 	    			return true;
 	    		}
 	    	}
@@ -482,4 +490,19 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		menu.getItem(activity_index).setEnabled(false);
 		return true;
 	}
+	
+	private enum Layouts {
+		AUTO("automaticconnection"), MANUAL("manualconnection"), CHOOSE("choosetypeconnection"), DISCONNECT("disconnectconnection");
+		private String layout;
+
+		private Layouts(String layout) {
+			this.layout = layout;
+		}
+		
+		public String getLayout(){
+			return layout;
+		}
+	};  
+
+	
 }
