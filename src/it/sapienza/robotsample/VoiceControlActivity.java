@@ -297,7 +297,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 			                }
 			            });						
 					}
-				}, 5000);
+				}, 2500);
 			}
 			catch(IllegalStateException e){
 				System.out.println("ERRORE timer: "+e.getLocalizedMessage());
