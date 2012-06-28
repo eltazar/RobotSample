@@ -196,7 +196,7 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 			//TODO: controllare che ack abbia lunghezza >1 per nn farlo crashare durante la stampa di debug
 			
 			try {
-				socket = new MessageIOStream(InetAddress.getByName(ip),80,1500);
+				socket = new MessageIOStream(InetAddress.getByName(ip),80,2500);
 				pAdapt.setProtocolAdapter(socket);
 				try {
 					//mando messaggio al server per dire che sono l'app

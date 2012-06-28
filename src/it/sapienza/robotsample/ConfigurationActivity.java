@@ -357,7 +357,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			portNumber = Integer.parseInt(port);
 			System.out.println("Client: Richiesta connessione con: " + ipAddress+"/"+port);
 			
-			socketAndStream = new MessageIOStream( InetAddress.getByName(ipAddress),portNumber,5000);
+			socketAndStream = new MessageIOStream( InetAddress.getByName(ipAddress),portNumber,2500);
 			System.out.println("Client: Connessione stabilita");
 			//associo al protocolAdapter un socket e stream
 			pAdapt.setProtocolAdapter(socketAndStream);
