@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -100,6 +101,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			disconnectBtn.setOnClickListener(this);
 			
 			status.setText("Connesso");
+			status.setTextColor(Color.GREEN);
 			//System.out.println("INDIRIZZO IP AL QUALE SONO CONNESSO"+pAdapt.getAssociatedStream().getIpAddress());
 			ipRobot.setText("Ip: "+pAdapt.getAssociatedStream().getIpAddress());
 			portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
@@ -111,6 +113,11 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			manualBtn = (Button) findViewById(R.id.manualConnection);
 			manualBtn.setOnClickListener(this);
 			findViewReferences();
+			status.setText("Non connesso");
+			status.setTextColor(Color.RED);
+			//System.out.println("INDIRIZZO IP AL QUALE SONO CONNESSO"+pAdapt.getAssociatedStream().getIpAddress());
+			ipRobot.setText("Ip: --");
+			portRobot.setText("Porta: --");
 		}
 	}
 
@@ -196,6 +203,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		//controllo stato connessione e aggiorno textView
 		if(pAdapt.isThereAvaiableStream()){
 			status.setText("Connesso");
+			status.setTextColor(Color.GREEN);
 			ipRobot.setText("Ip: "+pAdapt.getAssociatedStream().getIpAddress());
 			portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
 			if(rescanBtn != null)
@@ -205,6 +213,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		}
 		else{
 			status.setText("Non connesso");
+			status.setTextColor(Color.RED);
 			ipRobot.setText("Ip: --");
 			portRobot.setText("Porta: --");
 			if(rescanBtn != null)
@@ -240,7 +249,12 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		
 		ConfigurationActivity.this.runOnUiThread(new Runnable() {
 		    public void run() {
-				((TextView)findViewById(R.id.searchTxt)).setVisibility(View.VISIBLE);
+				try{
+					((TextView)findViewById(R.id.searchTxt)).setVisibility(View.VISIBLE);
+				}
+				catch(NullPointerException e){
+					System.out.println("Configuration activity nullpointer -> "+e.getLocalizedMessage());
+				}
 		    }
 		});		
 		for( String ip : scannedIp){
@@ -315,6 +329,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			    	ipRobot.setText("Ip: --");
 					portRobot.setText("Porta: --");
 					status.setText("Impossibile connettersi");
+					status.setTextColor(Color.RED);
 					rescanBtn.setEnabled(true);
 					((TextView)findViewById(R.id.searchTxt)).setVisibility(View.INVISIBLE);
 					bar.setProgress(0);
@@ -372,15 +387,18 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		catch (UnknownHostException ex) {
 			System.out.println("Client: Impossibile connettersi"+ex.getLocalizedMessage());
 			status.setText("Impossibile connettersi");
+			status.setTextColor(Color.RED);
 			//System.exit(0);
 		} catch (java.io.IOException ex) {
 			System.out.println("Client: Impossibile connettersi"+ex.getLocalizedMessage());
 			status.setText("Impossibile connettersi");
+			status.setTextColor(Color.RED);
 			//System.exit(0);
 		}
 		catch(NumberFormatException ex){
 			System.out.println("Client: Numero di porta errato:"+ex.getLocalizedMessage());
 			status.setText("Numero porta errato");
+			status.setTextColor(Color.RED);
 		}
 
 	}
