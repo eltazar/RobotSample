@@ -251,29 +251,29 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			try {
 				socket = new MessageIOStream(InetAddress.getByName(ip),80,2500);
 				pAdapt.setProtocolAdapter(socket);
-				try {
-					//mando messaggio al server per dire che sono l'app
-					ack = pAdapt.sendMessage("#CNT0\r");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				System.out.println("Ack ricevuto = "+ack+" Lunghezza = "+ack.length());
+				//mando messaggio al server per dire che sono l'app
+				ack = pAdapt.sendMessage("#CNT0\r");
+				System.out.println("ConfigActivity -> Ack ricevuto = "+ack+" -> Lunghezza = "+ack.length());
 
 				//se ricevo ack corretto fermo ciclo
-				System.out.println("Substring ack = "+ack.substring(1, ack.length()));
+				//System.out.println("Substring ack = "+ack.substring(1, ack.length()));
 				
 				//controllo che il primo carattere sia 6 (in ascii = "ack")
-				byte b = (byte)ack.charAt(0);
-				if(b==6){
-				//if(ack.substring(0, 10).equals("6RoborRack")){
-					System.out.println("AUTOCONNESSIONE RIUSCITA");
-					isAutoconnected = true;
-					break;
+				if(ack != null && ack.length() != 0){
+					byte b = (byte)ack.charAt(0);
+
+					if(b==6){
+						//if(ack.substring(0, 10).equals("6RoborRack")){
+						System.out.println("AUTOCONNESSIONE RIUSCITA");
+						isAutoconnected = true;
+						break;
+					}	
 				}
-				//altrimenti chiudo socket e risorse associate
-				pAdapt.closeCommunication();
-				pAdapt.setProtocolAdapter(null);				
+				else{
+					//altrimenti chiudo socket e risorse associate
+					pAdapt.closeCommunication();
+					pAdapt.setProtocolAdapter(null);
+				}		
 
 			} catch (UnknownHostException e) {
 				System.out.println(" Eccezione = "+e.getLocalizedMessage());
