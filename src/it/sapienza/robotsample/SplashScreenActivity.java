@@ -208,7 +208,7 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 				//System.out.println("Substring ack = "+ack.substring(1, ack.length()));
 				
 				//controllo che il primo carattere sia 6 (in ascii = "ack")
-				if(ack.length() != 0){
+				if(ack != null && ack.length() != 0){
 					byte b = (byte)ack.charAt(0);
 
 					if(b==6){
@@ -216,10 +216,12 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 						System.out.println("AUTOCONNESSIONE RIUSCITA");
 						isAutoconnected = true;
 						break;
-					}
+					}	
+				}
+				else{
 					//altrimenti chiudo socket e risorse associate
 					pAdapt.closeCommunication();
-					pAdapt.setProtocolAdapter(null);	
+					pAdapt.setProtocolAdapter(null);
 				}
 
 			} catch (UnknownHostException e) {
