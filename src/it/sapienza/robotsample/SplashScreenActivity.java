@@ -198,14 +198,11 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 			try {
 				socket = new MessageIOStream(InetAddress.getByName(ip),80,2500);
 				pAdapt.setProtocolAdapter(socket);
-				try {
-					//mando messaggio al server per dire che sono l'app
-					ack = pAdapt.sendMessage("#CNT0\r");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				System.out.println("Ack ricevuto = "+ack+" Lunghezza = "+ack.length());
+
+				//mando messaggio al server per dire che sono l'app
+				ack = pAdapt.sendMessage("#CNT0\r");
+
+				System.out.println("Splash screen -> ack ricevuto = "+ack+" --> Lunghezza = "+ack.length());
 
 				//se ricevo ack corretto fermo ciclo
 				//System.out.println("Substring ack = "+ack.substring(1, ack.length()));
@@ -225,11 +222,10 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 				pAdapt.setProtocolAdapter(null);				
 
 			} catch (UnknownHostException e) {
-				System.out.println(" Eccezione = "+e.getLocalizedMessage());
+				System.out.println("SplashScreen--> Unkonown Host Exception = "+e.getLocalizedMessage());
 				e.printStackTrace();
 			} catch (IOException e) {
-				System.out.println(" Eccezione = "+e.getLocalizedMessage());
-				// TODO Auto-generated catch block
+				System.out.println("SplashScreen--> IOException = "+e.getLocalizedMessage());
 				e.printStackTrace();
 			}
 			
