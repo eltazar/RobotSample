@@ -139,7 +139,6 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			break;
 		case R.id.disconnectionBtn:
 			disconnectFromServer();
-			loadLayoutConnection("choose");
 			break;
 		case R.id.rescan:
 			networkScanning();
@@ -330,9 +329,6 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			if(pAdapt.isThereAvaiableStream()){
 				
 				pAdapt.closeCommunication();
-
-				System.out.println("Client: Connessione terminata");
-
 				//ipRobot.setText("Ip: --");
 				//portRobot.setText("Porta: --");
 				//status.setText("Disconnesso");
@@ -343,6 +339,8 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 				//backBtn.setVisibility(View.VISIBLE);
 				//disconnectBtn.setVisibility(View.INVISIBLE);
 				//setContentView(R.layout.choosetypeconnection);
+				loadLayoutConnection("choose");
+				System.out.println("Client: Connessione terminata");
 			}
 		} catch (java.io.IOException e) {
 			System.out.println("Disconnessione fallita: "+e.getLocalizedMessage());
