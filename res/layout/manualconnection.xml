@@ -107,36 +107,33 @@
         android:textColor="#000000"
         foo:customFont="fonts/droidsans.ttf" />
 
-
-    <Button
-        android:id="@+id/connectionBtn"
-        style="?android:attr/buttonStyleSmall"
+    <TextView
+        android:id="@+id/hack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/test_image"
-        android:layout_alignRight="@+id/edit_port"
-        android:layout_marginRight="21dp"
-        android:text="Connetti" />
+        android:layout_marginLeft="47dp"
+        android:layout_marginTop="18dp"
+        android:text="manual"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/back"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/connectionBtn"
-        android:layout_alignBottom="@+id/connectionBtn"
         android:layout_alignRight="@+id/ipAddress"
+        android:layout_below="@+id/status"
         android:text="Indietro" />
 
-    <TextView
-        android:id="@+id/hack"
+    <Button
+        android:id="@+id/connectionBtn"
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/connectionBtn"
-        android:layout_below="@+id/connectionBtn"
-        android:layout_marginLeft="47dp"
-        android:layout_marginTop="18dp"
-        android:visibility="gone"
-        android:text="manual" />
+        android:layout_alignBaseline="@+id/back"
+        android:layout_alignBottom="@+id/back"
+        android:layout_alignRight="@+id/edit_port"
+        android:layout_marginRight="14dp"
+        android:text="Connetti" />
 
 </RelativeLayout>
