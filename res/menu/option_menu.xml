@@ -12,5 +12,6 @@
         android:title="Comandi vocali"
         android:icon="@drawable/voice"/><item android:id="@+id/config" android:title="Impostazioni" android:icon="@drawable/config">
     </item>
+        <item android:id="@+id/accelero" android:title="Accelerometro"></item>
 
 </menu>

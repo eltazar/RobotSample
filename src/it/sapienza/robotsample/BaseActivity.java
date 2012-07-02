@@ -13,6 +13,7 @@ public class BaseActivity extends Activity{
 	private Intent config = null;
 	private Intent joypad = null;
 	private Intent voicecontrol = null;
+	private Intent accelero = null;
 
 	
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -43,6 +44,11 @@ public class BaseActivity extends Activity{
    			if(voicecontrol == null)
    				voicecontrol = new Intent(this, VoiceControlActivity.class);
    			startActivity(voicecontrol);   			
+   			return true;
+   		case R.id.accelero:
+   			if(accelero == null)
+   				accelero = new Intent(this, AccelerometroActivity.class);
+   			startActivity(accelero);   			
    			return true;
    		default:
    			return super.onOptionsItemSelected(item);
