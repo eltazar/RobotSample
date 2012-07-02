@@ -203,11 +203,13 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 			}
 		    */
 		    
+		    //Mario 2 luglio: calcolo il valore della velocitˆ per caricare lo speedometro
 		    float maxSpd = Math.max(Math.abs(turn),Math.abs(speed));
 			int spd = (int)(maxSpd);
 		    handler.sendEmptyMessage(spd);
 		    
-		    System.out.println("ROLL = "+Roll+ "PITCH  = "+Roll+" VELOCITˆ = "+spd);
+		    System.out.println("ROLL = "+Roll+ " PITCH  = "+Roll);
+		    System.out.println("SPEED = "+speed+ " TURN  = "+turn+" SPEEDOMETRO = "+spd);
 		    
 		}
 	}
