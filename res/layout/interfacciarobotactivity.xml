@@ -24,6 +24,18 @@
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" >
+    
+     <ToggleButton
+            android:id="@+id/arm"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignLeft="@+id/speed"
+            android:layout_alignTop="@+id/imageView3"
+            android:background="@drawable/arm_toggle_bg"
+            android:checked="false"
+            android:textOff=""
+            android:textOn="" />
+        
         <ImageView
             android:id="@+id/imageView1"
             android:contentDescription="@string/desc1"
@@ -147,16 +159,7 @@
 
         </FrameLayout>
 
-        <ToggleButton
-            android:id="@+id/arm"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignLeft="@+id/speed"
-            android:layout_alignTop="@+id/imageView3"
-            android:background="@drawable/arm_toggle_bg"
-            android:checked="false"
-            android:textOff=""
-            android:textOn="" />
+
 
     </RelativeLayout>
 </RelativeLayout>
