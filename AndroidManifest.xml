@@ -13,7 +13,8 @@
  	<uses-permission android:name="android.permission.GET_TASKS"></uses-permission>
  	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
  	<uses-feature android:name="android.hardware.wifi" />
-    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="10" />
+ 	<uses-feature android:name="android.hardware.sensor.accelerometer" android:required="true"/>
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="15" />
  	
     <application
         android:icon="@drawable/ic_launcher"
@@ -46,6 +47,12 @@
         <activity 
             android:screenOrientation="landscape" 
             android:name=".VoiceControlActivity"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:launchMode="singleTask">
+        </activity>
+        <activity 
+            android:screenOrientation="landscape" 
+            android:name=".AccelerometroActivity"
             android:theme="@android:style/Theme.NoTitleBar"
             android:launchMode="singleTask">
         </activity>
