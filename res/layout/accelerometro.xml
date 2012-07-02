@@ -12,7 +12,39 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
-
+
+        <ImageView
+            android:id="@+id/webcam"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="17dp"
+            android:scaleType="fitEnd"
+            android:src="@drawable/webcam" />
+
+        <ProgressBar
+            android:id="@+id/speedo"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="22dp"
+            android:layout_marginLeft="20dp"
+            android:max="128"
+            android:progress="0"
+            android:progressDrawable="@drawable/speedometer" />
+
+        <ToggleButton
+            android:id="@+id/arm"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignLeft="@+id/speedo"
+            android:layout_alignTop="@+id/webcam"
+            android:background="@drawable/arm_toggle_bg"
+            android:checked="false" />
          <FrameLayout
              android:id="@+id/preview"
              android:layout_width="fill_parent"
@@ -87,30 +119,8 @@
                 android:gravity="center"
                 android:text="@string/label2" />
         </FrameLayout>
+         
 
-        <ImageView
-            android:id="@+id/webcam"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="17dp"
-            android:scaleType="fitEnd"
-            android:src="@drawable/webcam" />
-
-        <ProgressBar
-            android:id="@+id/speedo"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="22dp"
-            android:layout_marginLeft="20dp"
-            android:max="128"
-            android:progress="0"
-            android:progressDrawable="@drawable/speedometer" />
 
     </RelativeLayout>
 
