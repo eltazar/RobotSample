@@ -1,5 +1,7 @@
 package it.sapienza.robotsample;
 
+import java.io.IOException;
+
 import netInterface.NetworkUtility;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -11,12 +13,15 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.webkit.WebView;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
-public class InterfacciaRobotActivity extends BaseActivity implements OnTouchListener {
+public class InterfacciaRobotActivity extends BaseActivity implements OnTouchListener, OnCheckedChangeListener{
 
 	private DragController mDragController;
 	private DragLayer mDragLayer;
@@ -31,6 +36,7 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 	
 	private ProgressBar speedometer;
 	private ImageView webcam;
+	private ToggleButton arm;
 	
 	//gestore per i messaggi relativi alla progress bar
 	private Handler handler = new Handler() {
@@ -78,7 +84,22 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 		mDragController = new DragController(this, handler);
 		setUpViews();
 		IntRobot = this;
+		
+		arm = (ToggleButton) findViewById(R.id.arm);
+		arm.setOnCheckedChangeListener(this);
+		System.out.println("INTERFACCIA ROBOT -> ONCREATE");
 	}
+	
+	public void onPause(){
+		super.onPause();
+		System.out.println("INTERFACCIA ROBOT -> ONPAUSE");
+	}
+	
+	public void onResume(){
+		super.onResume();
+		System.out.println("INTERFACCIA ROBOT -> ONRESUME");
+	}
+	
 	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
@@ -151,6 +172,31 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 		String finalIp = "http://rackbot:rackbot@" + ipWebcam + "/mobile.htm";
 		baseWV.loadUrl(finalIp);
 		findViewById(R.id.imageView2).setVisibility(WebView.VISIBLE);
+	}
+
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		
+		if(isChecked){
+			
+			try {
+				System.out.println("PRENDO OGGETTO");
+				ProtocolAdapter.getInstance().sendMessage("#armu00\r");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		else{
+			try {
+				System.out.println("LASCIO OGGETTO");
+				ProtocolAdapter.getInstance().sendMessage("#armd00\r");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}	
 	}
 }
 
