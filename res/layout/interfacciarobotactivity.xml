@@ -16,13 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
     </it.sapienza.robotsample.DragLayer>
+    
+           
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" >
-
         <ImageView
             android:id="@+id/imageView1"
             android:contentDescription="@string/desc1"
@@ -135,6 +136,7 @@
 
             <TextView
                 android:id="@+id/secondip"
+                
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -144,6 +146,17 @@
                 android:text="@string/label2" />
 
         </FrameLayout>
-    </RelativeLayout>
 
+        <ToggleButton
+            android:id="@+id/arm"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignLeft="@+id/speed"
+            android:layout_alignTop="@+id/imageView3"
+            android:background="@drawable/arm_toggle_bg"
+            android:checked="false"
+            android:textOff=""
+            android:textOn="" />
+
+    </RelativeLayout>
 </RelativeLayout>
