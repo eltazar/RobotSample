@@ -165,9 +165,11 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 		    yRoll=((float)Math.acos(MVectScalarProductOf(AccelerometerVector,YVector)));     
 		    zRoll=((float)Math.acos(MVectScalarProductOf(AccelerometerVector,ZVector)));  
 		    
-		    xRollDiff=xRoll-((float)Math.acos(MVectScalarProductOf(AccelerometerVector,XVector)));    
-		    yRollDiff=yRoll-((float)Math.acos(MVectScalarProductOf(AccelerometerVector,YVector)));    
-		    zRollDiff=zRoll-((float)Math.acos(MVectScalarProductOf(AccelerometerVector,ZVector)));  
+		  //  System.out.println("ACOS = "+((float)Math.acos(MVectScalarProductOf(AccelerometerVector,XVector))));
+		    xRollDiff=xRoll-((float)Math.acos(MVectScalarProductOf(AccelerometerZeroVector,XVector)));    
+		    yRollDiff=yRoll-((float)Math.acos(MVectScalarProductOf(AccelerometerZeroVector,YVector)));    
+		    zRollDiff=zRoll-((float)Math.acos(MVectScalarProductOf(AccelerometerZeroVector,ZVector)));  
+		  //  System.out.println("X ROLL DIFF = "+xRollDiff+" Y ROLL DIFF = "+yRollDiff+" Z ROLL DIFF "+zRollDiff);
 		    
 		    xRollDiff*=Sensitivity;
 		    yRollDiff*=Sensitivity;
