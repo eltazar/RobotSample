@@ -208,8 +208,8 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 			int spd = (int)(maxSpd);
 		    handler.sendEmptyMessage(spd);
 		    
-		    System.out.println("ROLL = "+Roll+ " PITCH  = "+Roll);
 		    System.out.println("SPEED = "+speed+ " TURN  = "+turn+" SPEEDOMETRO = "+spd);
+		    System.out.println("ROLL = "+Roll+ " PITCH  = "+Pitch);
 		    
 		}
 	}
