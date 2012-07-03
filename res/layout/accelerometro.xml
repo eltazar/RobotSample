@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:keepScreenOn="true" >
 
     <WebView
         android:id="@+id/webView"
@@ -44,7 +45,9 @@
             android:layout_alignLeft="@+id/speedo"
             android:layout_alignTop="@+id/webcam"
             android:background="@drawable/arm_toggle_bg"
-            android:checked="false" />
+            android:checked="false"
+            android:textOff=""
+            android:textOn=""  />
          <FrameLayout
              android:id="@+id/preview"
              android:layout_width="fill_parent"
