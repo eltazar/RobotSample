@@ -35,12 +35,13 @@ public class ProtocolAdapter {
 			if(message.equals("#CNT0\r")){
 				System.out.println("In attesa di ack dal robot");
 				answer = messageStream.receiveMessage();
+				System.out.println("Protocol adapter: answer = "+answer);
 			}
 
-			System.out.println("Protocol adapter: answer = "+answer);
+			//System.out.println("Protocol adapter: answer = "+answer);
 		}
 		catch (NullPointerException ex){
-			System.out.println("Protocol adapter eccezione = "+ex.getLocalizedMessage());
+			//System.out.println("Protocol adapter eccezione = "+ex.getLocalizedMessage());
 			answer = "Devi connetterti!";
 		}
 		return answer;

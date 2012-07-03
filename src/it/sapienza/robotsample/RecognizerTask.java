@@ -184,7 +184,7 @@ public class RecognizerTask implements Runnable {
 				"/sdcard/Android/data/edu.cmu.pocketsphinx/lm/en_US/hub4.5000.dic");
 		c.setString("-lm",
 				"/sdcard/Android/data/edu.cmu.pocketsphinx/lm/en_US/hub4.5000.DMP");*/
-		System.out.println(" STO CAZZO = "+SD_PATH + "edu.cmu.pocketsphinx/hmm/en_US/hub4wsj_sc_8k");
+		//System.out.println(" STO CAZZO = "+SD_PATH + "edu.cmu.pocketsphinx/hmm/en_US/hub4wsj_sc_8k");
 		c.setString("-hmm", SD_PATH + "edu.cmu.pocketsphinx/hmm/en_US/hub4wsj_sc_8k");
 		c.setString("-dict", SD_PATH + "edu.cmu.pocketsphinx/lm/en_US/hub4.5000.dic");
 		c.setString("-lm", SD_PATH + "edu.cmu.pocketsphinx/lm/en_US/hub4.5000.DMP");
