@@ -74,6 +74,9 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	//ultimi valori inviati al roboto
 	private int last_pitch = 0;
 	private int last_roll = 0;
+	private int speed_left = -60;
+	private int speed_right = 60;
+	private int timeout = 500;
 	
 	Handler handler = new Handler() {
 		@Override
@@ -97,6 +100,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    	
 		    	
 		    	//begin: per permettere al robot di cambiare direzione senza dare prima lo stop
+		    /*
 		    	if(last_pitch > 0){
 		    		for(int i = last_pitch ; i>= 0; i--){
     					if(i % 10 == 0){
@@ -148,8 +152,10 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
     					}
     				}
 		    	}
-		    	
+		    	*/
 		    	//end
+		    	
+		    	decreaseSpeeds(last_pitch,last_roll);
 		    	
 		    	//trovo comando
 		    	try {
@@ -157,7 +163,9 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    			signalImg.setImageResource(R.drawable.stop);	
 		    			speedometer.setProgress(0);
 		    			pAdapt.sendMessage("#SPD00\r");
-		    			pAdapt.sendMessage("#TRN00\r");		        	
+		    			pAdapt.sendMessage("#TRN00\r");		
+		    			last_pitch = 0;
+		    			last_roll = 0;
 		    		}
 		    		else if(cmd.equals("FORWARD") || cmd.equals("STRAIGHT")){
 		    			signalImg.setImageResource(R.drawable.forw);
@@ -179,39 +187,66 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    			signalImg.setImageResource(R.drawable.right);
 		    			speedometer.setProgress(50);
 		    			pAdapt.sendMessage("#SPD00\r");
-		    			pAdapt.sendMessage("#TRN050\r");
+		    			pAdapt.sendMessage("#TRN0"+speed_right+"\r");
 		    			
 		    			//per dire al robot di fermarsi di girare dopo X millisecondi
-		    			/*Timer _timer = new Timer();
+		    			Timer _timer = new Timer();
 		    			_timer.schedule(new TimerTask() {
 
 							public void run() {
 								runOnUiThread(new Runnable() {
 					                public void run() {
-					                    // some code #3 (that needs to be ran in UI thread)
-					                	try {
+					                	decreaseSpeeds(0,speed_right);	
+										
+										/*try {
 											ProtocolAdapter.getInstance().sendMessage("#SPD00\r");
 											ProtocolAdapter.getInstance().sendMessage("#TRN00\r");
-					                	}
-					                	catch (IOException e) {
-					                		e.printStackTrace();
-					                	}
+										} catch (IOException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}*/
 					                }
 					            });						
 							}
-						}, 500);*/
+						}, timeout);
 		    			
 		    			last_pitch = 0;
-		    			last_roll = 50;
+		    			last_roll = 0;
+		    			//last_roll = 0;
 		    			
 		    		}
 		    		else if(cmd.equals("LEFT")){
 		    			signalImg.setImageResource(R.drawable.left);
 		    			speedometer.setProgress(50);
 		    			pAdapt.sendMessage("#SPD00\r");
-		    			pAdapt.sendMessage("#TRN0-50\r");
+		    			pAdapt.sendMessage("#TRN0"+speed_left+"\r");
+		    			
+		    			//per dire al robot di fermarsi di girare dopo X millisecondi
+		    			Timer _timer = new Timer();
+		    			_timer.schedule(new TimerTask() {
+
+							public void run() {
+								runOnUiThread(new Runnable() {
+					                public void run() {
+					                    decreaseSpeeds(0,speed_left);
+										
+										/*try {
+											ProtocolAdapter.getInstance().sendMessage("#SPD00\r");
+											ProtocolAdapter.getInstance().sendMessage("#TRN00\r");
+										} catch (IOException e) {
+											// TODO Auto-generated catch block
+											e.printStackTrace();
+										}*/
+					                }
+					            });						
+							}
+						}, timeout);
+		    			
 		    			last_pitch = 0;
-		    			last_roll = -50;
+		    			last_roll = 0;
+		    			//last_roll = 0;
+		    			
+		    			
 		    		}
 		    		
 		    		//ast_command = cmd;
@@ -221,6 +256,65 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 			}
 		}
 	};
+	
+	
+	private void decreaseSpeeds(int pitch, int roll){
+		
+		
+		ProtocolAdapter pAdapt = ProtocolAdapter.getInstance();
+		if(pitch > 0){
+    		for(int i = pitch ; i>= 0; i--){
+				if(i % 10 == 0){
+	    			try {
+						pAdapt.sendMessage("#SPD0"+i+"\r");
+						pAdapt.sendMessage("#TRN00\r");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+    	}
+    	else if (pitch < 0){
+    		for(int i = pitch ; i<= 0; i++){
+				if(i % 10 == 0){
+	    			try {
+						pAdapt.sendMessage("#SPD0"+i+"\r");
+						pAdapt.sendMessage("#TRN00\r");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+    	}
+    	
+    	if(roll > 0){
+    		for(int i = roll ; i>= 0; i--){
+				if(i % 10 == 0){
+	    			try {
+						pAdapt.sendMessage("#SPD00\r");
+		    			pAdapt.sendMessage("#TRN0"+i+"\r");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+    	}
+    	else if (roll < 0){
+    		for(int i = roll ; i<= 0; i++){
+				if(i % 10 == 0){
+	    			try {
+	    				pAdapt.sendMessage("#SPD00\r");
+		    			pAdapt.sendMessage("#TRN0"+i+"\r");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+    	}
+		
+	}
 	
 	/** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
@@ -267,6 +361,13 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		//this.rec_thread = null;
 		
 	}
+	
+	@Override
+	public void onResume(){
+		super.onResume();
+		System.out.println("VOICE CONTROL: On Resume");		
+	}
+	
 	
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
