@@ -319,7 +319,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 					//portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
 					//status.setText("Connesso");
 					rescanBtn.setEnabled(false);
-					((TextView)findViewById(R.id.searchTxt)).setVisibility(View.INVISIBLE);
+					//((TextView)findViewById(R.id.searchTxt)).setVisibility(View.INVISIBLE);
 					bar.setProgress(0);
 //					setContentView(R.layout.disconnectconnection);
 //					openOptionsMenu();
@@ -464,8 +464,8 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	    		}
 	    		else{
 	    			//altrimenti mosto il layout principale
-	    			System.out.println("MOSTRO LAYOUT CHOOSE");
-	    			loadLayoutConnection(Layouts.CHOOSE);
+	    			//System.out.println("MOSTRO LAYOUT CHOOSE");
+	    			//loadLayoutConnection(Layouts.CHOOSE);
 	    			/*setContentView(R.layout.choosetypeconnection);
 	    			automaticBtn = (Button) findViewById(R.id.autoconnectBtn);
 	    			automaticBtn.setOnClickListener(this);
