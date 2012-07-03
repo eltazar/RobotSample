@@ -84,9 +84,7 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 		mDragController = new DragController(this, handler);
 		setUpViews();
 		IntRobot = this;
-		
-		arm = (ToggleButton) findViewById(R.id.arm);
-		arm.setOnCheckedChangeListener(this);
+
 		System.out.println("INTERFACCIA ROBOT -> ONCREATE");
 	}
 	
@@ -161,7 +159,10 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
         		}
             }
          });
-
+		
+		arm = (ToggleButton) findViewById(R.id.arm);
+		arm.setOnCheckedChangeListener(this);
+		
 		//controllo sul joypad
 		IW.setOnTouchListener(this);
 	}
@@ -182,7 +183,7 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 			
 			try {
 				System.out.println("PRENDO OGGETTO");
-				ProtocolAdapter.getInstance().sendMessage("#armu00\r");
+				ProtocolAdapter.getInstance().sendMessage("#armd00\r");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -191,7 +192,7 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 		else{
 			try {
 				System.out.println("LASCIO OGGETTO");
-				ProtocolAdapter.getInstance().sendMessage("#armd00\r");
+				ProtocolAdapter.getInstance().sendMessage("#armu00\r");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
