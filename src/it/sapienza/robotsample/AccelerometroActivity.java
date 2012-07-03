@@ -60,7 +60,7 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 		// aggiungo il listener. il listener sarà questa stessa classe
 		sensorManager.registerListener(this,
 				sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-				SensorManager.SENSOR_DELAY_GAME);
+				SensorManager.SENSOR_DELAY_FASTEST);
 		
 		
 		//*******************WEBVIEW
@@ -68,7 +68,7 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 		//Otteniamo il riferimento alla WebView
 		baseWV = (WebView)findViewById(R.id.webView);
 		
-		baseWV.loadUrl("http://www.google.it");
+		//baseWV.loadUrl("http://www.google.it");
 		baseWV.getSettings().setJavaScriptEnabled(true);
 		baseWV.getSettings().setPluginsEnabled(true);
 		
@@ -76,6 +76,8 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 		speedometer = (ProgressBar) findViewById(R.id.speedo);
 		setUpViews();
 		AccelRobot = this;
+		
+		protocolAdapter = ProtocolAdapter.getInstance();
 		
 	}
 	
@@ -145,17 +147,21 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 
 			RawVector[0]=event.values[0];
 			RawVector[1]=event.values[1];
-			RawVector[2]=event.values[2];
+			RawVector[2]=-event.values[2];
+			
+			System.out.println("X = "+RawVector[0]+" Y = "+RawVector[1]+" Z = "+ RawVector[2]);
 			
 			XVector[0]=1.0f;XVector[1]=0.0f;XVector[2]=0.0f;
 			YVector[0]=0.0f;YVector[1]=1.0f;YVector[2]=0.0f;
 			ZVector[0]=0.0f;ZVector[1]=0.0f;ZVector[2]=1.0f;
 			
 			float magnitude = (float)(Math.sqrt((double)RawVector[0]*RawVector[0] + (double)RawVector[1]*RawVector[1] + (double)RawVector[2]*RawVector[2]));
-
+			//System.out.println("MAGNITUDE = "+magnitude);
 			AccelerometerVector[0] = (event.values[0]/magnitude);
 		    AccelerometerVector[1] = (event.values[1]/magnitude);
-		    AccelerometerVector[2] = (event.values[2]/magnitude);
+		    AccelerometerVector[2] = (-event.values[2]/magnitude);
+		    
+		   // System.out.println("ACCELERO  VEC  [0] = "+AccelerometerVector[0]+" [1] "+AccelerometerVector[1]+" [2] "+AccelerometerVector[2]);
 			
 		    AccelerometerZeroVector[0]=-0.6f;
 		    AccelerometerZeroVector[1]=0.0f;
@@ -164,12 +170,13 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 		    xRoll=((float)Math.acos(MVectScalarProductOf(AccelerometerVector,XVector)));    
 		    yRoll=((float)Math.acos(MVectScalarProductOf(AccelerometerVector,YVector)));     
 		    zRoll=((float)Math.acos(MVectScalarProductOf(AccelerometerVector,ZVector)));  
+		   // System.out.println("X ROLL = "+xRoll+" Y ROLL = "+yRoll+" Z ROLL"+zRoll);
 		    
 		  //  System.out.println("ACOS = "+((float)Math.acos(MVectScalarProductOf(AccelerometerVector,XVector))));
 		    xRollDiff=xRoll-((float)Math.acos(MVectScalarProductOf(AccelerometerZeroVector,XVector)));    
 		    yRollDiff=yRoll-((float)Math.acos(MVectScalarProductOf(AccelerometerZeroVector,YVector)));    
 		    zRollDiff=zRoll-((float)Math.acos(MVectScalarProductOf(AccelerometerZeroVector,ZVector)));  
-		  //  System.out.println("X ROLL DIFF = "+xRollDiff+" Y ROLL DIFF = "+yRollDiff+" Z ROLL DIFF "+zRollDiff);
+		    //System.out.println("X ROLL DIFF = "+xRollDiff+" Y ROLL DIFF = 64"+yRollDiff+" Z ROLL DIFF "+zRollDiff);
 		    
 		    xRollDiff*=Sensitivity;
 		    yRollDiff*=Sensitivity;
@@ -179,39 +186,48 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 		    yRollDiff=Math.max(-1.0f,Math.min(1.0f,yRollDiff));
 		    zRollDiff=Math.max(-1.0f,Math.min(1.0f,zRollDiff));
 		    
-		    AccelerometerZeroRollZ=(float)Math.acos(MVectScalarProductOf(AccelerometerZeroVector,ZVector));
+		    System.out.println("X ROLL DIFF = "+xRollDiff+" Y ROLL DIFF = "+yRollDiff+" Z ROLL DIFF "+zRollDiff);
 		    
-		    if (AccelerometerZeroRollZ>=0.78539816339745f && AccelerometerZeroRollZ<=2.35619449019235f) 
+		    AccelerometerZeroRollZ=(float)Math.acos(MVectScalarProductOf(AccelerometerZeroVector,ZVector));
+		    System.out.println("ACCEL ZERO ROLL Z"+AccelerometerZeroRollZ);
+		    
+		    System.out.println("zRoll: " + zRoll);
+		    //if (AccelerometerZeroRollZ>=0.78539816339745f && AccelerometerZeroRollZ<=2.4980915f) {
+		    //    Pitch=zRollDiff;
+		    //    System.out.println("sonodentro");
+		    //}
+		    if (xRollDiff>-0.64350116f) 
+		        Pitch=1.0f; 
+		    else if (zRoll<3.1257215f && zRoll>1.5707963267949f) 
 		        Pitch=zRollDiff; 
-		    else if (zRoll>1.5707963267949f) 
-		        Pitch=-xRollDiff; 
 		    else 
 		        Pitch=-1.0f; 
+		    
 		    Roll=yRollDiff; 
 		    
 		    Pitch=Math.min(1.0f,Math.max(-1.0f,Pitch*2.0f)); //Sensibilità
 		    Roll=Math.min(1.0f,Math.max(-1.0f,Roll*1.5f)); //Sensibilità
 
 		    int speed=(int)Math.max(-128.0f,Math.min(128.0f,Pitch * 128.0f));
-		    int turn=(int)Math.max(-128.0f,Math.min(128.0f,Roll * 128.0f));
-		    /*
+		    int turn= - ((int)Math.max(-128.0f,Math.min(128.0f,Roll * 128.0f)));
+		    
 		    try{
 
-				protocolAdapter.sendMessage(Speed, Turn);
+				protocolAdapter.sendMessage(Pitch, -Roll);
 				
 			}
 			catch (java.io.IOException ex) {
 				System.out.println("Eccezione in sendMessage: "+ex.getLocalizedMessage());
 			}
-		    */
+		    
 		    
 		    //Mario 2 luglio: calcolo il valore della velocitˆ per caricare lo speedometro
 		    float maxSpd = Math.max(Math.abs(turn),Math.abs(speed));
 			int spd = (int)(maxSpd);
 		    handler.sendEmptyMessage(spd);
 		    
-		    System.out.println("SPEED = "+speed+ " TURN  = "+turn+" SPEEDOMETRO = "+spd);
 		    System.out.println("ROLL = "+Roll+ " PITCH  = "+Pitch);
+		    System.out.println("SPEED = "+speed+ " TURN  = "+turn+" SPEEDOMETRO = "+spd);
 		    
 		}
 	}
@@ -226,7 +242,10 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 	
 	public double MVectScalarProductOf(float [] p_vector1, float [] p_vector2)
 	{
-	    return (((double)p_vector1[0]*p_vector2[0] + (double)p_vector1[1]*p_vector2[1] + (double)p_vector1[2]*p_vector2[2]));
+		double value = (((double)p_vector1[0]*p_vector2[0] + (double)p_vector1[1]*p_vector2[1] + (double)p_vector1[2]*p_vector2[2]));
+	    //System.out.println ("PRODOTTO SCALARE = "+value);
+		
+		return value;
 	}
 
 	@Override
