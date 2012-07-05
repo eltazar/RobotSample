@@ -143,6 +143,22 @@ public class NetworkUtility{
 		System.out.println("WIFI ADDRESS = "+ intToIpAddress(ip)+"bssid "+info.getMacAddress()+"ssid"+info.getSSID());
 		System.out.println(info);
 	}
+	*/
+	
+	/*
+	 * ritorna l'indirizzo ip wifi del device
+	 * 
+	 * */
+	public String getWifiIp(){
+		
+		WifiManager wifi = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
+
+		// Get WiFi status
+		WifiInfo info = wifi.getConnectionInfo();
+		int ip = info.getIpAddress();
+		
+		return intToIpAddress(ip);
+	}
 	
 	/*
 	 * Ritorna un indirizzo ip formattato data la sua notazione decimale
