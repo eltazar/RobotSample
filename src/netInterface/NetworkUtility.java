@@ -101,12 +101,16 @@ public class NetworkUtility{
 		//Log.i(LOG_TAG,"dentro ping runnable addr = "+host);
 	    return new Runnable() {
 	        public void run() {
+	        	
+	        	String ipWifi = getWifiIp();
+	        	
 	            Log.i(LOG_TAG, "Pinging " + host + "...");
 	            try {
 	                InetAddress inet = InetAddress.getByName(host);
 	                boolean reachable = inet.isReachable(2000);
 	                Log.i(LOG_TAG, "=> Result: " + (reachable ? "reachable" : "not reachable"));
-	                if(reachable){
+	                //se host raggiungibile e diverso dall'ip del dispositivo
+	                if(reachable && !(host.equals(ipWifi))){
 	                	ipScanned.add(host);
 	                }	                	
 	                if(handler != null){
@@ -124,8 +128,9 @@ public class NetworkUtility{
 	}
 	
 	/*
-	 * Ritorna le informazioni relative all'hotspot al quale il device � connesso
+	 * NON USATO: trova le informazioni relative all'hotspot al quale il device e' connesso
 	 * */
+	/*
 	public void getInfoWifiConnection(){
 		
 		WifiManager wifi = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
@@ -161,7 +166,7 @@ public class NetworkUtility{
 	}
 	
 	/*
-	 * Ritorna un indirizzo ip formattato data la sua notazione decimale
+	 * Ritorna una stringa rappresentante l'indirizzo ip formattato data la sua notazione decimale
 	 * */
 	private String intToIpAddress(int ip){
 		
@@ -186,6 +191,9 @@ public class NetworkUtility{
 		return gtwTok.get(0)+"."+gtwTok.get(1)+"."+gtwTok.get(2);
 	}
 	
+	/**
+	 * Ritorna array di ip raggiungibili nella rete
+	 * */
 	public ArrayList<String> getIpAddresses(){
 		return ipScanned;
 	}
