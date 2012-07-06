@@ -267,11 +267,11 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 				//System.out.println("Substring ack = "+ack.substring(1, ack.length()));
 				
 				//controllo che il primo carattere sia 6 (in ascii = "ack")
-				//if(ack != null && ack.length() != 0 && (byte)ack.charAt(0) == 6){
+				if(ack != null && ack.length() != 0 && (byte)ack.charAt(0) == 6){
 					//byte b = (byte)ack.charAt(0);
 					//System.out.println("BYTE = "+b);
 					//if(b==6){
-					if(ack.substring(0, 10).equals("6RoborRack")){
+					//if(ack.substring(0, 10).equals("6RoborRack")){
 					System.out.println("AUTOCONNESSIONE RIUSCITA");
 					isAutoconnected = true;
 					break;
