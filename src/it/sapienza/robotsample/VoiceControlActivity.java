@@ -9,7 +9,9 @@ import java.util.TimerTask;
 
 import netInterface.NetworkUtility;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -366,6 +368,17 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	public void onResume(){
 		super.onResume();
 		System.out.println("VOICE CONTROL: On Resume");		
+		if( !ProtocolAdapter.getInstance().isThereAvaiableStream()){
+			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+			alertDialog.setTitle("Non connesso");
+			alertDialog.setMessage("Non sei connesso a nessun robot.\nVai nel  menu impostazioni per connetterti");
+			alertDialog.setButton("Chiudi", new DialogInterface.OnClickListener() {
+			   public void onClick(DialogInterface dialog, int which) {
+			      // here you can add functions
+			   }
+			});
+			alertDialog.show();
+		}
 	}
 	
 	

@@ -2,6 +2,8 @@ package it.sapienza.robotsample;
 
 
 import netInterface.NetworkUtility;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -118,6 +120,18 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
         sensorManager.registerListener(this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL);
+		
+        if( !ProtocolAdapter.getInstance().isThereAvaiableStream()){
+			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+			alertDialog.setTitle("Non connesso");
+			alertDialog.setMessage("Non sei connesso a nessun robot.\nVai nel  menu impostazioni per connetterti");
+			alertDialog.setButton("Chiudi", new DialogInterface.OnClickListener() {
+			   public void onClick(DialogInterface dialog, int which) {
+			      // here you can add functions
+			   }
+			});
+			alertDialog.show();
+		}
     }
     
     @Override

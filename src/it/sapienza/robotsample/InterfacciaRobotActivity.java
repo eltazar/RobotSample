@@ -1,12 +1,17 @@
 package it.sapienza.robotsample;
 
 import java.io.IOException;
+import java.util.List;
 
 import netInterface.NetworkUtility;
+import android.app.ActivityManager;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +23,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -96,6 +102,17 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 	public void onResume(){
 		super.onResume();
 		System.out.println("INTERFACCIA ROBOT -> ONRESUME");
+		if( !ProtocolAdapter.getInstance().isThereAvaiableStream()){
+			AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+			alertDialog.setTitle("Non connesso");
+			alertDialog.setMessage("Non sei connesso a nessun robot.\nVai nel  menu impostazioni per connetterti");
+			alertDialog.setButton("Chiudi", new DialogInterface.OnClickListener() {
+			   public void onClick(DialogInterface dialog, int which) {
+			      // here you can add functions
+			   }
+			});
+			alertDialog.show();
+		}
 	}
 	
 	
@@ -199,5 +216,6 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 			
 		}	
 	}
+
 }
 
