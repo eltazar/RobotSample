@@ -137,8 +137,8 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		switch ( v.getId() ) {
 		case R.id.autoconnectBtn:
 			loadLayoutConnection(Layouts.AUTO);
-			if(pAdapt.isThereAvaiableStream() == false)
-				networkScanning();
+			//if(pAdapt.isThereAvaiableStream() == false)
+				//networkScanning();
 			break;	
 		case R.id.manualConnection:
 			loadLayoutConnection(Layouts.MANUAL);
@@ -152,7 +152,17 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			disconnectFromServer();
 			break;
 		case R.id.rescan:
-			networkScanning();
+			if(pAdapt.getAssociatedStream() == null || 
+				(pAdapt.getAssociatedStream() != null && pAdapt.getAssociatedStream().isConnected() == false))
+				networkScanning();
+			else{
+				Context context = getApplicationContext();
+				CharSequence text = "Sei gi connesso al robot!";
+				int duration = Toast.LENGTH_SHORT;
+				Toast toast = Toast.makeText(context, text, duration);
+				toast.show();
+			}
+				
 			break;
 		case R.id.back:
 			loadLayoutConnection(Layouts.CHOOSE);
@@ -194,7 +204,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			case AUTO:
 				setContentView(R.layout.automaticconnection);
 				rescanBtn = (Button) findViewById(R.id.rescan);
-				rescanBtn.setEnabled(false);
+				rescanBtn.setEnabled(true);
 				rescanBtn.setOnClickListener(this);
 				bar = (ProgressBar) findViewById(R.id.progressbarConnection);
 				backBtn = (Button) findViewById(R.id.back);
@@ -223,7 +233,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			ipRobot.setText("Ip: --");
 			portRobot.setText("Porta: --");
 			if(rescanBtn != null)
-				rescanBtn.setEnabled(false);
+				rescanBtn.setEnabled(true);
 			if(connectBtn != null)
 				connectBtn.setEnabled(true);
 		}

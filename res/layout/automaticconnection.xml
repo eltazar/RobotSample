@@ -91,18 +91,7 @@
         android:layout_alignTop="@+id/status"
         android:layout_marginLeft="16dp"
         android:text="Indietro" />
-
-    <Button
-        android:id="@+id/rescan"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/back"
-        android:layout_alignBottom="@+id/back"
-        android:layout_alignRight="@+id/progressbarConnection"
-        android:layout_marginRight="19dp"
-        android:text="Riprova" />
-
+        
     <TextView
         android:id="@+id/hack"
         android:layout_width="wrap_content"
@@ -112,5 +101,16 @@
         android:layout_toRightOf="@+id/searchTxt"
         android:visibility="gone"
         android:text="auto" />
+
+    <Button
+        android:id="@+id/rescan"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/back"
+        android:layout_alignBottom="@+id/back"
+        android:layout_alignRight="@+id/progressbarConnection"
+        android:layout_marginRight="16dp"
+        android:text="  Cerca  " />
 
 </RelativeLayout>
