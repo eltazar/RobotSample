@@ -153,11 +153,13 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			break;
 		case R.id.rescan:
 			if(pAdapt.getAssociatedStream() == null || 
-				(pAdapt.getAssociatedStream() != null && pAdapt.getAssociatedStream().isConnected() == false))
+				(pAdapt.getAssociatedStream() != null && pAdapt.getAssociatedStream().isConnected() == false)){
 				networkScanning();
+				rescanBtn.setEnabled(false);
+			}
 			else{
 				Context context = getApplicationContext();
-				CharSequence text = "Sei giÂˆ connesso al robot!";
+				CharSequence text = "Sei giˆ connesso al robot!";
 				int duration = Toast.LENGTH_SHORT;
 				Toast toast = Toast.makeText(context, text, duration);
 				toast.show();
