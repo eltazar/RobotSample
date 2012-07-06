@@ -93,35 +93,10 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		System.out.println("ON RESUME configuration activity");
 
 		if(pAdapt.isThereAvaiableStream()){
-			
 			loadLayoutConnection(Layouts.DISCONNECT);
-			/*
-			setContentView(R.layout.disconnectconnection);
-			
-			disconnectBtn = (Button) findViewById(R.id.disconnectionBtn);
-			findViewReferences();
-			disconnectBtn.setOnClickListener(this);
-			
-			status.setText("Connesso");
-			status.setTextColor(Color.GREEN);
-			//System.out.println("INDIRIZZO IP AL QUALE SONO CONNESSO"+pAdapt.getAssociatedStream().getIpAddress());
-			ipRobot.setText("Ip: "+pAdapt.getAssociatedStream().getIpAddress());
-			portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());*/
 		}
 		else{
-			
 			loadLayoutConnection(Layouts.CHOOSE);
-			/*setContentView(R.layout.choosetypeconnection);
-			automaticBtn = (Button) findViewById(R.id.autoconnectBtn);
-			automaticBtn.setOnClickListener(this);
-			manualBtn = (Button) findViewById(R.id.manualConnection);
-			manualBtn.setOnClickListener(this);
-			findViewReferences();
-			status.setText("Non connesso");
-			status.setTextColor(Color.RED);
-			//System.out.println("INDIRIZZO IP AL QUALE SONO CONNESSO"+pAdapt.getAssociatedStream().getIpAddress());
-			ipRobot.setText("Ip: --");
-			portRobot.setText("Porta: --");*/
 		}
 	}
 
@@ -292,11 +267,11 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 				//System.out.println("Substring ack = "+ack.substring(1, ack.length()));
 				
 				//controllo che il primo carattere sia 6 (in ascii = "ack")
-				if(ack != null && ack.length() != 0 && (byte)ack.charAt(0) == 6){
+				//if(ack != null && ack.length() != 0 && (byte)ack.charAt(0) == 6){
 					//byte b = (byte)ack.charAt(0);
 					//System.out.println("BYTE = "+b);
 					//if(b==6){
-					//if(ack.substring(0, 10).equals("6RoborRack")){
+					if(ack.substring(0, 10).equals("6RoborRack")){
 					System.out.println("AUTOCONNESSIONE RIUSCITA");
 					isAutoconnected = true;
 					break;
@@ -363,16 +338,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			if(pAdapt.isThereAvaiableStream()){
 				
 				pAdapt.closeCommunication();
-				//ipRobot.setText("Ip: --");
-				//portRobot.setText("Porta: --");
-				//status.setText("Disconnesso");
-				//rimuovo lo stream associato durante la connessione
 				pAdapt.setProtocolAdapter(null);
-				//backBtn = (Button) findViewById(R.id.back);
-				//backBtn.setOnClickListener(this);
-				//backBtn.setVisibility(View.VISIBLE);
-				//disconnectBtn.setVisibility(View.INVISIBLE);
-				//setContentView(R.layout.choosetypeconnection);
 				loadLayoutConnection(Layouts.CHOOSE);
 				System.out.println("Client: Connessione terminata");
 			}
