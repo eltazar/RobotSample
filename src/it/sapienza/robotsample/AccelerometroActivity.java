@@ -26,7 +26,7 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 	private ProgressBar speedometer;
 	private ImageView webcam;
 	private static AccelerometroActivity AccelRobot;
-	private final int activity_index = 3;
+	private final int activity_index = 2;
 	
 	private Handler handler = new Handler() {
 			

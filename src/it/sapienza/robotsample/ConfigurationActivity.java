@@ -36,7 +36,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	private Button manualBtn;
 	private Button rescanBtn;
 	private Button backBtn;
-	private final int activity_index = 2;
+	private final int activity_index = 3;
 	private ProtocolAdapter pAdapt;
 
 	private TextView ipRobot;
