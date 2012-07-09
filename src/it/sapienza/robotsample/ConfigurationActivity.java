@@ -4,19 +4,14 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.List;
 
 import netInterface.*;
-import android.app.ActivityManager;
-import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,22 +40,45 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 
 	private EditText ipAddressEditText;
 	private EditText portEditText;
-	
+		
 	private ArrayList<String> scannedIp;
 
 	private ProgressBar bar;
+	
+	private ProgressDialog dialog;
 	
 	//gestore per i messaggi relativi alla progress bar
 	Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			//System.out.println("INCREMENTO PROGRESS BAR");
-			//incremento la status bar col valore ritornato
-			bar.incrementProgressBy(msg.what);
+			
+			Bundle bundle = msg.getData();
+						
+			if(bundle.containsKey("ConnectionStatus")){
+				String text = bundle.getString("ConnectionStatus");
+				if(text.equals("connecting")){
+					dialog = ProgressDialog.show(ConfigurationActivity.this, "", "Connessione  in corso...");
+				}
+				else if(text.equals("connected")){
+					connectBtn.setEnabled(false);
+					dialog.dismiss();
+					loadLayoutConnection(Layouts.DISCONNECT);
+					ConfigurationActivity.this.openOptionsMenu();
+				}
+				else if(text.equals("failed")){
+					status.setText("Impossibile connettersi");
+					status.setTextColor(Color.RED);
+					dialog.dismiss();
+				}
+			}
+			else{
+				//System.out.println("INCREMENTO PROGRESS BAR");
+				//incremento la status bar col valore ritornato
+				bar.incrementProgressBy(msg.what);
+			}
 		}
 	};
 	//private String mode;
-
 
 	/** Called when the activity is first created. */
 	@Override
@@ -121,7 +139,15 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		case R.id.connectionBtn:
 			final EditText ipAddress = (EditText)findViewById(R.id.edit_ipAddress);
 			final EditText port = (EditText)findViewById(R.id.edit_port);
-			connectToServer(ipAddress.getText().toString(),port.getText().toString());
+			
+			Thread thread = new Thread()
+			{
+			    @Override
+			    public void run() {
+					connectToServer(ipAddress.getText().toString(),port.getText().toString());
+			    }
+			};
+			thread.start();
 			break;
 		case R.id.disconnectionBtn:
 			disconnectFromServer();
@@ -351,6 +377,13 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 
 		System.out.println("Cliccatto bottone connessione");
 		int portNumber;
+		boolean connected = false;
+        
+        Message msg = handler.obtainMessage();
+		Bundle bundle = new Bundle();
+		bundle.putString("ConnectionStatus", "connecting");
+		msg.setData(bundle);
+		handler.sendMessage(msg);
 
 		try{
 			//creo socket con stream in/out associati
@@ -361,31 +394,32 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			System.out.println("Client: Connessione stabilita");
 			//associo al protocolAdapter un socket e stream
 			pAdapt.setProtocolAdapter(socketAndStream);
-
-			//status.setText("Connesso");
-			//ipRobot.setText("Ip: "+ pAdapt.getAssociatedStream().getIpAddress());
-			//portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
-			connectBtn.setEnabled(false);
-			loadLayoutConnection(Layouts.DISCONNECT);
-			this.openOptionsMenu();
+			connected = true;
 		}
 		catch (UnknownHostException ex) {
 			System.out.println("Client: Impossibile connettersi"+ex.getLocalizedMessage());
-			status.setText("Impossibile connettersi");
-			status.setTextColor(Color.RED);
-			//System.exit(0);
+			connected = false;
 		} catch (java.io.IOException ex) {
 			System.out.println("Client: Impossibile connettersi"+ex.getLocalizedMessage());
-			status.setText("Impossibile connettersi");
-			status.setTextColor(Color.RED);
-			//System.exit(0);
+			connected = false;
 		}
 		catch(NumberFormatException ex){
 			System.out.println("Client: Numero di porta errato:"+ex.getLocalizedMessage());
-			status.setText("Numero porta errato");
-			status.setTextColor(Color.RED);
+			connected = false;
 		}
 
+		bundle.clear();
+		
+		if(connected){
+			bundle.putString("ConnectionStatus", "connected");
+		}
+		else{
+			bundle.putString("ConnectionStatus", "failed");
+		}
+	
+		msg = handler.obtainMessage();
+		msg.setData(bundle);
+		handler.sendMessage(msg);
 	}
 
 	@Override
