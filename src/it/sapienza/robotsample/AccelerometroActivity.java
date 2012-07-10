@@ -1,6 +1,8 @@
 package it.sapienza.robotsample;
 
 
+import java.io.IOException;
+
 import netInterface.NetworkUtility;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -27,6 +29,8 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 	private ImageView webcam;
 	private static AccelerometroActivity AccelRobot;
 	private final int activity_index = 2;
+	private int last_pitch = 0;
+	private int last_roll = 0;
 	
 	private Handler handler = new Handler() {
 			
@@ -103,15 +107,7 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
         		}
             }
          });
-	}
-	
-	@Override
-    protected void onPause() {
-        //  chiamata quando un'altra attività viene visualizzata
-        super.onPause();
-        sensorManager.unregisterListener(this);
-    }
-   
+	}   
 
     @Override
     protected void onResume() {
@@ -135,10 +131,15 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
     }
     
     @Override
-    protected void onStop() {
-        //chiamata quando non è più visibile
-        super.onStop();
+    protected void onPause() {
+        //chiamata quando non è più visibile	
         sensorManager.unregisterListener(this);
+        super.onPause();
+        //System.out.println("ACCELERO: ON PAUSE..last_pitch = "+last_pitch+" last_roll= "+last_roll);
+    	decreaseSpeeds(last_pitch,last_roll);
+		last_pitch=0;
+		last_roll=0;
+        
     }
 
 	public void onSensorChanged(SensorEvent event){
@@ -226,9 +227,9 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 		    int turn= - ((int)Math.max(-128.0f,Math.min(128.0f,Roll * 128.0f)));
 		    
 		    try{
-
 				protocolAdapter.sendMessage(Pitch, -Roll);
-				
+				last_pitch = speed;
+				last_roll = turn;
 			}
 			catch (java.io.IOException ex) {
 				System.out.println("Eccezione in sendMessage: "+ex.getLocalizedMessage());
@@ -264,6 +265,62 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
+		
+	}
+	
+	private void decreaseSpeeds(int pitch, int roll){
+				
+		if(pitch > 0){
+    		for(int i = pitch ; i>= 0; i--){
+				if(i % 10 == 0){
+	    			try {
+						protocolAdapter.sendMessage("#SPD0"+i+"\r");
+						protocolAdapter.sendMessage("#TRN00\r");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+    	}
+    	else if (pitch < 0){
+    		for(int i = pitch ; i<= 0; i++){
+				if(i % 10 == 0){
+	    			try {
+						protocolAdapter.sendMessage("#SPD0"+i+"\r");
+						protocolAdapter.sendMessage("#TRN00\r");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+    	}
+    	
+    	if(roll > 0){
+    		for(int i = roll ; i>= 0; i--){
+				if(i % 10 == 0){
+	    			try {
+						protocolAdapter.sendMessage("#SPD00\r");
+		    			protocolAdapter.sendMessage("#TRN0"+i+"\r");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+    	}
+    	else if (roll < 0){
+    		for(int i = roll ; i<= 0; i++){
+				if(i % 10 == 0){
+	    			try {
+	    				protocolAdapter.sendMessage("#SPD00\r");
+		    			protocolAdapter.sendMessage("#TRN0"+i+"\r");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+    	}
 		
 	}
 }
