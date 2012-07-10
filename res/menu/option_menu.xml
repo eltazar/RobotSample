@@ -10,7 +10,7 @@
     <item
         android:id="@+id/voiceControl"
         android:title="Comandi vocali"
-        android:icon="@drawable/voice"/><item android:id="@+id/accelero" android:title="Accelerometro"></item><item android:id="@+id/config" android:title="Impostazioni" android:icon="@drawable/config">
+        android:icon="@drawable/voice"/><item android:id="@+id/accelero" android:title="Accelerometro" android:icon="@drawable/accelerometer"></item><item android:id="@+id/config" android:title="Impostazioni" android:icon="@drawable/config">
     </item>
         
 
