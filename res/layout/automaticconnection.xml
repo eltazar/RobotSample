@@ -111,6 +111,6 @@
         android:layout_alignBottom="@+id/back"
         android:layout_alignRight="@+id/progressbarConnection"
         android:layout_marginRight="16dp"
-        android:text="  Cerca  " />
+        android:text="Riprova" />
 
 </RelativeLayout>
