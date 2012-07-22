@@ -27,6 +27,7 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 	private static ProtocolAdapter protocolAdapter;
 	private ProgressBar speedometer;
 	private ImageView webcam;
+	private ImageView arrow;
 	private static AccelerometroActivity AccelRobot;
 	private final int activity_index = 2;
 	private int last_pitch = 0;
@@ -80,6 +81,7 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 		
 		//
 		speedometer = (ProgressBar) findViewById(R.id.speedo);
+		
 		setUpViews();
 		AccelRobot = this;
 		
@@ -90,7 +92,8 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 	private void setUpViews() {
 
 		webcam = (ImageView) findViewById(R.id.webcam);
-
+		arrow = (ImageView) findViewById(R.id.arrow);
+		
 		//controllo sulla webcam
 		webcam.setOnClickListener(new ImageView.OnClickListener() {  
         public void onClick(View v)
@@ -225,6 +228,26 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 
 		    int speed=(int)Math.max(-128.0f,Math.min(128.0f,Pitch * 128.0f));
 		    int turn= - ((int)Math.max(-128.0f,Math.min(128.0f,Roll * 128.0f)));
+		    
+		    if (speed<10 && speed>-10)speed=0;
+		    if (turn<10 && turn>-10)turn=0;
+		    
+		    if(speed>0 && turn==0)
+		    	arrow.setImageResource(R.drawable.n);
+		    if(speed<0 && turn==0)
+		    	arrow.setImageResource(R.drawable.s);
+		    if(speed==0 && turn>0)
+		    	arrow.setImageResource(R.drawable.e);
+		    if(speed==0 && turn<0)
+		    	arrow.setImageResource(R.drawable.o);
+		    if(speed>0 && turn>0)
+		    	arrow.setImageResource(R.drawable.ne);
+		    if(speed>0 && turn<0)
+		    	arrow.setImageResource(R.drawable.no);
+		    if(speed<0 && turn>0)
+		    	arrow.setImageResource(R.drawable.so);
+		    if(speed<0 && turn<0)
+		    	arrow.setImageResource(R.drawable.se);
 		    
 		    try{
 				protocolAdapter.sendMessage(Pitch, -Roll);
