@@ -187,7 +187,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    		}
 		    		else if(cmd.equals("RIGHT")){
 		    			signalImg.setImageResource(R.drawable.right);
-		    			speedometer.setProgress(50);
+		    			speedometer.setProgress(speed_right);
 		    			pAdapt.sendMessage("#SPD00\r");
 		    			pAdapt.sendMessage("#TRN0"+speed_right+"\r");
 		    			
@@ -198,6 +198,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 							public void run() {
 								runOnUiThread(new Runnable() {
 					                public void run() {
+					                	signalImg.setImageResource(R.drawable.stop);
 					                	decreaseSpeeds(0,speed_right);	
 										
 										/*try {
@@ -219,7 +220,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    		}
 		    		else if(cmd.equals("LEFT")){
 		    			signalImg.setImageResource(R.drawable.left);
-		    			speedometer.setProgress(50);
+		    			speedometer.setProgress(speed_right);
 		    			pAdapt.sendMessage("#SPD00\r");
 		    			pAdapt.sendMessage("#TRN0"+speed_left+"\r");
 		    			
@@ -230,6 +231,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 							public void run() {
 								runOnUiThread(new Runnable() {
 					                public void run() {
+					                	signalImg.setImageResource(R.drawable.stop);
 					                    decreaseSpeeds(0,speed_left);
 										
 										/*try {
@@ -404,7 +406,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 			                }
 			            });						
 					}
-				}, 2500);
+				}, 1500);
 			}
 			catch(IllegalStateException e){
 				System.out.println("ERRORE timer: "+e.getLocalizedMessage());
