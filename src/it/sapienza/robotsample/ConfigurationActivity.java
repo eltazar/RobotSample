@@ -130,8 +130,8 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		switch ( v.getId() ) {
 		case R.id.autoconnectBtn:
 			loadLayoutConnection(Layouts.AUTO);
-			//if(pAdapt.isThereAvaiableStream() == false)
-				//networkScanning();
+			if(pAdapt.isThereAvaiableStream() == false)
+				networkScanning();
 			break;	
 		case R.id.manualConnection:
 			loadLayoutConnection(Layouts.MANUAL);
@@ -207,7 +207,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			case AUTO:
 				setContentView(R.layout.automaticconnection);
 				rescanBtn = (Button) findViewById(R.id.rescan);
-				rescanBtn.setEnabled(true);
+				rescanBtn.setEnabled(false);
 				rescanBtn.setOnClickListener(this);
 				bar = (ProgressBar) findViewById(R.id.progressbarConnection);
 				backBtn = (Button) findViewById(R.id.back);
@@ -293,11 +293,11 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 				//System.out.println("Substring ack = "+ack.substring(1, ack.length()));
 				
 				//controllo che il primo carattere sia 6 (in ascii = "ack")
-				if(ack != null && ack.length() != 0 && (byte)ack.charAt(0) == 6){
+				//if(ack != null && ack.length() != 0 && (byte)ack.charAt(0) == 6){
 					//byte b = (byte)ack.charAt(0);
 					//System.out.println("BYTE = "+b);
 					//if(b==6){
-					//if(ack.substring(0, 10).equals("6RoborRack")){
+					if(ack.substring(0, 10).equals("6RoborRack")){
 					System.out.println("AUTOCONNESSIONE RIUSCITA");
 					isAutoconnected = true;
 					break;
