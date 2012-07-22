@@ -8,7 +8,9 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_alignParentRight="true" />
-
+
+
+
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -37,6 +39,17 @@
             android:max="128"
             android:progress="0"
             android:progressDrawable="@drawable/speedometer" />
+        
+        <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="22dp"
+            android:layout_marginRight="20dp"
+            android:scaleType="fitEnd"
+            android:src="@drawable/n" />
 
         <ToggleButton
             android:id="@+id/arm"
@@ -47,7 +60,9 @@
             android:background="@drawable/arm_toggle_bg"
             android:checked="false"
             android:textOff=""
-            android:textOn=""  />
+            android:textOn=""  />
+
+
          <FrameLayout
              android:id="@+id/preview"
              android:layout_width="fill_parent"
