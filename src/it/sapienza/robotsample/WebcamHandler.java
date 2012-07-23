@@ -1,23 +1,27 @@
 package it.sapienza.robotsample;
 
 import java.util.ArrayList;
-
 import netInterface.NetworkUtility;
-
+import android.annotation.SuppressLint;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+@SuppressLint({ "SetJavaScriptEnabled" })
 public class WebcamHandler {
 
 	private ArrayList<String> ips;
+
 	private BaseActivity gui;
+	private WebcamHandler webgui;
 	private int ips_size;
 	private WebView preview1;
 	private WebView preview2;
 	private FrameLayout frameLayout;
+	private FrameLayout frameReload;
 
 	private int num_pages;
 	private int current_page;
@@ -28,12 +32,18 @@ public class WebcamHandler {
 	private TextView firstIp;
 	private TextView secondIp;
 
-	public WebcamHandler (FrameLayout frame, BaseActivity irb) {
+	private ImageView close1;
+	private ImageView refresh;
 
-		ips = NetworkUtility.getInstance().getIpAddresses();
+	public WebcamHandler (FrameLayout frame, FrameLayout reload, BaseActivity irb) {
+
+		setIps();
 		setIRB(irb);
-		
+
+		webgui = this;
+
 		frameLayout = frame;
+		frameReload = reload;
 
 		frameLayout.setVisibility(FrameLayout.VISIBLE);
 		frameLayout.focusableViewAvailable(frameLayout);
@@ -46,14 +56,15 @@ public class WebcamHandler {
 		preview2.setInitialScale(1);
 		preview2.getSettings().setJavaScriptEnabled(true);
 		preview2.getSettings().setPluginsEnabled(true);
-		
+
 		previous = (TextView)frameLayout.findViewById(R.id.previous);
 		next = (TextView)frameLayout.findViewById(R.id.next);
 		pages = (TextView)frameLayout.findViewById(R.id.pages);
 		firstIp = (TextView)frameLayout.findViewById(R.id.firstip);
 		secondIp = (TextView)frameLayout.findViewById(R.id.secondip);
 
-
+		close1 = (ImageView)frameLayout.findViewById(R.id.imageView4);
+		refresh = (ImageView)frameLayout.findViewById(R.id.refresh);
 
 		/*
 		 * Da decommentare se presente il robot
@@ -89,7 +100,6 @@ public class WebcamHandler {
 		//gestisce il click sulla prima preview		
 		preview1.setOnTouchListener(new WebView.OnTouchListener(){
 
-			@Override
 			public boolean onTouch(View arg0, MotionEvent arg1) {
 
 				getIRB().setSelectedIp(ips.get(current_page*2));
@@ -102,7 +112,6 @@ public class WebcamHandler {
 		//gestisce il click sulla seconda preview		
 		preview2.setOnTouchListener(new WebView.OnTouchListener(){
 
-			@Override
 			public boolean onTouch(View arg0, MotionEvent arg1) {
 
 				getIRB().setSelectedIp(ips.get(current_page*2+1));
@@ -110,6 +119,25 @@ public class WebcamHandler {
 				return false;
 			}
 
+		});
+
+		close1.setOnClickListener(new ImageView.OnClickListener(){
+
+			public void onClick(View arg0) {
+
+				getIRB().setSelectedIp(null);
+				frameLayout.setVisibility(FrameLayout.GONE);
+				return;
+			}
+
+		});
+
+		refresh.setOnClickListener(new ImageView.OnClickListener(){
+
+			public void onClick(View arg0) {
+
+				new ReloadWebcam(frameReload, webgui);
+			}
 		});
 
 	}
@@ -188,6 +216,22 @@ public class WebcamHandler {
 
 		return "http://rackbot:rackbot@" + ip + "/mobile.htm";
 	}
+	
+	public void restoreLayout(boolean flag) {
+
+		if(flag == false) {
+			
+			frameLayout.setVisibility(View.GONE);
+			frameReload.setVisibility(View.VISIBLE);
+		}
+		else {
+		
+			frameReload.setVisibility(View.GONE);
+			frameLayout.setVisibility(View.VISIBLE);
+		}
+		
+		setWebViews();
+	}
 
 	private CharSequence getIpLabel(String string) {
 
@@ -208,5 +252,14 @@ public class WebcamHandler {
 
 	public void setIRB(BaseActivity iRB) {
 		gui = iRB;
+	}
+
+	public void setIps() {
+		this.ips = NetworkUtility.getInstance().getIpAddresses();
+	}
+
+	public void reSetIps(ArrayList<String> ipAddresses) {
+		this.ips_size = ipAddresses.size();
+		this.ips = ipAddresses;
 	}
 }
