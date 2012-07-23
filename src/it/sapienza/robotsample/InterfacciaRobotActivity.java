@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import netInterface.NetworkUtility;
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+@SuppressLint({ "SetJavaScriptEnabled", "HandlerLeak" })
 public class InterfacciaRobotActivity extends BaseActivity implements OnTouchListener, OnCheckedChangeListener{
 
 	private DragController mDragController;
@@ -53,17 +55,17 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 			//System.out.println("INCREMENTO PROGRESS BAR");
 			//incremento la status bar col valore ritornato
 			
-
 			if(msg.what > oldValue){
-				//System.out.println("ACCEL: ora è = "+speedometer.getProgress()+"arrivato = "+msg.what+" incremento di = "+Math.abs(msg.what-speedometer.getProgress()));
+				//System.out.println("ACCEL: ora ÔøΩ = "+speedometer.getProgress()+"arrivato = "+msg.what+" incremento di = "+Math.abs(msg.what-speedometer.getProgress()));
 				speedometer.incrementProgressBy(Math.abs(msg.what-speedometer.getProgress()));
 				oldValue = msg.what;
 			}
 			else if(msg.what < oldValue){
-				//System.out.println("DECEL: ora è = "+speedometer.getProgress()+"arrivato = "+msg.what+" decremento di = "+Math.abs(msg.what-speedometer.getProgress()));
+				//System.out.println("DECEL: ora ÔøΩ = "+speedometer.getProgress()+"arrivato = "+msg.what+" decremento di = "+Math.abs(msg.what-speedometer.getProgress()));
 				speedometer.incrementProgressBy(-(Math.abs(msg.what-speedometer.getProgress())));
 				oldValue = msg.what;
 			}
+
 //			else if(msg.what == 0){
 //				for(int i = speedometer.getProgress(); i >= 0; --i){
 //					
@@ -112,6 +114,12 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 			   }
 			});
 			alertDialog.show();
+		}
+		String ipWebcam = NetworkUtility.getInstance().getIpWebcam();
+		if(ipWebcam != null)
+		{
+			String finalIp = "http://rackbot:rackbot@" + ipWebcam + "/mobile.htm";
+			baseWV.loadUrl(finalIp);
 		}
 	}
 	
