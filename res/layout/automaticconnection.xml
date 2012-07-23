@@ -90,7 +90,7 @@
         android:layout_alignLeft="@+id/progressbarConnection"
         android:layout_alignTop="@+id/status"
         android:layout_marginLeft="16dp"
-        android:text="Indietro" />
+        android:text="Annulla" />
         
     <TextView
         android:id="@+id/hack"
