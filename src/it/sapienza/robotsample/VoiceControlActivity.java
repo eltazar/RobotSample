@@ -357,6 +357,12 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 			});
 			alertDialog.show();
 		}
+		String ipWebcam = NetworkUtility.getInstance().getIpWebcam();
+		if(ipWebcam != null)
+		{
+			String finalIp = "http://rackbot:rackbot@" + ipWebcam + "/mobile.htm";
+			baseWV.loadUrl(finalIp);
+		}
 	}
 	
 	
