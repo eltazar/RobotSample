@@ -56,6 +56,15 @@
             android:layout_marginTop="17dp"
             android:scaleType="fitEnd"
             android:src="@drawable/webcam" />
+        
+        <ImageView
+            android:id="@+id/info"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_alignBottom="@+id/webcam"
+            android:layout_alignLeft="@+id/speedo"
+            android:layout_alignTop="@+id/webcam"
+            android:src="@drawable/info" />
 
         <FrameLayout
             android:id="@+id/preview"
@@ -206,6 +215,7 @@
                 android:layout_gravity="center|center_horizontal"
                 android:text="Annulla" />
         </FrameLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>
