@@ -52,6 +52,7 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 					oldValue = msg.what;
 				}
 			}
+			
 		};
 	
 	
@@ -88,12 +89,12 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 		protocolAdapter = ProtocolAdapter.getInstance();
 		
 	}
-	
+
 	private void setUpViews() {
 
 		webcam = (ImageView) findViewById(R.id.webcam);
 		arrow = (ImageView) findViewById(R.id.arrow);
-		
+
 		//controllo sulla webcam
 		webcam.setOnClickListener(new ImageView.OnClickListener() {  
         public void onClick(View v)
@@ -246,9 +247,9 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 		    if(speed>0 && turn<0)
 		    	arrow.setImageResource(R.drawable.no);
 		    if(speed<0 && turn>0)
-		    	arrow.setImageResource(R.drawable.so);
-		    if(speed<0 && turn<0)
 		    	arrow.setImageResource(R.drawable.se);
+		    if(speed<0 && turn<0)
+		    	arrow.setImageResource(R.drawable.so);
 		    
 		    try{
 				protocolAdapter.sendMessage(Pitch, -Roll);
