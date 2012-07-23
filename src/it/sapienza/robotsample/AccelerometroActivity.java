@@ -103,10 +103,11 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
         			Toast.makeText(getApplicationContext(), "Webcam non disponibile, effettuare una nuova scansione", Toast.LENGTH_LONG).show();
         		else {
         		FrameLayout frameLayout = (FrameLayout)findViewById(R.id.preview);
-        		//findViewById(R.id.imageView2).setVisibility(WebView.GONE);
+        		findViewById(R.id.webcam).setClickable(false);
         		
                 //lancia la nuova activity
-        		new WebcamHandler(frameLayout, AccelRobot);
+        		new WebcamHandler(frameLayout, (FrameLayout)findViewById(R.id.reload), AccelRobot);
+        		onPause();
         		}
             }
          });
@@ -286,6 +287,18 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 		return value;
 	}
 
+	//setta l'ip della webcam al valore selezionato dall'utente
+		public void setSelectedIp(String ipWebcam)
+		{
+			if(ipWebcam != null)
+			{
+				String finalIp = "http://rackbot:rackbot@" + ipWebcam + "/mobile.htm";
+				baseWV.loadUrl(finalIp);
+			}
+			findViewById(R.id.webcam).setClickable(true);
+			onResume();
+		}
+	
 	@Override
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
 		
