@@ -108,7 +108,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 
 	@Override
 	public void onResume(){
-		super.onPause();
+		super.onResume();
 		System.out.println("ON RESUME configuration activity");
 
 		if(pAdapt.isThereAvaiableStream()){
