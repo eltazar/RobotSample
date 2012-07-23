@@ -25,7 +25,8 @@ public class NetworkUtility{
 	private Context mContext;
 	private ArrayList<String> ipScanned;
 	private Handler handler;
-	
+	private String ipWebcam = null;
+
 	private static NetworkUtility netUtil = null;
 	
 	/*
@@ -43,6 +44,15 @@ public class NetworkUtility{
 		ipScanned = new ArrayList<String>();
 		
 	}
+	
+	public String getIpWebcam() {
+		return ipWebcam;
+	}
+
+	public void setIpWebcam(String ipWebcam) {
+		this.ipWebcam = ipWebcam;
+	}
+	
 /*	public NetworkUtility(Activity act) {
 		mContext = act;
 		ipScanned = new ArrayList<String>();
