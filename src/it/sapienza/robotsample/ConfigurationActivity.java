@@ -33,6 +33,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	private Button backBtn;
 	private final int activity_index = 3;
 	private ProtocolAdapter pAdapt;
+	private static boolean isAutoconnection = false;
 
 	private TextView ipRobot;
 	private TextView portRobot;
@@ -183,6 +184,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		switch(value){
 			case CHOOSE:
 				setContentView(R.layout.choosetypeconnection);
+				isAutoconnection = false;
 				automaticBtn = (Button) findViewById(R.id.autoconnectBtn);
 				automaticBtn.setOnClickListener(this);
 				manualBtn = (Button) findViewById(R.id.manualConnection);
@@ -190,11 +192,13 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 				break;
 			case DISCONNECT:
 				setContentView(R.layout.disconnectconnection);
+				isAutoconnection = false;
 				disconnectBtn = (Button) findViewById(R.id.disconnectionBtn);
 				disconnectBtn.setOnClickListener(this);
 				break;
 			case MANUAL:
 				setContentView(R.layout.manualconnection);
+				isAutoconnection = false;
 				connectBtn = (Button) findViewById(R.id.connectionBtn);
 				connectBtn.setOnClickListener(this);
 				ipAddressEditText = (EditText)findViewById(R.id.edit_ipAddress); 
@@ -206,6 +210,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 				break;
 			case AUTO:
 				setContentView(R.layout.automaticconnection);
+				isAutoconnection = true;
 				rescanBtn = (Button) findViewById(R.id.rescan);
 				rescanBtn.setEnabled(false);
 				rescanBtn.setOnClickListener(this);
@@ -252,8 +257,12 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		searchTxt.setVisibility(View.VISIBLE);
 		new Thread(new Runnable(){
 			public void run(){
+				
+				String hack = ((TextView)findViewById(R.id.hack)).getText().toString();
 				scannedIp = NetworkUtility.getInstance().doScan();
-				autoConnect();				
+				System.out.println("Thread ricerca: hack -> "+hack);
+				if(isAutoconnection)
+					autoConnect();				
 			};
 		}).start();
 	}	
