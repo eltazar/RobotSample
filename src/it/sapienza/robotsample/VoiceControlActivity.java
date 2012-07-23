@@ -81,6 +81,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	private int minimumSpeed = 40;
 	private int timeout = 1200;//500;
 	
+	private boolean isSlowSpeed = false;
 	
 	Handler handler = new Handler() {
 		@Override
@@ -103,62 +104,6 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    	//String command = String.format("SPD0%d\r", spd);
 		    	
 		    	
-		    	//begin: per permettere al robot di cambiare direzione senza dare prima lo stop
-		    /*
-		    	if(last_pitch > 0){
-		    		for(int i = last_pitch ; i>= 0; i--){
-    					if(i % 10 == 0){
-    		    			try {
-        						pAdapt.sendMessage("#SPD0"+i+"\r");
-								pAdapt.sendMessage("#TRN00\r");
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-    					}
-    				}
-		    	}
-		    	else if (last_pitch < 0){
-		    		for(int i = last_pitch ; i<= 0; i++){
-    					if(i % 10 == 0){
-    		    			try {
-        						pAdapt.sendMessage("#SPD0"+i+"\r");
-								pAdapt.sendMessage("#TRN00\r");
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-    					}
-    				}
-		    	}
-		    	
-		    	if(last_roll > 0){
-		    		for(int i = last_roll ; i>= 0; i--){
-    					if(i % 10 == 0){
-    		    			try {
-								pAdapt.sendMessage("#SPD00\r");
-				    			pAdapt.sendMessage("#TRN0"+i+"\r");
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-    					}
-    				}
-		    	}
-		    	else if (last_roll < 0){
-		    		for(int i = last_roll ; i<= 0; i++){
-    					if(i % 10 == 0){
-    		    			try {
-    		    				pAdapt.sendMessage("#SPD00\r");
-				    			pAdapt.sendMessage("#TRN0"+i+"\r");
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-    					}
-    				}
-		    	}
-		    	*/
-		    	//end
-		    	
 		    	decreaseSpeeds(last_pitch,last_roll);
 		    	
 		    	//trovo comando
@@ -169,7 +114,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    			pAdapt.sendMessage("#SPD00\r");
 		    			pAdapt.sendMessage("#TRN00\r");		
 		    			last_pitch = 0;
-		    			last_roll = 0;
+		    			last_roll = 0;	
 		    		}
 		    		else if(cmd.equals("FORWARD") || cmd.equals("STRAIGHT")){
 		    			signalImg.setImageResource(R.drawable.forw);
@@ -189,31 +134,43 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    		}
 		    		else if(cmd.equals("RIGHT")){
 		    			signalImg.setImageResource(R.drawable.right);
-		    			speedometer.setProgress(speed_right);
-		    			pAdapt.sendMessage("#SPD00\r");
-		    			pAdapt.sendMessage("#TRN0"+speed_right+"\r");
 		    			
-		    			//per dire al robot di fermarsi di girare dopo X millisecondi
-		    			Timer _timer = new Timer();
-		    			_timer.schedule(new TimerTask() {
+		    			
+		    			if(isSlowSpeed){
+		    				speedometer.setProgress(minimumSpeed);
+		    				pAdapt.sendMessage("#SPD00\r");
+			    			pAdapt.sendMessage("#TRN0"+minimumSpeed+"\r");
+		    			}
+		    			else{
+		    				speedometer.setProgress(speed_right);
+		    				pAdapt.sendMessage("#SPD00\r");
+			    			pAdapt.sendMessage("#TRN0"+speed_right+"\r");
+		    			}
+		    			
+		    			if(!isSlowSpeed){
+		    				//per dire al robot di fermarsi di girare dopo X millisecondi
+		    				Timer _timer = new Timer();
+		    				_timer.schedule(new TimerTask() {
 
-							public void run() {
-								runOnUiThread(new Runnable() {
-					                public void run() {
-					                	signalImg.setImageResource(R.drawable.stop);
-					                	decreaseSpeeds(0,speed_right);	
-										
-										/*try {
+		    					public void run() {
+		    						runOnUiThread(new Runnable() {
+		    							public void run() {
+		    								signalImg.setImageResource(R.drawable.stop);
+		    								decreaseSpeeds(0,speed_right);
+		    								speedometer.setProgress(0);
+
+		    								/*try {
 											ProtocolAdapter.getInstance().sendMessage("#SPD00\r");
 											ProtocolAdapter.getInstance().sendMessage("#TRN00\r");
 										} catch (IOException e) {
 											// TODO Auto-generated catch block
 											e.printStackTrace();
 										}*/
-					                }
-					            });						
-							}
-						}, timeout);
+		    							}
+		    						});						
+		    					}
+		    				}, timeout);
+		    			}
 		    			
 		    			last_pitch = 0;
 		    			last_roll = 0;
@@ -223,31 +180,44 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    		else if(cmd.equals("LEFT")){
 		    			signalImg.setImageResource(R.drawable.left);
 		    			speedometer.setProgress(speed_right);
-		    			pAdapt.sendMessage("#SPD00\r");
-		    			pAdapt.sendMessage("#TRN0"+speed_left+"\r");
 		    			
-		    			//per dire al robot di fermarsi di girare dopo X millisecondi
-		    			Timer _timer = new Timer();
-		    			_timer.schedule(new TimerTask() {
+		    			if(isSlowSpeed){
+		    				speedometer.setProgress(minimumSpeed);
+		    				pAdapt.sendMessage("#SPD00\r");
+			    			pAdapt.sendMessage("#TRN0"+minimumSpeed+"\r");
+		    			}
+		    			else{
+		    				speedometer.setProgress(speed_right);
+		    				pAdapt.sendMessage("#SPD00\r");
+			    			pAdapt.sendMessage("#TRN0"+speed_left+"\r");
+		    			}
+		    			
+		    			
+		    			if(!isSlowSpeed){
+		    				//per dire al robot di fermarsi di girare dopo X millisecondi
+		    				Timer _timer = new Timer();
+		    				_timer.schedule(new TimerTask() {
 
-							public void run() {
-								runOnUiThread(new Runnable() {
-					                public void run() {
-					                	signalImg.setImageResource(R.drawable.stop);
-					                    decreaseSpeeds(0,speed_left);
-										
-										/*try {
+		    					public void run() {
+		    						runOnUiThread(new Runnable() {
+		    							public void run() {
+		    								signalImg.setImageResource(R.drawable.stop);
+		    								decreaseSpeeds(0,speed_left);
+		    								speedometer.setProgress(0);
+
+		    								/*try {
 											ProtocolAdapter.getInstance().sendMessage("#SPD00\r");
 											ProtocolAdapter.getInstance().sendMessage("#TRN00\r");
 										} catch (IOException e) {
 											// TODO Auto-generated catch block
 											e.printStackTrace();
 										}*/
-					                }
-					            });						
-							}
-						}, timeout);
-		    			
+		    							}
+		    						});						
+		    					}
+		    				}, timeout);
+		    			}
+
 		    			last_pitch = 0;
 		    			last_roll = 0;
 		    			//last_roll = 0;
@@ -259,6 +229,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    	 } catch (IOException e) {
 						e.printStackTrace();
 				}
+		    	isSlowSpeed = false;
 			}
 		}
 	};
@@ -488,6 +459,9 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 						commandRecognized = true;
 						cmd = hot;
 					}
+					else if(words[i].equals("SLOW")){
+						isSlowSpeed = true;
+					}
 				}
 				if(commandRecognized){
 					break;
@@ -567,6 +541,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		hotWords.add("STRAIGHT");
 		hotWords.add("BACKWARD");
 		hotWords.add("BACK");
+		//hotWords.add("SLOW");
 		hotWords.add("RIGHT");
 		hotWords.add("LEFT");
 		//hotWords.add("TAKE");
