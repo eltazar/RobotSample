@@ -384,7 +384,6 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	}
 	
 	
-	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		
 		if(isChecked){
@@ -576,7 +575,6 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		//speedWords.add("TWO");
 	}
 
-	@Override
 	public void onClick(View v) {
 		switch ( v.getId() ) {
 			case R.id.webcam:
@@ -584,9 +582,11 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
         			Toast.makeText(getApplicationContext(), "Webcam non disponibile, effettuare una nuova scansione", Toast.LENGTH_LONG).show();
         			}
         		else {
-        			FrameLayout frameLayout = (FrameLayout)findViewById(R.id.preview);        		
+        			FrameLayout frameLayout = (FrameLayout)findViewById(R.id.preview);
+        			findViewById(R.id.webcam).setClickable(false);
+        			
         			//lancia la nuova activity
-        			new WebcamHandler(frameLayout, vocalInt);
+        			new WebcamHandler(frameLayout, (FrameLayout)findViewById(R.id.reload), vocalInt);
         		}
 				break;
 			default:
@@ -597,9 +597,11 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	//setta l'ip della webcam al valore selezionato dall'utente
 	public void setSelectedIp(String ipWebcam)
 	{
-		String finalIp = "http://rackbot:rackbot@" + ipWebcam + "/mobile.htm";
-		baseWV.loadUrl(finalIp);
-		//baseWV.loadUrl(ipWebcam);
+		if(ipWebcam != null)
+		{
+			String finalIp = "http://rackbot:rackbot@" + ipWebcam + "/mobile.htm";
+			baseWV.loadUrl(finalIp);
+		}
+		findViewById(R.id.webcam).setClickable(true);
 	}
 }
-	
