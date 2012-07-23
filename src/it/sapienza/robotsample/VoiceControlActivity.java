@@ -162,14 +162,6 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    								signalImg.setImageResource(R.drawable.stop);
 		    								decreaseSpeeds(0,speed_right);
 		    								speedometer.setProgress(0);
-
-		    								/*try {
-											ProtocolAdapter.getInstance().sendMessage("#SPD00\r");
-											ProtocolAdapter.getInstance().sendMessage("#TRN00\r");
-										} catch (IOException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}*/
 		    							}
 		    						});						
 		    					}
@@ -182,9 +174,6 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    				last_pitch = 0;
 		    				last_roll = minimumSpeedRight;
 		    			}
-//		    			last_pitch = 0;
-//		    			last_roll = 0;
-		    			//last_roll = 0;
 		    			
 		    		}
 		    		else if(cmd.equals("LEFT")){
@@ -214,14 +203,6 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    								signalImg.setImageResource(R.drawable.stop);
 		    								decreaseSpeeds(0,speed_left);
 		    								speedometer.setProgress(0);
-
-		    								/*try {
-											ProtocolAdapter.getInstance().sendMessage("#SPD00\r");
-											ProtocolAdapter.getInstance().sendMessage("#TRN00\r");
-										} catch (IOException e) {
-											// TODO Auto-generated catch block
-											e.printStackTrace();
-										}*/
 		    							}
 		    						});						
 		    					}
@@ -234,9 +215,6 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    				last_pitch = 0;
 		    				last_roll = minimumSpeedLeft;
 		    			}
-//		    			last_pitch = 0;
-//		    			last_roll = 0;
-		    			//last_roll = 0;
 		    			
 		    			
 		    		}
@@ -531,38 +509,6 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		
 	}
 	
-	private void sendCommand(String cmd){
-		
-		ProtocolAdapter pAdapt = ProtocolAdapter.getInstance();
-		
-		//int id = getResources().getIdentifier("yourpackagename:drawable/" + StringGenerated, null, null);
-		
-		if(cmd.equals("STOP") || cmd.equals("OFF")){
-			
-			//invio comandi per stare fermo
-		}
-		else if(cmd.equals("FORWARD") || cmd.equals("STRAIGHT")){
-			ImageView signalImg = (ImageView) findViewById(R.id.signal);
-			signalImg.setImageResource(R.drawable.forw);
-		}
-		else if(cmd.equals("BACWARD") || cmd.equals("BACK")){
-			
-		}
-		else if(cmd.equals("RIGHT")){
-
-		}
-		else if(cmd.equals("LEFT")){
-			
-		}
-
-//		PocketSphinxDemo.this.runOnUiThread(new Runnable() {
-//		    public void run(int id) {
-//		    	
-//		    	
-//		    }
-//		});
-		
-	}
 	
 	private void createCommands(){
 	
