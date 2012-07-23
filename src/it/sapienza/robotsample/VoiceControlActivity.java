@@ -76,9 +76,11 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	//ultimi valori inviati al roboto
 	private int last_pitch = 0;
 	private int last_roll = 0;
-	private int speed_left = -60;
-	private int speed_right = 60;
-	private int timeout = 500;
+	private int speed_left = -128;//-60;
+	private int speed_right = 128;//60;
+	private int minimumSpeed = 40;
+	private int timeout = 1200;//500;
+	
 	
 	Handler handler = new Handler() {
 		@Override
@@ -268,7 +270,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		ProtocolAdapter pAdapt = ProtocolAdapter.getInstance();
 		if(pitch > 0){
     		for(int i = pitch ; i>= 0; i--){
-				if(i % 10 == 0){
+				if(i % 5 == 0){
 	    			try {
 						pAdapt.sendMessage("#SPD0"+i+"\r");
 						pAdapt.sendMessage("#TRN00\r");
@@ -280,7 +282,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
     	}
     	else if (pitch < 0){
     		for(int i = pitch ; i<= 0; i++){
-				if(i % 10 == 0){
+				if(i % 5 == 0){
 	    			try {
 						pAdapt.sendMessage("#SPD0"+i+"\r");
 						pAdapt.sendMessage("#TRN00\r");
@@ -293,7 +295,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
     	
     	if(roll > 0){
     		for(int i = roll ; i>= 0; i--){
-				if(i % 10 == 0){
+				if(i % 5 == 0){
 	    			try {
 						pAdapt.sendMessage("#SPD00\r");
 		    			pAdapt.sendMessage("#TRN0"+i+"\r");
@@ -306,7 +308,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
     	}
     	else if (roll < 0){
     		for(int i = roll ; i<= 0; i++){
-				if(i % 10 == 0){
+				if(i % 5 == 0){
 	    			try {
 	    				pAdapt.sendMessage("#SPD00\r");
 		    			pAdapt.sendMessage("#TRN0"+i+"\r");
