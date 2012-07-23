@@ -17,5 +17,6 @@
     <string name="desc2">Knob del joypad</string>
     <string name="desc3">Icona simbolo della webcam</string>
     <string name="wait">Ricerca robot&#8230;</string>
+    <string name="refresh">refresh</string>
 
 </resources>

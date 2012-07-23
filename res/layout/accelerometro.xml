@@ -63,16 +63,16 @@
             android:textOn=""  />
 
 
-         <FrameLayout
-             android:id="@+id/preview"
-             android:layout_width="fill_parent"
-             android:layout_height="fill_parent"
-             android:layout_alignBottom="@+id/speedo"
-             android:layout_alignLeft="@+id/speedo"
-             android:layout_alignRight="@+id/webcam"
-             android:layout_alignTop="@+id/webcam"
-             android:background="#545454"
-             android:visibility="gone" >
+        <FrameLayout
+            android:id="@+id/preview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_alignBottom="@+id/speedo"
+            android:layout_alignLeft="@+id/speedo"
+            android:layout_alignRight="@+id/webcam"
+            android:layout_alignTop="@+id/webcam"
+            android:background="#545454"
+            android:visibility="gone" >
 
             <WebView
                 android:id="@+id/webView1"
@@ -136,6 +136,82 @@
                 android:layout_marginTop="48dp"
                 android:gravity="center"
                 android:text="@string/label2" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/desc1"
+                android:src="@drawable/close" />
+            
+            <ImageView
+                android:id="@+id/refresh"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:contentDescription="@string/desc1"
+                android:src="@drawable/refresh" />
+
+            <TextView
+                android:id="@+id/editText1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="142dp"
+                android:text="@string/refresh"
+                android:textSize="10dp" />
+                
+        </FrameLayout>
+        
+        <FrameLayout
+            android:id="@+id/reload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/speedo"
+            android:layout_alignLeft="@+id/speedo"
+            android:layout_alignRight="@+id/webcam"
+            android:layout_alignTop="@+id/webcam"
+            android:background="#545454"
+            android:visibility="gone" >
+
+            <ImageView
+                android:id="@+id/close"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/desc1"
+                android:src="@drawable/close" />
+            
+            <ProgressBar
+                android:id="@+id/progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="254dip"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:max="254"
+                android:maxHeight="20dip"
+                android:minHeight="20dip" />
+
+            <TextView
+                android:id="@+id/progressLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:text="Ricerca webcam..." />
+            
+            <Button
+                android:id="@+id/annulla"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_marginTop="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|center_horizontal"
+                android:text="Annulla" />
         </FrameLayout>
          
 
