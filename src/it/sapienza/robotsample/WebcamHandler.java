@@ -66,24 +66,8 @@ public class WebcamHandler {
 		close1 = (ImageView)frameLayout.findViewById(R.id.imageView4);
 		refresh = (ImageView)frameLayout.findViewById(R.id.refresh);
 
-		/*
-		 * Da decommentare se presente il robot
-		 *  
-		 */
 		ips = NetworkUtility.getInstance().getIpAddresses();
 
-		/*
-		 * Da commentare se presente il robot
-		 *  
-		 */
-		/*
-		ips = new ArrayList<String>();
-		ips.add("http://www.java.it/");
-		ips.add("http://www.wikipedia.it/");
-		ips.add("http://www.mare.it/");
-		ips.add("http://www.google.it/");
-		ips.add("http://www.meteo.it/");
-		 */
 		ips_size = ips.size();
 
 		setWebViews();
@@ -102,6 +86,7 @@ public class WebcamHandler {
 
 			public boolean onTouch(View arg0, MotionEvent arg1) {
 
+				NetworkUtility.getInstance().setIpWebcam(ips.get(current_page*2));
 				getIRB().setSelectedIp(ips.get(current_page*2));
 				frameLayout.setVisibility(FrameLayout.GONE);
 				return false;
@@ -114,6 +99,7 @@ public class WebcamHandler {
 
 			public boolean onTouch(View arg0, MotionEvent arg1) {
 
+				NetworkUtility.getInstance().setIpWebcam(ips.get(current_page*2+1));
 				getIRB().setSelectedIp(ips.get(current_page*2+1));
 				frameLayout.setVisibility(FrameLayout.GONE);
 				return false;
