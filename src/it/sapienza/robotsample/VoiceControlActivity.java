@@ -313,6 +313,9 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		webcam = (ImageView) findViewById(R.id.webcam);
 		webcam.setOnClickListener(this);
 		
+		info = (ImageView) findViewById(R.id.info);
+		info.setOnClickListener(this);
+		
 		createCommands();
 
 		this.rec = new RecognizerTask(handler);
@@ -566,6 +569,12 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
         			new WebcamHandler(frameLayout, (FrameLayout)findViewById(R.id.reload), vocalInt);
         		}
 				break;
+			case R.id.info:
+				Dialog dialog = new Dialog(this);
+				dialog.setContentView(R.layout.infospeech);
+				dialog.setTitle("Comandi Vocali");
+				dialog.setCancelable(true);
+				dialog.show();
 			default:
 				break;
 		}
