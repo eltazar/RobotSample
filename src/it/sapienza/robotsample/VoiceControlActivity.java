@@ -9,7 +9,9 @@ import java.util.TimerTask;
 
 import netInterface.NetworkUtility;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -69,6 +71,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	//timer per fermare il riconoscimento vocale dopo X millisecondi
 	private Timer timer;
 	private ImageView webcam;
+	private ImageView info;
 	private static VoiceControlActivity vocalInt;
 	//lista di comandi riconosciuti dal robot
 	private ArrayList<String> hotWords;
@@ -78,7 +81,8 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	private int last_roll = 0;
 	private int speed_left = -128;//-60;
 	private int speed_right = 128;//60;
-	private int minimumSpeed = 40;
+	private int minimumSpeedLeft = -70;
+	private int minimumSpeedRight = 70;
 	private int timeout = 1200;//500;
 	
 	private boolean isSlowSpeed = false;
@@ -114,7 +118,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    			pAdapt.sendMessage("#SPD00\r");
 		    			pAdapt.sendMessage("#TRN00\r");		
 		    			last_pitch = 0;
-		    			last_roll = 0;	
+		    			last_roll = 0;
 		    		}
 		    		else if(cmd.equals("FORWARD") || cmd.equals("STRAIGHT")){
 		    			signalImg.setImageResource(R.drawable.forw);
@@ -137,9 +141,9 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    			
 		    			
 		    			if(isSlowSpeed){
-		    				speedometer.setProgress(minimumSpeed);
+		    				speedometer.setProgress(minimumSpeedRight);
 		    				pAdapt.sendMessage("#SPD00\r");
-			    			pAdapt.sendMessage("#TRN0"+minimumSpeed+"\r");
+			    			pAdapt.sendMessage("#TRN0"+minimumSpeedRight+"\r");
 		    			}
 		    			else{
 		    				speedometer.setProgress(speed_right);
@@ -170,10 +174,16 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    						});						
 		    					}
 		    				}, timeout);
+		    				
+			    			last_pitch = 0;
+			    			last_roll = 0;
 		    			}
-		    			
-		    			last_pitch = 0;
-		    			last_roll = 0;
+		    			else{
+		    				last_pitch = 0;
+		    				last_roll = minimumSpeedRight;
+		    			}
+//		    			last_pitch = 0;
+//		    			last_roll = 0;
 		    			//last_roll = 0;
 		    			
 		    		}
@@ -182,9 +192,9 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    			speedometer.setProgress(speed_right);
 		    			
 		    			if(isSlowSpeed){
-		    				speedometer.setProgress(minimumSpeed);
+		    				speedometer.setProgress(minimumSpeedRight);
 		    				pAdapt.sendMessage("#SPD00\r");
-			    			pAdapt.sendMessage("#TRN0"+minimumSpeed+"\r");
+			    			pAdapt.sendMessage("#TRN0"+minimumSpeedLeft+"\r");
 		    			}
 		    			else{
 		    				speedometer.setProgress(speed_right);
@@ -216,20 +226,34 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    						});						
 		    					}
 		    				}, timeout);
+		    				
+			    			last_pitch = 0;
+			    			last_roll = 0;
 		    			}
-
-		    			last_pitch = 0;
-		    			last_roll = 0;
+		    			else{
+		    				last_pitch = 0;
+		    				last_roll = minimumSpeedLeft;
+		    			}
+//		    			last_pitch = 0;
+//		    			last_roll = 0;
 		    			//last_roll = 0;
 		    			
 		    			
+		    		}
+		    		else if(cmd.equals("TAKE")){
+		    			pAdapt.sendMessage("#armu00\r");
+		    		}
+		    		else if(cmd.equals("DROP")){
+		    			pAdapt.sendMessage("#armd00\r");
 		    		}
 		    		
 		    		//ast_command = cmd;
 		    	 } catch (IOException e) {
 						e.printStackTrace();
 				}
+		    	
 		    	isSlowSpeed = false;
+		    	
 			}
 		}
 	};
@@ -294,6 +318,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 	}
 	
 	/** Called when the activity is first created. */
+	@SuppressLint("SetJavaScriptEnabled")
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -468,7 +493,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 						commandRecognized = true;
 						cmd = hot;
 					}
-					else if(words[i].equals("SLOW")){
+					else if(words[i].equals("KEEP")){
 						isSlowSpeed = true;
 					}
 				}
@@ -492,7 +517,7 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 			}
 			*/
 			
-			System.out.println("IL COMANDO �: = "+cmd /*+"VELOCIT�  = "+speed*/);
+			System.out.println("IL COMANDO è: = "+cmd /*+"VELOCIT�  = "+speed*/);
 			
 			//passo all'handler il messaggio per poterlo consegnare al thread dell' UI
 			Message msg = this.rec.getHandler().obtainMessage();
@@ -553,8 +578,8 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		//hotWords.add("SLOW");
 		hotWords.add("RIGHT");
 		hotWords.add("LEFT");
-		//hotWords.add("TAKE");
-		//hotWords.add("LEAVE");
+		hotWords.add("TAKE");
+		hotWords.add("DROP");
 		
 		
 		//speedWords.add("ONE");
