@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ android:layout_width="wrap_content" 
+ android:layout_height="wrap_content" 
+ android:background="@drawable/bg">
+ 
+<ImageView android:id="@+id/ImageView01"
+ android:layout_width="321dip" android:layout_height="100dip"
+ android:layout_centerHorizontal="true" />
+ 
+ <ScrollView android:id="@+id/ScrollView01"
+ android:layout_width="wrap_content" android:layout_below="@+id/ImageView01"
+ android:layout_height="210px">
+ 
+ <LinearLayout android:id="@+id/Linearlayout" android:layout_width="321dip" android:layout_height="wrap_content" 
+ android:orientation="vertical" android:layout_centerHorizontal="true">
+ 
+ <TextView android:id="@+id/TextViewS"
+ android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Supervision" 
+ android:textColor="#4c566c"/>
+ 
+ <Button android:id="@+id/ButtonS" android:layout_below="@+id/TextViewS"
+ android:layout_height="wrap_content"
+ android:text="prof. Emanuele Panizzi" android:layout_width="match_parent"/>
+ 
+ <TextView android:id="@+id/TextViewD" android:layout_below="@+id/ButtonS"
+ android:layout_width="wrap_content" android:layout_height="wrap_content"  android:text="Developer and User Reasearcher"
+ android:textColor="#4c566c"/>
+ 
+ <Button android:id="@+id/ButtonD" android:layout_below="@+id/TextViewD"
+ android:layout_width="match_parent" android:layout_height="wrap_content"
+ android:text="Flavia Rotondi" />
+ 
+ <TextView android:id="@+id/TextViewW" android:layout_below="@+id/ButtonUR"
+ android:layout_width="wrap_content" android:layout_height="wrap_content"  android:text="Site"
+ android:textColor="#4c566c"/>
+ 
+ <Button android:id="@+id/ButtonW" android:layout_below="@+id/TextViewW"
+ android:layout_width="match_parent" android:layout_height="wrap_content"
+ android:text="www.-------.com" />
+ 
+ <TextView android:id="@+id/TextViewA" android:layout_below="@+id/ButtonW"
+ android:layout_width="wrap_content" android:layout_height="wrap_content"  android:text="Collaborazione Didattica"
+ android:textColor="#4c566c"/>
+ 
+ <Button android:id="@+id/ButtonA" android:layout_below="@+id/TextViewA"
+ android:layout_width="match_parent" android:layout_height="wrap_content"
+ android:text="Casa Montessori dei Bambini, via Orvinio 20 Roma" />
+ 
+ <TextView android:id="@+id/TextViewST" android:layout_below="@+id/ButtonA"
+ android:layout_width="wrap_content" android:layout_height="wrap_content"  android:text="Special Thanks"
+ android:textColor="#4c566c"/>
+ 
+ <Button android:id="@+id/ButtonST" android:layout_below="@+id/TextViewST"
+ android:layout_width="match_parent" android:layout_height="wrap_content"
+ android:text="Andengine" />
+ 
+ </LinearLayout>
+ </ScrollView>
+ 
+ 
+ 
+ 
+</RelativeLayout>
+
+<!-- 
+  Autore: Flavia Rotondi
+  Anno: 2011
+  Università di Roma - La Sapienza
+  Dipartimenti di Informatica
+  -->
