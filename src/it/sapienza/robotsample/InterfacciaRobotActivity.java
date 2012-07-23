@@ -124,7 +124,6 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 	}
 
 	//metodo che si attiva ognivolta che l'oggetto viene toccato
-	@Override
 	public boolean onTouch(View v, MotionEvent ev) {
 
 		//calcolo l'altezza della status bar
@@ -156,7 +155,7 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 		mDragLayer = (DragLayer) findViewById(R.id.drag_layer);
 		mDragLayer.setDragController(dragController);
 		dragController.addDropTarget(mDragLayer);
-		webcam = (ImageView) findViewById(R.id.imageView3);
+		webcam = (ImageView) findViewById(R.id.webcam);
 
 		ImageView IW = (ImageView) findViewById(R.id.imageView2);
 
@@ -169,10 +168,11 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
         			Toast.makeText(getApplicationContext(), "Webcam non disponibile, effettuare una nuova scansione", Toast.LENGTH_LONG).show();
         		else {
         		FrameLayout frameLayout = (FrameLayout)findViewById(R.id.preview);
-        		findViewById(R.id.imageView2).setVisibility(WebView.GONE);
+        		findViewById(R.id.imageView2).setVisibility(ImageView.GONE);
+        		findViewById(R.id.webcam).setClickable(false);
         		
                 //lancia la nuova activity
-        		new WebcamHandler(frameLayout, IntRobot);
+        		new WebcamHandler(frameLayout, (FrameLayout)findViewById(R.id.reload), IntRobot);
         		}
             }
          });
@@ -187,13 +187,17 @@ public class InterfacciaRobotActivity extends BaseActivity implements OnTouchLis
 	//setta l'ip della webcam al valore selezionato dall'utente
 	public void setSelectedIp(String ipWebcam)
 	{
-		String finalIp = "http://rackbot:rackbot@" + ipWebcam + "/mobile.htm";
-		baseWV.loadUrl(finalIp);
+		if(ipWebcam != null)
+		{
+			String finalIp = "http://rackbot:rackbot@" + ipWebcam + "/mobile.htm";
+			baseWV.loadUrl(finalIp);
+		}
 		findViewById(R.id.imageView2).setVisibility(WebView.VISIBLE);
+		findViewById(R.id.webcam).setClickable(true);
+		
 	}
 
 
-	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		
 		if(isChecked){
