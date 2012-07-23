@@ -16,12 +16,15 @@ import android.view.View;
 import android.webkit.WebView;
 import android.os.Handler;
 import android.os.Message;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
-public class AccelerometroActivity extends BaseActivity implements SensorEventListener {
+public class AccelerometroActivity extends BaseActivity implements SensorEventListener, OnCheckedChangeListener {
 	private SensorManager sensorManager;
 	private WebView baseWV;
 	private static ProtocolAdapter protocolAdapter;
@@ -32,6 +35,8 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 	private final int activity_index = 2;
 	private int last_pitch = 0;
 	private int last_roll = 0;
+	
+	private ToggleButton arm;
 	
 	private Handler handler = new Handler() {
 			
@@ -70,6 +75,8 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
 				sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 				SensorManager.SENSOR_DELAY_FASTEST);
 		
+		arm = (ToggleButton) findViewById(R.id.arm);
+		arm.setOnCheckedChangeListener(this);
 		
 		//*******************WEBVIEW
 		
@@ -147,6 +154,29 @@ public class AccelerometroActivity extends BaseActivity implements SensorEventLi
         
     }
 
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		
+		if(isChecked){
+			
+			try {
+				System.out.println("PRENDO OGGETTO");
+				ProtocolAdapter.getInstance().sendMessage("#armd00\r");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		else{
+			try {
+				System.out.println("LASCIO OGGETTO");
+				ProtocolAdapter.getInstance().sendMessage("#armu00\r");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}	
+    }
+    
 	public void onSensorChanged(SensorEvent event){
 
 		// check sensor type
