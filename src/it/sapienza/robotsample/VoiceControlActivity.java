@@ -137,15 +137,15 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    			last_roll = 0;
 		    		}
 		    		else if(cmd.equals("RIGHT")){
-		    			signalImg.setImageResource(R.drawable.right);
-		    			
-		    			
+		    				    			
 		    			if(isSlowSpeed){
+		    				signalImg.setImageResource(R.drawable.slow_right);
 		    				speedometer.setProgress(minimumSpeedRight);
 		    				pAdapt.sendMessage("#SPD00\r");
 			    			pAdapt.sendMessage("#TRN0"+minimumSpeedRight+"\r");
 		    			}
 		    			else{
+		    				signalImg.setImageResource(R.drawable.right);
 		    				speedometer.setProgress(speed_right);
 		    				pAdapt.sendMessage("#SPD00\r");
 			    			pAdapt.sendMessage("#TRN0"+speed_right+"\r");
@@ -177,15 +177,17 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    			
 		    		}
 		    		else if(cmd.equals("LEFT")){
-		    			signalImg.setImageResource(R.drawable.left);
+		    			
 		    			speedometer.setProgress(speed_right);
 		    			
 		    			if(isSlowSpeed){
+		    				signalImg.setImageResource(R.drawable.slow_left);
 		    				speedometer.setProgress(minimumSpeedRight);
 		    				pAdapt.sendMessage("#SPD00\r");
 			    			pAdapt.sendMessage("#TRN0"+minimumSpeedLeft+"\r");
 		    			}
 		    			else{
+		    				signalImg.setImageResource(R.drawable.left);
 		    				speedometer.setProgress(speed_right);
 		    				pAdapt.sendMessage("#SPD00\r");
 			    			pAdapt.sendMessage("#TRN0"+speed_left+"\r");
@@ -219,9 +221,11 @@ public class VoiceControlActivity extends BaseActivity implements RecognitionLis
 		    			
 		    		}
 		    		else if(cmd.equals("TAKE")){
+		    			signalImg.setImageResource(R.drawable.take);
 		    			pAdapt.sendMessage("#armu00\r");
 		    		}
 		    		else if(cmd.equals("DROP")){
+		    			signalImg.setImageResource(R.drawable.drop);
 		    			pAdapt.sendMessage("#armd00\r");
 		    		}
 		    		
