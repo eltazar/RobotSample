@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/metalbackground"
+    android:keepScreenOn="true" >
+
+    <ScrollView
+        android:id="@+id/ScrollView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="22dp" >
+
+        <LinearLayout
+            android:id="@+id/Linearlayout"
+            android:layout_width="321dip"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/TextViewS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Supervision"
+                android:textColor="#4c566c" />
+
+            <Button
+                android:id="@+id/ButtonS"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Prof. Emanuele Panizzi" />
+
+            <TextView
+                android:id="@+id/TextViewD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Developers"
+                android:textColor="#4c566c" />
+
+            <Button
+                android:id="@+id/dev1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mario Greco" />
+            <Button
+                android:id="@+id/dev2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Damiano Rodriguez" />
+			<Button
+                android:id="@+id/dev3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Federico Scacco" />
+			<TextView
+                android:id="@+id/ur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User Researchers"
+                android:textColor="#4c566c" />
+			<Button
+                android:id="@+id/ur1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Filippo Proietti" />
+			<Button
+                android:id="@+id/ur2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Flavia Rotondi" />
+            <TextView
+                android:id="@+id/TextViewW"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Webpage"
+                android:textColor="#4c566c" />
+
+            <Button
+                android:id="@+id/ButtonW"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="www.-------.com" />
+
+            
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="130dp"
+        android:layout_height="160dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="34dp"
+        android:src="@drawable/sap" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imageView1"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="16dp"
+        android:text="Dip. Informatica"
+        android:textSize="14dp"
+        android:textColor="#4c566c" />
+
+</RelativeLayout>
