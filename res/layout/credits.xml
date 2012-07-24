@@ -43,32 +43,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Mario Greco" />
+
             <Button
                 android:id="@+id/dev2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Damiano Rodriguez" />
-			<Button
+
+            <Button
                 android:id="@+id/dev3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Federico Scacco" />
-			<TextView
+
+            <TextView
                 android:id="@+id/ur"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="User Researchers"
                 android:textColor="#4c566c" />
-			<Button
+
+            <Button
                 android:id="@+id/ur1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Filippo Proietti" />
-			<Button
+
+            <Button
                 android:id="@+id/ur2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Flavia Rotondi" />
+
             <TextView
                 android:id="@+id/TextViewW"
                 android:layout_width="wrap_content"
@@ -81,8 +87,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="www.-------.com" />
-
-            
         </LinearLayout>
     </ScrollView>
 
@@ -97,7 +101,7 @@
         android:layout_height="160dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="34dp"
+        android:layout_marginRight="18dp"
         android:src="@drawable/sap" />
 
     <TextView
@@ -107,9 +111,9 @@
         android:layout_alignLeft="@+id/imageView1"
         android:layout_below="@+id/imageView1"
         android:layout_marginLeft="14dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="14dp"
         android:text="Dip. Informatica"
-        android:textSize="14dp"
-        android:textColor="#4c566c" />
+        android:textColor="#4c566c"
+        android:textSize="14dp" />
 
 </RelativeLayout>
