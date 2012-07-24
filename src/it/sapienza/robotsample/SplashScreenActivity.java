@@ -98,7 +98,7 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 				autoConnect();				
 			};
 		}).start();
-		//startActivity(new Intent(this, InterfacciaRobotActivity.class));
+		//startActivity(new Intent(this, ConfigurationActivity.class));
 	}
 	
 	/*
@@ -205,13 +205,12 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 				System.out.println("Splash screen -> ack ricevuto = "+ack+" --> Lunghezza = "+ack.length());
 
 				//se ricevo ack corretto fermo ciclo
-				//System.out.println("Substring ack = "+ack.substring(1, ack.length()));
+				System.out.println("Substring ack = "+ack.substring(0, 1));
 				
 				//controllo che il primo carattere sia 6 (in ascii = "ack")
 				if(ack != null && ack.length() != 0 && (byte)ack.charAt(0) == 6){
-					//byte b = (byte)ack.charAt(0);
-					//System.out.println("BYTE = "+b);
-					//if(b==6){
+			
+					//---> IF DI DEBUG	
 					//if(ack.substring(0, 10).equals("6RoborRack")){
 					System.out.println("AUTOCONNESSIONE RIUSCITA");
 					isAutoconnected = true;
