@@ -236,7 +236,10 @@ public class SplashScreenActivity extends Activity implements OnClickListener{
 
 		if(isAutoconnected == true){
 			//se autoconnessione avvenuta mostro interfaccia con joystick
-			startActivity(new Intent(this, InterfacciaRobotActivity.class));
+			//startActivity(new Intent(this, InterfacciaRobotActivity.class));
+			Intent intent = new Intent(this, ConfigurationActivity.class);
+			intent.putExtra("toast","auto");
+			startActivity(intent);
 
 		}
 		else{
