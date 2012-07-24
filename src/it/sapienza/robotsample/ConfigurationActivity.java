@@ -15,6 +15,7 @@ import android.os.Message;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +35,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 	private final int activity_index = 3;
 	private ProtocolAdapter pAdapt;
 	private static boolean isAutoconnection = false;
+	private static boolean isFromSplashScreenAutoconnected = false;
 
 	private TextView ipRobot;
 	private TextView portRobot;
@@ -94,6 +96,11 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		if(extras != null && extras.getString("toast").equals("noAuto")) {
 			//mode = extras.getString("mode");
 			Toast.makeText(getApplicationContext(), "Autoconnessione non riuscita, riprova od esegui una connessione manuale", Toast.LENGTH_LONG).show();
+			isFromSplashScreenAutoconnected = false;
+		}
+		else if( extras != null && extras.getString("toast").equals("auto")){
+			System.out.println("Configuration activity lanciata da splashScreen -> autoconnesso");
+			isFromSplashScreenAutoconnected = true;
 		}
 		
 		System.out.println("ON CREATE confituration activity");
@@ -119,6 +126,16 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 		}
 	}
 
+	@Override
+	public void onAttachedToWindow() {
+	    super.onAttachedToWindow();
+	    //dopo che questa activity viene attaccata alla window lancio programmaticamente il menuOptions
+	    if(isFromSplashScreenAutoconnected){
+	    	openOptionsMenu();
+	    	isFromSplashScreenAutoconnected = false;
+	    }
+	}
+	
 	private void findViewReferences(){
 		status = (TextView) findViewById(R.id.status);
 		ipRobot = (TextView) findViewById(R.id.ipRobot);
