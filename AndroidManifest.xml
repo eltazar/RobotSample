@@ -56,6 +56,12 @@
             android:theme="@android:style/Theme.NoTitleBar"
             android:launchMode="singleTask">
         </activity>
+        <activity 
+            android:screenOrientation="landscape" 
+            android:name=".CreditsActivity"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:launchMode="singleTask">
+        </activity>
     </application>
 
 </manifest>
