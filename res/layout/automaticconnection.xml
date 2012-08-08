@@ -17,16 +17,6 @@
         android:layout_marginRight="26dp"
         android:src="@drawable/metalplate2" />
 
-    <ProgressBar
-        android:id="@+id/progressbarConnection"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="200dip"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="47dp"
-        android:max="254" />
-
     <it.sapienza.widget.CustomTextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
@@ -46,7 +36,7 @@
         android:layout_marginLeft="22dp"
         android:layout_marginTop="160dp"
         android:text="Non connesso"
-		android:textColor="#FF0000"
+        android:textColor="#FF0000"
         foo:customFont="fonts/droidsansbold.ttf" />
 
     <it.sapienza.widget.CustomTextView
@@ -72,15 +62,35 @@
         foo:customFont="fonts/droidsans.ttf" />
 
     <TextView
-        android:id="@+id/searchTxt"
+        android:id="@+id/hack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/progressbarConnection"
-        android:layout_alignLeft="@+id/progressbarConnection"
-        android:layout_marginLeft="42dp"
-        android:text="Ricerca in corso..."
-        android:visibility="invisible"
-        android:textColor="#FFFFFF"/>
+        android:layout_below="@+id/test_image"
+        android:layout_marginTop="21dp"
+        android:text="auto"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progressbarConnection"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="200dip"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/ipRobot"
+        android:layout_marginLeft="43dp"
+        android:max="254" />
+
+    <Button
+        android:id="@+id/rescan"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/status"
+        android:layout_alignBottom="@+id/status"
+        android:layout_alignRight="@+id/progressbarConnection"
+        android:layout_marginRight="16dp"
+        android:text="Riprova"
+        android:enabled="false" />
 
     <Button
         android:id="@+id/back"
@@ -88,29 +98,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/progressbarConnection"
-        android:layout_alignTop="@+id/status"
+        android:layout_below="@+id/portRobot"
         android:layout_marginLeft="16dp"
         android:text="Annulla" />
-        
-    <TextView
-        android:id="@+id/hack"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/test_image"
-        android:layout_marginTop="21dp"
-        android:layout_toRightOf="@+id/searchTxt"
-        android:visibility="gone"
-        android:text="auto" />
 
-    <Button
-        android:id="@+id/rescan"
-        style="?android:attr/buttonStyleSmall"
+    <TextView
+        android:id="@+id/searchTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/back"
-        android:layout_alignBottom="@+id/back"
-        android:layout_alignRight="@+id/progressbarConnection"
-        android:layout_marginRight="16dp"
-        android:text="Riprova" />
+        android:layout_alignLeft="@+id/back"
+        android:layout_alignTop="@+id/progressbarConnection"
+        android:layout_marginLeft="29dp"
+        android:text="Ricerca in corso..."
+        android:textColor="#FFFFFF" 
+        android:visibility="invisible"/>
 
 </RelativeLayout>
