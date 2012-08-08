@@ -42,10 +42,19 @@ public class CreditsActivity extends BaseActivity implements OnClickListener {
         web.setOnClickListener(new OnClickListener() {
         @Override
             public void onClick(View v) {
-        		Intent web = new Intent("android.intent.action.VIEW", Uri.parse("http://www.google.it"));  
+        		Intent web = new Intent("android.intent.action.VIEW", Uri.parse("http://www.sapienzaapps.it/"));  
         		startActivity(web);
             }
-        });      
+        }); 
+        
+        Button web2 = (Button)findViewById(R.id.ButtonW2);
+        web2.setOnClickListener(new OnClickListener() {
+        @Override
+            public void onClick(View v) {
+        		Intent web = new Intent("android.intent.action.VIEW", Uri.parse("http://www.rackbot.com/"));  
+        		startActivity(web);
+            }
+        }); 
         
       
 	}
