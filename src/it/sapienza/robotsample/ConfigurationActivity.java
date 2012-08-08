@@ -229,7 +229,7 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 				setContentView(R.layout.automaticconnection);
 				isAutoconnection = true;
 				rescanBtn = (Button) findViewById(R.id.rescan);
-				rescanBtn.setEnabled(false);
+				//rescanBtn.setEnabled(false);
 				rescanBtn.setOnClickListener(this);
 				bar = (ProgressBar) findViewById(R.id.progressbarConnection);
 				backBtn = (Button) findViewById(R.id.back);
@@ -257,8 +257,8 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			status.setTextColor(Color.RED);
 			ipRobot.setText("Ip: --");
 			portRobot.setText("Porta: --");
-			if(rescanBtn != null)
-				rescanBtn.setEnabled(true);
+			//if(rescanBtn != null)
+				//rescanBtn.setEnabled(true);
 			if(connectBtn != null)
 				connectBtn.setEnabled(true);
 		}
@@ -356,9 +356,9 @@ public class ConfigurationActivity extends BaseActivity implements OnClickListen
 			    	//ipRobot.setText("Ip: "+pAdapt.getAssociatedStream().getIpAddress());
 					//portRobot.setText("Porta: "+pAdapt.getAssociatedStream().getPort());
 					//status.setText("Connesso");
-					rescanBtn.setEnabled(false);
+					//rescanBtn.setEnabled(false);
 					//((TextView)findViewById(R.id.searchTxt)).setVisibility(View.INVISIBLE);
-					bar.setProgress(0);
+					//bar.setProgress(0);
 //					setContentView(R.layout.disconnectconnection);
 //					openOptionsMenu();
 					loadLayoutConnection(Layouts.DISCONNECT);
