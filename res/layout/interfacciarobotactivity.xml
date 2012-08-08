@@ -162,7 +162,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:contentDescription="@string/desc1"
-                android:src="@drawable/close" />
+                android:src="@drawable/close2" />
 
             <ImageView
                 android:id="@+id/refresh"
@@ -201,7 +201,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:contentDescription="@string/desc1"
-                android:src="@drawable/close" />
+                android:src="@drawable/close2" />
             
             <ProgressBar
                 android:id="@+id/progress"
