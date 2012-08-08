@@ -2,7 +2,7 @@
 <resources>
 
     <string name="ipAddress">Indirizzo ip server</string>
-    <string name="app_name">RobotSample</string>
+    <string name="app_name">RobotDriver</string>
     <string name="port">Porta</string>
     <string name="connect_label">Connetti</string>
     <string name="connection_status">Nessuna connessione</string>
