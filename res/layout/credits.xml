@@ -86,7 +86,12 @@
                 android:id="@+id/ButtonW"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="www.-------.com" />
+                android:text="www.sapienzaapps.it" />
+             <Button
+                android:id="@+id/ButtonW2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="www.rackbot.com" />
         </LinearLayout>
     </ScrollView>
 
